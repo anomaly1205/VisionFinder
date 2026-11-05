@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visual Search · VisionFinder Home</title>
+  <meta name="description" content="Find furniture and decor with a photo or a few words.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='20' fill='%23fff' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Gilda+Display&family=Jost:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js" defer></script>
+  <script type="module" src="js/search.js"></script>
+</head>
+<body>
+  <header class="site-header"></header>
+  <main class="wrap">
+    <div class="search-head">
+      <h1>Visual Search</h1>
+      <p>Show us a photo, describe the piece in a few words, or both. We rank every item in the catalog by how close it looks.</p>
+    </div>
+
+    <div class="search-panels">
+      <section class="panel" aria-labelledby="photo-title">
+        <h2 id="photo-title"><span class="step">1</span> Search by photo</h2>
+        <label class="dropzone" id="dropzone">
+          <span id="dz-icon"></span>
+          <strong>Drop a photo here</strong>
+          <span class="hint">or click to browse, or paste with <kbd>Ctrl</kbd> + <kbd>V</kbd></span>
+          <input type="file" accept="image/*" id="file-input" class="sr-only">
+        </label>
+        <label class="btn btn-outline camera-btn" id="camera-btn">
+          <span id="cam-icon"></span> Take a photo
+          <input type="file" accept="image/*" capture="environment" id="camera-input" class="sr-only">
+        </label>
+        <div class="crop" id="crop" hidden>
+          <div class="crop-stage"><img id="crop-img" alt="Your photo. Drag the box to crop to one piece."></div>
+          <div class="crop-actions">
+            <p class="hint">Drag the box around the piece you mean.</p>
+            <button class="btn btn-outline" type="button" id="clear-photo">Remove</button>
+            <button class="btn btn-ai" type="button" id="search-photo">Search this crop</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="text-title">
+        <h2 id="text-title"><span class="step">2</span> Search by description</h2>
+        <form class="ai-text" id="text-form">
+          <label class="sr-only" for="text-q">Describe what you're looking for</label>
+          <input id="text-q" name="q" type="search" placeholder="Describe it: “light wood dining chair”" autocomplete="off">
+          <button class="btn" type="submit">Search</button>
+        </form>
+        <p class="hint" id="combo-hint">With a photo added, the description narrows the photo results.</p>
+        <div class="chips" id="chips"><span>Try:</span></div>
+      </section>
+    </div>
+
+    <section class="results" id="results" aria-live="polite" hidden>
+      <div class="results-head">
+        <h2 id="results-title"></h2>
+        <p class="results-meta" id="results-meta"></p>
+      </div>
+      <div class="notice" id="notice" hidden></div>
+      <div class="grid-4" id="results-grid"></div>
+    </section>
+  </main>
+  <footer class="site-footer"></footer>
+</body>
+</html>

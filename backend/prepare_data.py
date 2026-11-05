@@ -1,4 +1,4 @@
-"""Build demo catalog from Amazon Berkeley Objects (ABO). Stdlib only.
+"""Build demo catalog from Amazon Berkeley Objects (ABO). Needs Pillow (pip install pillow).
 
 Usage: python backend/prepare_data.py [ABO_ROOT]   (default F:\\Download\\ABO)
 """
@@ -11,15 +11,19 @@ import random
 import sys
 import time
 import urllib.request
+from io import BytesIO
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
+
+from PIL import Image
 
 ABO = sys.argv[1] if len(sys.argv) > 1 else r"F:\Download\ABO"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONT = os.path.join(ROOT, "frontend")
 IMG_DIR = os.path.join(FRONT, "assets", "products")
 DATA_DIR = os.path.join(FRONT, "data")
-URL = "https://amazon-berkeley-objects.s3.amazonaws.com/images/small/{}"
+URL = "https://amazon-berkeley-objects.s3.amazonaws.com/images/original/{}"
+MAX_SIDE, WEBP_Q = 1000, 82  # originals are ~1500-2500px; 1000px is sharp on retina cards
 SEED = 42
 N_CATALOG, N_HOLDOUT, MAX_EXTRA = 500, 100, 2
 
@@ -98,20 +102,30 @@ def split_balanced(items, rng):
     return catalog, holdout
 
 
+def save_webp(data, dest):
+    im = Image.open(BytesIO(data))
+    if im.mode in ("RGBA", "LA", "P"):  # flatten transparency onto white like the product shots
+        im = im.convert("RGBA")
+        bg = Image.new("RGB", im.size, "white")
+        bg.paste(im, mask=im.getchannel("A"))
+        im = bg
+    im = im.convert("RGB")
+    im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)  # only shrinks, keeps aspect
+    im.save(dest + ".part", "WEBP", quality=WEBP_Q, method=6)
+    os.replace(dest + ".part", dest)
+
+
 def download(job):
     image_id, path = job
-    dest = os.path.join(IMG_DIR, f"{image_id}.jpg")
+    dest = os.path.join(IMG_DIR, f"{image_id}.webp")
     if os.path.exists(dest) and os.path.getsize(dest) > 0:
         return "skip"
     for attempt in range(4):
         try:
-            with urllib.request.urlopen(URL.format(path), timeout=30) as r:
-                data = r.read()
-            with open(dest + ".part", "wb") as fh:
-                fh.write(data)
-            os.replace(dest + ".part", dest)
+            with urllib.request.urlopen(URL.format(path), timeout=60) as r:
+                save_webp(r.read(), dest)
             return "ok"
-        except Exception as e:  # network errors: back off and retry
+        except Exception as e:  # network/decode errors: back off and retry
             err = e
             time.sleep(2 ** attempt)
     print(f"FAIL {image_id}: {err}")
@@ -119,7 +133,7 @@ def download(job):
 
 
 def to_record(p, rng, ok_ids):
-    img = lambda i: f"assets/products/{i}.jpg"
+    img = lambda i: f"assets/products/{i}.webp"
     extra = [i for i in p["others"] if i in ok_ids]
     lo, hi = PRICE[p["category"]]
     return {
@@ -143,6 +157,9 @@ def main():
     with ThreadPoolExecutor(16) as ex:
         results = dict(zip(jobs, ex.map(download, jobs.items())))
     ok_ids = {i for i, r in results.items() if r != "fail"}
+    old_jpg = glob.glob(os.path.join(IMG_DIR, "*.jpg"))  # 256px versions from the earlier run
+    for f in old_jpg:
+        os.remove(f)
 
     # drop products whose main image failed
     catalog = [p for p in catalog if p["main"] in ok_ids]
@@ -159,6 +176,8 @@ def main():
     print("Holdout per category:", dict(sorted(Counter(p["category"] for p in holdout).items())))
     print(f"Total catalog={len(catalog)} holdout={len(holdout)}")
     c = Counter(results.values())
+    size = sum(os.path.getsize(f) for f in glob.glob(os.path.join(IMG_DIR, "*.webp")))
+    print(f"Removed old jpg: {len(old_jpg)}. Image folder: {size / 2**20:.1f} MB")
     print(f"Images: downloaded={c['ok']} skipped(existing)={c['skip']} failed={c['fail']} total_ok={len(ok_ids)}")
 
 

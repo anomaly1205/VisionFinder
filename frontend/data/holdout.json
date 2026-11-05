@@ -1,931 +1,781 @@
 [
   {
-    "id": "B00Q88PSKK",
-    "name": "AmazonBasics Flat Sheet Polycotton Thread Count 200, White, 180 x 290 + 10 cm",
-    "category": "Textiles",
-    "product_type": "FLAT_SHEET",
-    "color": "White",
-    "brand": "AmazonBasics",
-    "price": 136.99,
-    "image": "assets/products/51FWDMYduYL.jpg",
-    "gallery": [
-      "assets/products/51FWDMYduYL.jpg",
-      "assets/products/811egMV0fbL.jpg",
-      "assets/products/81C3qL1MO6L.jpg"
-    ],
-    "query_images": [
-      "assets/products/811egMV0fbL.jpg",
-      "assets/products/81C3qL1MO6L.jpg"
-    ]
-  },
-  {
-    "id": "B079TXJTY4",
-    "name": "Amazon Brand – Rivet Transitional Tufted Dot Diamond Decorative Throw Pillow, 17\" x 17\" , Navy",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Navy",
-    "brand": "Rivet",
-    "price": 112.99,
-    "image": "assets/products/A1gogYDDMsL.jpg",
-    "gallery": [
-      "assets/products/A1gogYDDMsL.jpg",
-      "assets/products/A1EQkj9vyJL.jpg",
-      "assets/products/A1mhtQNDGNL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1EQkj9vyJL.jpg",
-      "assets/products/A1mhtQNDGNL.jpg"
-    ]
-  },
-  {
-    "id": "B07PLSZQ4M",
-    "name": "AmazonBasics Super-Soft Cotton Sheet Set - King, Blue Textured Stripe",
-    "category": "Textiles",
-    "product_type": "FLAT_SHEET",
-    "color": "Blue",
-    "brand": "AmazonBasics",
-    "price": 140.99,
-    "image": "assets/products/91i9DiL+KCL.jpg",
-    "gallery": [
-      "assets/products/91i9DiL+KCL.jpg",
-      "assets/products/81IAuyizs0L.jpg",
-      "assets/products/71FrCwzI7HL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81IAuyizs0L.jpg",
-      "assets/products/71FrCwzI7HL.jpg"
-    ]
-  },
-  {
-    "id": "B07Q2PZJJC",
-    "name": "AmazonBasics Super Soft Cotton Duvet Cover Set",
-    "category": "Textiles",
-    "product_type": "FLAT_SHEET",
-    "color": "Graues Paisley",
-    "brand": "AmazonBasics",
-    "price": 65.99,
-    "image": "assets/products/91mR0Z7duWL.jpg",
-    "gallery": [
-      "assets/products/91mR0Z7duWL.jpg",
-      "assets/products/81u+3itjtdL.jpg",
-      "assets/products/81li4DlcDiL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81u+3itjtdL.jpg",
-      "assets/products/81li4DlcDiL.jpg"
-    ]
-  },
-  {
-    "id": "B07JQZM7KK",
-    "name": "Amazon Basics Tufted Outdoor Patio Bench Cushion- 44 x 18 x 4 Inches, Blue",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Blue",
-    "brand": "Amazon Basics",
-    "price": 68.99,
-    "image": "assets/products/81FUXLkgB1L.jpg",
-    "gallery": [
-      "assets/products/81FUXLkgB1L.jpg",
-      "assets/products/81FR6tMILBL.jpg",
-      "assets/products/A1WoP9WEoEL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81FR6tMILBL.jpg",
-      "assets/products/A1WoP9WEoEL.jpg"
-    ]
-  },
-  {
-    "id": "B079TXJQS2",
-    "name": "Amazon Brand – Rivet Modern Velvet Geese Silhouette Decorative Throw Pillow, 17\" x 17\", Black",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Black",
-    "brand": "Rivet",
-    "price": 151.99,
-    "image": "assets/products/91+QhN0j55L.jpg",
-    "gallery": [
-      "assets/products/91+QhN0j55L.jpg",
-      "assets/products/81QnNOKqFGL.jpg",
-      "assets/products/A1Cs4Fyin2L.jpg"
-    ],
-    "query_images": [
-      "assets/products/81QnNOKqFGL.jpg",
-      "assets/products/A1Cs4Fyin2L.jpg"
-    ]
-  },
-  {
-    "id": "B07JKJSLWM",
-    "name": "Amazon Brand – Rivet Casual Outdoor Striped Throw Pillow - 17 x 17 Inch, Pewter",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Pewter",
-    "brand": "Rivet",
-    "price": 77.99,
-    "image": "assets/products/91qRnM08V5L.jpg",
-    "gallery": [
-      "assets/products/91qRnM08V5L.jpg",
-      "assets/products/914OEYE4XLL.jpg",
-      "assets/products/91v6pR7VcLL.jpg"
-    ],
-    "query_images": [
-      "assets/products/914OEYE4XLL.jpg",
-      "assets/products/91v6pR7VcLL.jpg"
-    ]
-  },
-  {
-    "id": "B07BMR3WZV",
-    "name": "Amazon Brand – Stone & Beam Casual Striped Decorative Throw Pillow, 17\" x 17\", Brick Red",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Brick Red",
-    "brand": "Stone & Beam",
-    "price": 59.99,
-    "image": "assets/products/B16DojD3AHS.jpg",
-    "gallery": [
-      "assets/products/B16DojD3AHS.jpg",
-      "assets/products/A1vroaNxRLL.jpg",
-      "assets/products/81fMJlaHGgL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1vroaNxRLL.jpg",
-      "assets/products/81fMJlaHGgL.jpg"
-    ]
-  },
-  {
-    "id": "B07JKJP8MD",
-    "name": "Amazon Brand – Rivet Mid-Century Outdoor Striped Throw Pillow - 17 x 17 Inch, Fiesta",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Fiesta",
-    "brand": "Rivet",
-    "price": 131.99,
-    "image": "assets/products/91rwgxzFU3L.jpg",
-    "gallery": [
-      "assets/products/91rwgxzFU3L.jpg",
-      "assets/products/A1kSeARIWvL.jpg",
-      "assets/products/91SxKhwhcTL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1kSeARIWvL.jpg",
-      "assets/products/91SxKhwhcTL.jpg"
-    ]
-  },
-  {
-    "id": "B07DBDPM51",
-    "name": "Amazon Brand – Ravenna Home Darian Oversized Pillow Sofa, 92\"W, Light Grey",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Light Grey",
-    "brand": "Ravenna Home",
-    "price": 65.99,
-    "image": "assets/products/81RAnr5QDXL.jpg",
-    "gallery": [
-      "assets/products/81RAnr5QDXL.jpg",
-      "assets/products/81B1xwsFYaL.jpg",
-      "assets/products/A1Z3dbg7KaL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81B1xwsFYaL.jpg",
-      "assets/products/A1Z3dbg7KaL.jpg"
-    ]
-  },
-  {
-    "id": "B07ML7J5FQ",
-    "name": "Amazon Brand – Ravenna Home Vintage Throw Pillow - 20 x 20 Inch, Taupe",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Taupe",
-    "brand": "Ravenna Home",
-    "price": 75.99,
-    "image": "assets/products/A1nEFiyzS-L.jpg",
-    "gallery": [
-      "assets/products/A1nEFiyzS-L.jpg",
-      "assets/products/A1mnNqNtaaL.jpg",
-      "assets/products/71UQu-9nrAL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1mnNqNtaaL.jpg",
-      "assets/products/71UQu-9nrAL.jpg"
-    ]
-  },
-  {
-    "id": "B07JLST325",
-    "name": "Amazon Brand – Stone & Beam Classic Ticking Stripe Throw Pillow - 12 x 24 Inch, Pewter",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Pewter",
-    "brand": "Stone & Beam",
-    "price": 96.99,
-    "image": "assets/products/91kO4MurVtL.jpg",
-    "gallery": [
-      "assets/products/91kO4MurVtL.jpg",
-      "assets/products/A17Phu2rGTL.jpg",
-      "assets/products/A1eKCPe0WpL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A17Phu2rGTL.jpg",
-      "assets/products/A1eKCPe0WpL.jpg"
-    ]
-  },
-  {
-    "id": "B07JLSSWLN",
-    "name": "Amazon Brand – Rivet Contemporary Tassel Throw Pillow - 17 x 17 Inch, Mustard",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Mustard",
-    "brand": "Rivet",
-    "price": 27.99,
-    "image": "assets/products/A1QCW2O8QTL.jpg",
-    "gallery": [
-      "assets/products/A1QCW2O8QTL.jpg",
-      "assets/products/A145f3TxYjL.jpg",
-      "assets/products/A1z+lJS0cOL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A145f3TxYjL.jpg",
-      "assets/products/A1z+lJS0cOL.jpg"
-    ]
-  },
-  {
-    "id": "B079V3WDY9",
-    "name": "Amazon Brand – Stone & Beam Transitional Woven Diamond Decorative Throw Pillow Cover, 20\" x 20\", Indigo",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Indigo",
-    "brand": "Stone & Beam",
-    "price": 136.99,
-    "image": "assets/products/A1akrX+K4dL.jpg",
-    "gallery": [
-      "assets/products/A1akrX+K4dL.jpg",
-      "assets/products/A1pOpwKFYGL.jpg",
-      "assets/products/B1L-3P1dOXS.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1pOpwKFYGL.jpg",
-      "assets/products/B1L-3P1dOXS.jpg"
-    ]
-  },
-  {
-    "id": "B07C8WCWWK",
-    "name": "Amazon Brand – Rivet Abstract Pattern Throw Pillow Cover - 20 x 20 Inch, Grey",
-    "category": "Textiles",
-    "product_type": "PILLOW",
-    "color": "Grey",
-    "brand": "Rivet",
-    "price": 103.99,
-    "image": "assets/products/B1I9jpGtavS.jpg",
-    "gallery": [
-      "assets/products/B1I9jpGtavS.jpg",
-      "assets/products/B1RaaNBY8yS.jpg",
-      "assets/products/B1awVl3f6NS.jpg"
-    ],
-    "query_images": [
-      "assets/products/B1RaaNBY8yS.jpg",
-      "assets/products/B1awVl3f6NS.jpg"
-    ]
-  },
-  {
-    "id": "B075HR7LJG",
-    "name": "Amazon Brand – Stone & Beam Modern Oval Pattern Decorative Stoneware Vase, 8.75 Inch Height, Off-White",
-    "category": "Decor",
-    "product_type": "VASE",
-    "color": "White",
-    "brand": "Stone & Beam",
-    "price": 16.99,
-    "image": "assets/products/81BdvlmGpIL.jpg",
-    "gallery": [
-      "assets/products/81BdvlmGpIL.jpg",
-      "assets/products/81FMXy92fFL.jpg",
-      "assets/products/91p9-my0w3L.jpg"
-    ],
-    "query_images": [
-      "assets/products/81FMXy92fFL.jpg",
-      "assets/products/91p9-my0w3L.jpg"
-    ]
-  },
-  {
-    "id": "B07B8NVHX1",
-    "name": "Amazon Brand – Stone & Beam Modern Ombre Stoneware Home Decor Flower Vase - 8 Inch, Dark Brown Red White",
-    "category": "Decor",
-    "product_type": "VASE",
-    "color": "Dark Brown",
-    "brand": "Stone & Beam",
-    "price": 22.99,
-    "image": "assets/products/91KL-FC2kFL.jpg",
-    "gallery": [
-      "assets/products/91KL-FC2kFL.jpg",
-      "assets/products/91AoCU6V4lL.jpg",
-      "assets/products/91SvgaWvPAL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91AoCU6V4lL.jpg",
-      "assets/products/91SvgaWvPAL.jpg"
-    ]
-  },
-  {
-    "id": "B073P1JGQ5",
-    "name": "Amazon Brand – Rivet Yellow and Purple Contrast Watercolor Print Wall Art in White Frame, 19\" x 22\"",
+    "id": "B075YLSBMR",
+    "name": "Amazon Brand – Rivet Modern Right Facing Palm Frond Leaf Print Framed Wall Art Decor - 15 x 21 Inch Frame, Wood-Tone",
     "category": "Decor",
     "product_type": "WALL_ART",
-    "color": "Multi",
+    "color": "Multicolor",
     "brand": "Rivet",
-    "price": 50.99,
-    "image": "assets/products/913gWi37L2L.jpg",
+    "price": 127.99,
+    "image": "assets/products/81nwhkLlTqL.webp",
     "gallery": [
-      "assets/products/913gWi37L2L.jpg",
-      "assets/products/81hnRjNqM2L.jpg",
-      "assets/products/81omL81v92L.jpg"
+      "assets/products/81nwhkLlTqL.webp",
+      "assets/products/81iJsw-vV6L.webp",
+      "assets/products/81lP5QBWdsL.webp"
     ],
     "query_images": [
-      "assets/products/81hnRjNqM2L.jpg",
-      "assets/products/81omL81v92L.jpg"
+      "assets/products/81iJsw-vV6L.webp",
+      "assets/products/81lP5QBWdsL.webp"
     ]
   },
   {
-    "id": "B073P12T8C",
-    "name": "Amazon Brand – Rivet Splattered Grey Wolf Canvas Wall Art, Espresso Frame, 31.75\" x 41.75\"",
-    "category": "Decor",
-    "product_type": "WALL_ART",
-    "color": "Espresso",
-    "brand": "Rivet",
-    "price": 69.99,
-    "image": "assets/products/81OTVKQ-BGL.jpg",
-    "gallery": [
-      "assets/products/81OTVKQ-BGL.jpg",
-      "assets/products/81xeH1fn6iL.jpg",
-      "assets/products/81LOSI0CboL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81xeH1fn6iL.jpg",
-      "assets/products/81LOSI0CboL.jpg"
-    ]
-  },
-  {
-    "id": "B073P66DWD",
-    "name": "Amazon Brand – Stone & Beam Modern Moose Print, Espresso Frame, 37.5\" x 47.5\"",
-    "category": "Decor",
-    "product_type": "WALL_ART",
-    "color": "Brown",
-    "brand": "Stone & Beam",
-    "price": 121.99,
-    "image": "assets/products/91pkeBHzeBL.jpg",
-    "gallery": [
-      "assets/products/91pkeBHzeBL.jpg",
-      "assets/products/915LB77bmuL.jpg",
-      "assets/products/914eA8t+szL.jpg"
-    ],
-    "query_images": [
-      "assets/products/915LB77bmuL.jpg",
-      "assets/products/914eA8t+szL.jpg"
-    ]
-  },
-  {
-    "id": "B073P14C4B",
-    "name": "Amazon Brand – Rivet Canvas Print Wall Art of Horses Grazing in Desert Southwest Desert, 60\" x 40\"",
-    "category": "Decor",
-    "product_type": "WALL_ART",
-    "color": "Multi",
-    "brand": "Rivet",
-    "price": 121.99,
-    "image": "assets/products/A1sGJSl-yVL.jpg",
-    "gallery": [
-      "assets/products/A1sGJSl-yVL.jpg",
-      "assets/products/91JUA1fkYRL.jpg",
-      "assets/products/A1WcHLkflUL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91JUA1fkYRL.jpg",
-      "assets/products/A1WcHLkflUL.jpg"
-    ]
-  },
-  {
-    "id": "B07B8W8FDD",
-    "name": "Amazon Brand – Stone & Beam Contemporary Metal Storage Mirror, 15.3\"H, Black with Galvanized Finish",
-    "category": "Decor",
-    "product_type": "HOME_MIRROR",
-    "color": "Black",
-    "brand": "Stone & Beam",
-    "price": 113.99,
-    "image": "assets/products/81Y83bv7+HL.jpg",
-    "gallery": [
-      "assets/products/81Y83bv7+HL.jpg",
-      "assets/products/91PqirLE5GL.jpg",
-      "assets/products/81SpalCTfUL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91PqirLE5GL.jpg",
-      "assets/products/81SpalCTfUL.jpg"
-    ]
-  },
-  {
-    "id": "B076VGMFRY",
-    "name": "Amazon Brand - Solimo 12\" Wall Clock - Paramount Paneling (Silent Movement, Black Frame)",
-    "category": "Decor",
-    "product_type": "CLOCK",
-    "color": "Black",
-    "brand": "Amazon Brand - Solimo",
-    "price": 111.99,
-    "image": "assets/products/A1b8JSbejjL.jpg",
-    "gallery": [
-      "assets/products/A1b8JSbejjL.jpg",
-      "assets/products/81aYlhGH8vL.jpg",
-      "assets/products/91gLmEqBAOL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81aYlhGH8vL.jpg",
-      "assets/products/91gLmEqBAOL.jpg"
-    ]
-  },
-  {
-    "id": "B073WGSN2W",
-    "name": "Amazon Brand – Stone & Beam Industrial Square Floating Metal Wall Mirror, 12 Inch Height, Black",
-    "category": "Decor",
-    "product_type": "HOME_MIRROR",
-    "color": "Glass",
-    "brand": "Stone & Beam",
-    "price": 81.99,
-    "image": "assets/products/81wYO64VKwL.jpg",
-    "gallery": [
-      "assets/products/81wYO64VKwL.jpg",
-      "assets/products/81BZpY1wHkL.jpg",
-      "assets/products/81cavGRT5YL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81BZpY1wHkL.jpg",
-      "assets/products/81cavGRT5YL.jpg"
-    ]
-  },
-  {
-    "id": "B073P5YXB9",
-    "name": "Amazon Brand – Rivet Watercolor Green Leaf Print Wall Art in a Black Wood Frame, 30\" x 30\"",
-    "category": "Decor",
-    "product_type": "WALL_ART",
-    "color": "Green",
-    "brand": "Rivet",
-    "price": 21.99,
-    "image": "assets/products/81y8Vpa+VNL.jpg",
-    "gallery": [
-      "assets/products/81y8Vpa+VNL.jpg",
-      "assets/products/81-h+oCOfWL.jpg",
-      "assets/products/91s+FNa+CCL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81-h+oCOfWL.jpg",
-      "assets/products/91s+FNa+CCL.jpg"
-    ]
-  },
-  {
-    "id": "B073P1GB76",
-    "name": "Amazon Brand – Stone & Beam Modern Silver and White Forest Print on Canvas Bathroom Wall Art Decor, 24\" x 16\"",
+    "id": "B073P1GB9D",
+    "name": "Amazon Brand – Stone & Beam Modern Gold Ink Print Wall Art of Toy Starship Patent, White Frame, 15\" x 21\"",
     "category": "Decor",
     "product_type": "WALL_ART",
     "color": "Multicolor",
     "brand": "Stone & Beam",
-    "price": 58.99,
-    "image": "assets/products/91+eX+8qX9L.jpg",
+    "price": 103.99,
+    "image": "assets/products/81Am6Q-9peL.webp",
     "gallery": [
-      "assets/products/91+eX+8qX9L.jpg",
-      "assets/products/91k-ToQf+0L.jpg",
-      "assets/products/91zE309gIwL.jpg"
+      "assets/products/81Am6Q-9peL.webp",
+      "assets/products/81dPb+gvigL.webp",
+      "assets/products/81cM4428asL.webp"
     ],
     "query_images": [
-      "assets/products/91k-ToQf+0L.jpg",
-      "assets/products/91zE309gIwL.jpg"
+      "assets/products/81dPb+gvigL.webp",
+      "assets/products/81cM4428asL.webp"
     ]
   },
   {
-    "id": "B075YNL7DH",
-    "name": "Amazon Brand – Stone & Beam Vintage White and Beige White Wine List, Beige Frame, 15\" x 27\"",
+    "id": "B075HWMC6S",
+    "name": "Amazon Brand – Stone & Beam Modern Ceramic Home Decor Flower Vase With Geometric Pattern - 4 Inch, Brown and Grey",
     "category": "Decor",
-    "product_type": "WALL_ART",
-    "color": "Beige",
+    "product_type": "VASE",
+    "color": "Brown",
     "brand": "Stone & Beam",
-    "price": 113.99,
-    "image": "assets/products/91vlqsFGGRL.jpg",
+    "price": 130.99,
+    "image": "assets/products/91Bxcq9GPDL.webp",
     "gallery": [
-      "assets/products/91vlqsFGGRL.jpg",
-      "assets/products/910LZjK6zwL.jpg",
-      "assets/products/911wHxT7XNL.jpg"
+      "assets/products/91Bxcq9GPDL.webp",
+      "assets/products/81gXr37uBfL.webp",
+      "assets/products/91pq6GLk9JL.webp"
     ],
     "query_images": [
-      "assets/products/910LZjK6zwL.jpg",
-      "assets/products/911wHxT7XNL.jpg"
+      "assets/products/81gXr37uBfL.webp",
+      "assets/products/91pq6GLk9JL.webp"
     ]
   },
   {
-    "id": "B073P66TXV",
-    "name": "Amazon Brand – Rivet Pineapple Speck Print in White Wood Frame, 30\" x 30\"",
+    "id": "B073P19S5F",
+    "name": "Amazon Brand – Rivet Black on White Blueprint of 1899 Typewriter, Black Frame, 17\" x 20\"",
     "category": "Decor",
     "product_type": "WALL_ART",
     "color": "Multi",
     "brand": "Rivet",
-    "price": 13.99,
-    "image": "assets/products/91ZB-8rwErL.jpg",
+    "price": 58.99,
+    "image": "assets/products/91GGGp8b1+L.webp",
     "gallery": [
-      "assets/products/91ZB-8rwErL.jpg",
-      "assets/products/81M1-M-7jkL.jpg",
-      "assets/products/41GqrVayTQL.jpg"
+      "assets/products/91GGGp8b1+L.webp",
+      "assets/products/91hk-7ij9QL.webp",
+      "assets/products/A1B64fsKJ3L.webp"
     ],
     "query_images": [
-      "assets/products/81M1-M-7jkL.jpg",
-      "assets/products/41GqrVayTQL.jpg"
+      "assets/products/91hk-7ij9QL.webp",
+      "assets/products/A1B64fsKJ3L.webp"
     ]
   },
   {
-    "id": "B07Z7LXK3N",
-    "name": "UMI. Essentials Musical Guitar Wall Clock for Living Room Dining Room Home Office",
-    "category": "Decor",
-    "product_type": "CLOCK",
-    "color": "",
-    "brand": "UMI",
-    "price": 43.99,
-    "image": "assets/products/61bzqe5HRcL.jpg",
-    "gallery": [
-      "assets/products/61bzqe5HRcL.jpg",
-      "assets/products/71k+bY1oGLL.jpg",
-      "assets/products/61oPjgAxwPL.jpg"
-    ],
-    "query_images": [
-      "assets/products/71k+bY1oGLL.jpg",
-      "assets/products/61oPjgAxwPL.jpg"
-    ]
-  },
-  {
-    "id": "B073P23TQ9",
-    "name": "Amazon Brand – Stone & Beam Modern Abstract Blue and Tan Ocean Print Wall Art on Canvas, 20\" x 24\"",
+    "id": "B073P1TPM6",
+    "name": "Amazon Brand – Stone & Beam Modern Gold Print of 1885 Baseball Bat Patent Wall Art, White Frame, 15\" x 21\"",
     "category": "Decor",
     "product_type": "WALL_ART",
-    "color": "White",
+    "color": "Multicolor",
     "brand": "Stone & Beam",
-    "price": 11.99,
-    "image": "assets/products/81TUEpORjEL.jpg",
+    "price": 61.99,
+    "image": "assets/products/81wWtry1GbL.webp",
     "gallery": [
-      "assets/products/81TUEpORjEL.jpg",
-      "assets/products/81HdcSsqkxL.jpg",
-      "assets/products/81Mcsv6EaIL.jpg"
+      "assets/products/81wWtry1GbL.webp",
+      "assets/products/81NAuD2H9dL.webp",
+      "assets/products/81H+rgBupJL.webp"
     ],
     "query_images": [
-      "assets/products/81HdcSsqkxL.jpg",
-      "assets/products/81Mcsv6EaIL.jpg"
+      "assets/products/81NAuD2H9dL.webp",
+      "assets/products/81H+rgBupJL.webp"
     ]
   },
   {
-    "id": "B06XZV3F8F",
-    "name": "UMI. by Amazon Computer Desk,Modern Simple Study Desk,Folding Laptop Table for Home Office,39.4 * 19.7 * 28.3 Inches",
-    "category": "Furniture",
-    "product_type": "DESK",
-    "color": "Brown",
-    "brand": "UMI",
-    "price": 347.99,
-    "image": "assets/products/71Uq2IkRkXL.jpg",
+    "id": "B073P117XZ",
+    "name": "Amazon Brand – Rivet Canvas Print Wall Art of Horses Grazing in Desert Southwest Desert, 45\" x 30\"",
+    "category": "Decor",
+    "product_type": "WALL_ART",
+    "color": "Multi",
+    "brand": "Rivet",
+    "price": 141.99,
+    "image": "assets/products/A1aXd6aSeQL.webp",
     "gallery": [
-      "assets/products/71Uq2IkRkXL.jpg",
-      "assets/products/71g+yHjZ27L.jpg",
-      "assets/products/81VujEurxBL.jpg"
+      "assets/products/A1aXd6aSeQL.webp",
+      "assets/products/A1t8yeJj5yL.webp",
+      "assets/products/91sN-RKJTzL.webp"
     ],
     "query_images": [
-      "assets/products/71g+yHjZ27L.jpg",
-      "assets/products/81VujEurxBL.jpg"
+      "assets/products/A1t8yeJj5yL.webp",
+      "assets/products/91sN-RKJTzL.webp"
     ]
   },
   {
-    "id": "B07XKC5BCW",
-    "name": "Stone & Beam Vintage Farmhouse Wood Floating Wall Storage Cabinet with Chalkboard - 24 x 21 x 8 Inches, Antique White (Renewed)",
-    "category": "Furniture",
-    "product_type": "CABINET",
-    "color": "Antique White",
+    "id": "B07R1XZK29",
+    "name": "Amazon Brand - Solimo 12-inch Wall Clock - Night Owl (Silent Movement)",
+    "category": "Decor",
+    "product_type": "CLOCK",
+    "color": "Black",
+    "brand": "Amazon Brand - Solimo",
+    "price": 70.99,
+    "image": "assets/products/71VC7VXOyZL.webp",
+    "gallery": [
+      "assets/products/71VC7VXOyZL.webp",
+      "assets/products/610KveW2mhL.webp",
+      "assets/products/61BWFHo0QYL.webp"
+    ],
+    "query_images": [
+      "assets/products/610KveW2mhL.webp",
+      "assets/products/61BWFHo0QYL.webp"
+    ]
+  },
+  {
+    "id": "B075YLKDMG",
+    "name": "Amazon Brand – Rivet Modern Blue and Yellow Geometric Bear Print Framed Wall Art Decor - 18\" x 18\" Frame, Black",
+    "category": "Decor",
+    "product_type": "CURTAIN",
+    "color": "Multi Color",
+    "brand": "Rivet",
+    "price": 53.99,
+    "image": "assets/products/91AuymV0Z0L.webp",
+    "gallery": [
+      "assets/products/91AuymV0Z0L.webp",
+      "assets/products/91SMaSlo+RL.webp",
+      "assets/products/815fkI7qyiL.webp"
+    ],
+    "query_images": [
+      "assets/products/91SMaSlo+RL.webp",
+      "assets/products/815fkI7qyiL.webp"
+    ]
+  },
+  {
+    "id": "B07QD6ZC1P",
+    "name": "Amazon Brand – Stone & Beam Modern Stoneware Vase, 10.51\"H, Blue and Sand",
+    "category": "Decor",
+    "product_type": "VASE",
+    "color": "",
     "brand": "Stone & Beam",
-    "price": 345.99,
-    "image": "assets/products/81UygoZMcDL.jpg",
+    "price": 122.99,
+    "image": "assets/products/81OV6IbrxkL.webp",
     "gallery": [
-      "assets/products/81UygoZMcDL.jpg",
-      "assets/products/81yHW0l1EcL.jpg"
+      "assets/products/81OV6IbrxkL.webp",
+      "assets/products/71ToYCXjHOL.webp",
+      "assets/products/81q4NR4OCRL.webp"
     ],
     "query_images": [
-      "assets/products/81yHW0l1EcL.jpg"
+      "assets/products/71ToYCXjHOL.webp",
+      "assets/products/81q4NR4OCRL.webp"
     ]
   },
   {
-    "id": "B071PDYKYB",
-    "name": "Amazon Brand – Stone & Beam Lummi Modern Armless Living Room Accent Chair, 21.6\" W, Shell",
-    "category": "Furniture",
-    "product_type": "CHAIR",
-    "color": "Shell",
+    "id": "B073NZS51H",
+    "name": "Amazon Brand – Rivet Six Succulent Print in Birch Floater Frame Wall Art, 36\"x 36\"",
+    "category": "Decor",
+    "product_type": "WALL_ART",
+    "color": "Multi",
+    "brand": "Rivet",
+    "price": 58.99,
+    "image": "assets/products/A1Vb0iN2q8L.webp",
+    "gallery": [
+      "assets/products/A1Vb0iN2q8L.webp",
+      "assets/products/91lCrNovrDL.webp",
+      "assets/products/9121rLXjC-L.webp"
+    ],
+    "query_images": [
+      "assets/products/91lCrNovrDL.webp",
+      "assets/products/9121rLXjC-L.webp"
+    ]
+  },
+  {
+    "id": "B07B8TGC9Z",
+    "name": "Amazon Brand – Rivet Modern Stoneware Home Decor Flower Vase - 12 x 7.25 Inch, Cement and Gold",
+    "category": "Decor",
+    "product_type": "VASE",
+    "color": "Cement",
+    "brand": "Rivet",
+    "price": 68.99,
+    "image": "assets/products/81Qmfr2NzLL.webp",
+    "gallery": [
+      "assets/products/81Qmfr2NzLL.webp",
+      "assets/products/91+0jO3-KOL.webp",
+      "assets/products/911mRs46SeL.webp"
+    ],
+    "query_images": [
+      "assets/products/91+0jO3-KOL.webp",
+      "assets/products/911mRs46SeL.webp"
+    ]
+  },
+  {
+    "id": "B084HV7BC3",
+    "name": "Amazon Brand - Rivet Modern Oval Hanging Mirror, 39\"H, Black",
+    "category": "Decor",
+    "product_type": "HOME_MIRROR",
+    "color": "Black",
+    "brand": "Rivet",
+    "price": 89.99,
+    "image": "assets/products/51GFu7mpUOL.webp",
+    "gallery": [
+      "assets/products/51GFu7mpUOL.webp",
+      "assets/products/511zKim4hIL.webp",
+      "assets/products/61zfcKmnkOL.webp"
+    ],
+    "query_images": [
+      "assets/products/511zKim4hIL.webp",
+      "assets/products/61zfcKmnkOL.webp"
+    ]
+  },
+  {
+    "id": "B073P54PYL",
+    "name": "Amazon Brand – Rivet Modern Gold Pyramid Triangle Print Wall Art, 30\" x 30\", Black Frame",
+    "category": "Decor",
+    "product_type": "WALL_ART",
+    "color": "Multi",
+    "brand": "Rivet",
+    "price": 21.99,
+    "image": "assets/products/81xgCV2TZhL.webp",
+    "gallery": [
+      "assets/products/81xgCV2TZhL.webp",
+      "assets/products/61gUKTk1bzL.webp",
+      "assets/products/61J9QR2wprL.webp"
+    ],
+    "query_images": [
+      "assets/products/61gUKTk1bzL.webp",
+      "assets/products/61J9QR2wprL.webp"
+    ]
+  },
+  {
+    "id": "B073NZGLLS",
+    "name": "Amazon Brand – Stone & Beam Modern Purple Floral Print Wall Art, White Frame, 17.75\" x 21.75\"",
+    "category": "Decor",
+    "product_type": "WALL_ART",
+    "color": "Multicolor",
     "brand": "Stone & Beam",
-    "price": 472.99,
-    "image": "assets/products/91czg5Nkc5L.jpg",
+    "price": 127.99,
+    "image": "assets/products/81No1CLtgtL.webp",
     "gallery": [
-      "assets/products/91czg5Nkc5L.jpg",
-      "assets/products/B1Pk6iJWjwS.jpg",
-      "assets/products/A1haEnwAI0L.jpg"
+      "assets/products/81No1CLtgtL.webp",
+      "assets/products/81DsjuEcZHL.webp",
+      "assets/products/81Tqdte-1zL.webp"
     ],
     "query_images": [
-      "assets/products/B1Pk6iJWjwS.jpg",
-      "assets/products/A1haEnwAI0L.jpg"
+      "assets/products/81DsjuEcZHL.webp",
+      "assets/products/81Tqdte-1zL.webp"
     ]
   },
   {
-    "id": "B07DBDQJRF",
-    "name": "Amazon Brand – Ravenna Home Hughes Curved Back Tufted Patterned Accent Chair, 25\"W, Arrow",
-    "category": "Furniture",
-    "product_type": "CHAIR",
-    "color": "Arrow",
-    "brand": "Ravenna Home",
-    "price": 224.99,
-    "image": "assets/products/41rNUtytsiL.jpg",
+    "id": "B07RRR3R56",
+    "name": "Amazon Basics Rectangular Wall Mirror 16\" x 20\" - Standard Trim, Nickel",
+    "category": "Decor",
+    "product_type": "HOME_MIRROR",
+    "color": "Nickel",
+    "brand": "Amazon Basics",
+    "price": 95.99,
+    "image": "assets/products/71zUGFOVQPL.webp",
     "gallery": [
-      "assets/products/41rNUtytsiL.jpg",
-      "assets/products/81JK7B709oL.jpg",
-      "assets/products/A1Z-uLwQipL.jpg"
+      "assets/products/71zUGFOVQPL.webp",
+      "assets/products/814Neym7cwL.webp",
+      "assets/products/51x1fP3J1tL.webp"
     ],
     "query_images": [
-      "assets/products/81JK7B709oL.jpg",
-      "assets/products/A1Z-uLwQipL.jpg"
+      "assets/products/814Neym7cwL.webp",
+      "assets/products/51x1fP3J1tL.webp"
     ]
   },
   {
-    "id": "B07QGWM36S",
-    "name": "Amazon Brand – Stone & Beam Counter Stool, 41\"H, Hemp",
+    "id": "B000WCW4FU",
+    "name": "Strathwood Children's Cast Iron Garden Bench with Hardwood Slats",
     "category": "Furniture",
-    "product_type": "STOOL_SEATING",
-    "color": "Beige",
-    "brand": "Stone & Beam",
-    "price": 527.99,
-    "image": "assets/products/81zwd+TVjyL.jpg",
-    "gallery": [
-      "assets/products/81zwd+TVjyL.jpg",
-      "assets/products/81z5ktICCkL.jpg",
-      "assets/products/7129mshBQ3L.jpg"
-    ],
-    "query_images": [
-      "assets/products/81z5ktICCkL.jpg",
-      "assets/products/7129mshBQ3L.jpg"
-    ]
-  },
-  {
-    "id": "B088HCYH1D",
-    "name": "AmazonBasics Floating Shelves with Ledge - 24-Inch, Espresso, 2-Pack",
-    "category": "Furniture",
-    "product_type": "SHELF",
-    "color": "Espresso",
-    "brand": "AmazonBasics",
-    "price": 175.99,
-    "image": "assets/products/81o-8sJXPgL.jpg",
-    "gallery": [
-      "assets/products/81o-8sJXPgL.jpg",
-      "assets/products/81XjtY4+lDL.jpg",
-      "assets/products/81Fz0GHbJ3L.jpg"
-    ],
-    "query_images": [
-      "assets/products/81XjtY4+lDL.jpg",
-      "assets/products/81Fz0GHbJ3L.jpg"
-    ]
-  },
-  {
-    "id": "B002KMIO5E",
-    "name": "Strathwood Basics Anti-Gravity Adjustable Recliner Chair, Brown with Brown Frame",
-    "category": "Furniture",
-    "product_type": "CHAIR",
-    "color": "Brown Weave",
+    "product_type": "BENCH",
+    "color": "",
     "brand": "Strathwood by Amazon.com",
-    "price": 726.99,
-    "image": "assets/products/91v+dcPLr7L.jpg",
+    "price": 117.99,
+    "image": "assets/products/81WBmPPMysS.webp",
     "gallery": [
-      "assets/products/91v+dcPLr7L.jpg",
-      "assets/products/91ozXIHgrqL.jpg",
-      "assets/products/91i4U9xn-rL.jpg"
+      "assets/products/81WBmPPMysS.webp",
+      "assets/products/81kAsqQW-FS.webp",
+      "assets/products/A1RBLdGaVVS.webp"
     ],
     "query_images": [
-      "assets/products/91ozXIHgrqL.jpg",
-      "assets/products/91i4U9xn-rL.jpg"
+      "assets/products/81kAsqQW-FS.webp",
+      "assets/products/A1RBLdGaVVS.webp"
     ]
   },
   {
-    "id": "B08B42PB9K",
-    "name": "AmazonBasics Plastic Multicolored Kids Outdoor Table with Umbrella - Red / Blue / Green (Renewed)",
+    "id": "B071J7Q32J",
+    "name": "Amazon Brand – Stone & Beam Kristin Round Arm Performance Fabric Chair, 44\"W, Sand",
     "category": "Furniture",
     "product_type": "CHAIR",
-    "color": "Red/Blue/Green",
-    "brand": "AmazonBasics",
-    "price": 764.99,
-    "image": "assets/products/71quSP8i6DL.jpg",
+    "color": "Sand",
+    "brand": "Stone & Beam",
+    "price": 156.99,
+    "image": "assets/products/91vfD+RibaL.webp",
     "gallery": [
-      "assets/products/71quSP8i6DL.jpg",
-      "assets/products/81btreHyt8L.jpg",
-      "assets/products/71wK-9GtAmL.jpg"
+      "assets/products/91vfD+RibaL.webp",
+      "assets/products/A1rkOXoCF5L.webp",
+      "assets/products/916ZZjib6SL.webp"
     ],
     "query_images": [
-      "assets/products/81btreHyt8L.jpg",
-      "assets/products/71wK-9GtAmL.jpg"
+      "assets/products/A1rkOXoCF5L.webp",
+      "assets/products/916ZZjib6SL.webp"
     ]
   },
   {
-    "id": "B085FH8JFG",
-    "name": "Amazon Brand – Ravenna Home Albert Power-Lift Assist Recliner Chair, 34.3\"W, Dark Brown",
+    "id": "B07KXY4HM1",
+    "name": "Stone & Beam Wolcott Wolcott Swivel Chair Fabric",
     "category": "Furniture",
     "product_type": "CHAIR",
-    "color": "Brown",
-    "brand": "Ravenna Home",
-    "price": 418.99,
-    "image": "assets/products/710P6BZCENL.jpg",
+    "color": "",
+    "brand": "Stone & Beam",
+    "price": 320.99,
+    "image": "assets/products/A1VU8qtBPvL.webp",
     "gallery": [
-      "assets/products/710P6BZCENL.jpg",
-      "assets/products/81oad9FJdYL.jpg",
-      "assets/products/71VN9tHp1wL.jpg"
+      "assets/products/A1VU8qtBPvL.webp",
+      "assets/products/A14xuhN7ntL.webp",
+      "assets/products/A1aapy7RgHL.webp"
     ],
     "query_images": [
-      "assets/products/81oad9FJdYL.jpg",
-      "assets/products/71VN9tHp1wL.jpg"
+      "assets/products/A14xuhN7ntL.webp",
+      "assets/products/A1aapy7RgHL.webp"
     ]
   },
   {
-    "id": "B07RJFG6XB",
-    "name": "Amazon Brand - Solimo Newport Leatherette 2 Seater Sofa (Black)",
+    "id": "B075X43FDW",
+    "name": "Amazon Brand – Rivet Lawson Mid-Century Modern Angled Leather Loveseat Sofa Couch, 78\"W, Charcoal",
     "category": "Furniture",
     "product_type": "SOFA",
-    "color": "Eerie Black",
-    "brand": "Amazon Brand - Solimo",
-    "price": 805.99,
-    "image": "assets/products/817EXX-ks1L.jpg",
+    "color": "Charcoal",
+    "brand": "Rivet",
+    "price": 431.99,
+    "image": "assets/products/91GU7NjrTHL.webp",
     "gallery": [
-      "assets/products/817EXX-ks1L.jpg",
-      "assets/products/51EbZF+fRnL.jpg",
-      "assets/products/51TuYRB7HaL.jpg"
+      "assets/products/91GU7NjrTHL.webp",
+      "assets/products/912Kdo6wQGL.webp",
+      "assets/products/91cRYFk8FnL.webp"
     ],
     "query_images": [
-      "assets/products/51EbZF+fRnL.jpg",
-      "assets/products/51TuYRB7HaL.jpg"
+      "assets/products/912Kdo6wQGL.webp",
+      "assets/products/91cRYFk8FnL.webp"
     ]
   },
   {
-    "id": "B07RQZRNSM",
-    "name": "Amazon Brand - Solimo Liza Queen Size Engineered Wood Bed with Box Storage (Acacia Dark Finish)",
+    "id": "B07L1DPX3Q",
+    "name": "Amazon Brand - Solimo Uno Engineered Wood Bedside Table (Wenge Finish)",
     "category": "Furniture",
-    "product_type": "BED",
-    "color": "Acacia Dark",
-    "brand": "Amazon Brand - Solimo",
-    "price": 624.99,
-    "image": "assets/products/81o+WBSZshL.jpg",
-    "gallery": [
-      "assets/products/81o+WBSZshL.jpg",
-      "assets/products/71tHur6DPbL.jpg",
-      "assets/products/7146ren07EL.jpg"
-    ],
-    "query_images": [
-      "assets/products/71tHur6DPbL.jpg",
-      "assets/products/7146ren07EL.jpg"
-    ]
-  },
-  {
-    "id": "B07D4FFWC8",
-    "name": "Red Hook Martina Contemporary Upholstered Armless Accent Chair with Back Pillow - Caribbean Blue",
-    "category": "Furniture",
-    "product_type": "CHAIR",
-    "color": "Blue",
-    "brand": "Red Hook",
-    "price": 538.99,
-    "image": "assets/products/A1bPh7lD90L.jpg",
-    "gallery": [
-      "assets/products/A1bPh7lD90L.jpg",
-      "assets/products/91pzoPJt9fL.jpg",
-      "assets/products/91WFuMsEuGL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91pzoPJt9fL.jpg",
-      "assets/products/91WFuMsEuGL.jpg"
-    ]
-  },
-  {
-    "id": "B07L1F577K",
-    "name": "Amazon Brand - Solimo Pavo Engineered Wood Bookcase (Wenge Finish)",
-    "category": "Furniture",
-    "product_type": "SHELF",
+    "product_type": "TABLE",
     "color": "Wenge",
     "brand": "Amazon Brand - Solimo",
-    "price": 601.99,
-    "image": "assets/products/81gE2YO82zL.jpg",
+    "price": 736.99,
+    "image": "assets/products/81pVNth1v9L.webp",
     "gallery": [
-      "assets/products/81gE2YO82zL.jpg",
-      "assets/products/61-CmWgkM8L.jpg",
-      "assets/products/61qBiGQfT0L.jpg"
+      "assets/products/81pVNth1v9L.webp",
+      "assets/products/61qBiGQfT0L.webp",
+      "assets/products/61HWWhRBseL.webp"
     ],
     "query_images": [
-      "assets/products/61-CmWgkM8L.jpg",
-      "assets/products/61qBiGQfT0L.jpg"
+      "assets/products/61qBiGQfT0L.webp",
+      "assets/products/61HWWhRBseL.webp"
     ]
   },
   {
-    "id": "B085W6WF7Q",
-    "name": "Amazon Brand - Solimo Draco Solid Sheesham Wood Queen Bed (Teak Finish)",
+    "id": "B07RG7HW3C",
+    "name": "Amazon Brand - Solimo Quess Engineered Wood Bedside Table (Walnut Finish)",
     "category": "Furniture",
-    "product_type": "BED",
-    "color": "Teak Finish",
+    "product_type": "TABLE",
+    "color": "Brown",
     "brand": "Amazon Brand - Solimo",
-    "price": 444.99,
-    "image": "assets/products/81DflyJ+7ZL.jpg",
+    "price": 736.99,
+    "image": "assets/products/91J8okm3KiL.webp",
     "gallery": [
-      "assets/products/81DflyJ+7ZL.jpg",
-      "assets/products/712-9ExBfhL.jpg",
-      "assets/products/7198EM1EUyL.jpg"
+      "assets/products/91J8okm3KiL.webp",
+      "assets/products/71PF-IACTUL.webp",
+      "assets/products/71uLOtmFAJL.webp"
     ],
     "query_images": [
-      "assets/products/712-9ExBfhL.jpg",
-      "assets/products/7198EM1EUyL.jpg"
+      "assets/products/71PF-IACTUL.webp",
+      "assets/products/71uLOtmFAJL.webp"
     ]
   },
   {
-    "id": "B07MBFDWNM",
-    "name": "Amazon Brand – Ravenna Home Round Base Floor Lamp with LED Light Bulb, 58\"H, Dark Bronze",
-    "category": "Lighting",
-    "product_type": "LAMP",
-    "color": "Dark Bronze",
+    "id": "B07M6PJ4NW",
+    "name": "Amazon Brand – Ravenna Home Traditional Solid Pine End Table, 47\"H, Black Finish",
+    "category": "Furniture",
+    "product_type": "TABLE",
+    "color": "Black",
     "brand": "Ravenna Home",
-    "price": 51.99,
-    "image": "assets/products/418NM35jwuL.jpg",
+    "price": 686.99,
+    "image": "assets/products/61FJlhNhV4L.webp",
     "gallery": [
-      "assets/products/418NM35jwuL.jpg",
-      "assets/products/41Oia8POCIL.jpg",
-      "assets/products/51JS1oE3EkL.jpg"
+      "assets/products/61FJlhNhV4L.webp",
+      "assets/products/91mJ31sOnDL.webp",
+      "assets/products/31GaULgF7fL.webp"
     ],
     "query_images": [
-      "assets/products/41Oia8POCIL.jpg",
-      "assets/products/51JS1oE3EkL.jpg"
+      "assets/products/91mJ31sOnDL.webp",
+      "assets/products/31GaULgF7fL.webp"
     ]
   },
   {
-    "id": "B075X2XZF4",
-    "name": "Amazon Brand – Stone & Beam Modern Square Textured Lamp With LED Light Bulb - 15 x 8 x 20.3 Inches, White",
-    "category": "Lighting",
-    "product_type": "LAMP",
-    "color": "White",
-    "brand": "Stone & Beam",
-    "price": 226.99,
-    "image": "assets/products/81dfRsfSF-L.jpg",
-    "gallery": [
-      "assets/products/81dfRsfSF-L.jpg",
-      "assets/products/91rwcLh6R6L.jpg",
-      "assets/products/81fXbOYqpwL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91rwcLh6R6L.jpg",
-      "assets/products/81fXbOYqpwL.jpg"
-    ]
-  },
-  {
-    "id": "B0844187WM",
-    "name": "AmazonBasics LED Plug-in Night Light with Dusk to Dawn Sensor, Two Brightness Levels for Bedroom, Hallway, Stairs - 2.5\" x 2.5\", 6-Pack",
-    "category": "Lighting",
-    "product_type": "LAMP",
+    "id": "B07CTVDSJP",
+    "name": "Rivet Fun Contemporary Home Office Desk Chair, 36\"-39\", Grey/Black",
+    "category": "Furniture",
+    "product_type": "CHAIR",
     "color": "",
-    "brand": "AmazonBasics",
-    "price": 71.99,
-    "image": "assets/products/71bAVgqsqAL.jpg",
+    "brand": "Rivet",
+    "price": 678.99,
+    "image": "assets/products/91LIJoviT3L.webp",
     "gallery": [
-      "assets/products/71bAVgqsqAL.jpg",
-      "assets/products/41Qrtm27V2L.jpg",
-      "assets/products/716OAEtuMWL.jpg"
+      "assets/products/91LIJoviT3L.webp",
+      "assets/products/A18mMI5yCfL.webp",
+      "assets/products/91NOluRcy2L.webp"
     ],
     "query_images": [
-      "assets/products/41Qrtm27V2L.jpg",
-      "assets/products/716OAEtuMWL.jpg"
+      "assets/products/A18mMI5yCfL.webp",
+      "assets/products/91NOluRcy2L.webp"
     ]
   },
   {
-    "id": "B07F9X919G",
-    "name": "Amazon Brand – Ravenna Home Mid Century Modern White Ceramic Table Lamp With LED Light Bulb - 21 Inches, Blue Linen Shade",
+    "id": "B075Z7SQND",
+    "name": "Amazon Brand – Stone & Beam Bryson A-Frame Bookcase Shelf Stand, 70.7\"W, Wood and Iron",
+    "category": "Furniture",
+    "product_type": "SHELF",
+    "color": "Light Wood",
+    "brand": "Stone & Beam",
+    "price": 499.99,
+    "image": "assets/products/81pxU2-C0vL.webp",
+    "gallery": [
+      "assets/products/81pxU2-C0vL.webp",
+      "assets/products/A1iqX1iKf1L.webp",
+      "assets/products/91l2kPmcEWL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1iqX1iKf1L.webp",
+      "assets/products/91l2kPmcEWL.webp"
+    ]
+  },
+  {
+    "id": "B07BWJCVK3",
+    "name": "Amazon Brand – Stone & Beam Andover Modern Left Chaise Sofa Sectional, 126\"W, Light Blue",
+    "category": "Furniture",
+    "product_type": "SOFA",
+    "color": "Light Blue",
+    "brand": "Stone & Beam",
+    "price": 151.99,
+    "image": "assets/products/81aO0Ly+tzL.webp",
+    "gallery": [
+      "assets/products/81aO0Ly+tzL.webp",
+      "assets/products/A15xmoIt5JL.webp",
+      "assets/products/71bRR8H2Y-L.webp"
+    ],
+    "query_images": [
+      "assets/products/A15xmoIt5JL.webp",
+      "assets/products/71bRR8H2Y-L.webp"
+    ]
+  },
+  {
+    "id": "B075X4J118",
+    "name": "Amazon Brand – Rivet Modern Upholstered Cube Ottoman Pouf, 20\"W, Linen",
+    "category": "Furniture",
+    "product_type": "OTTOMAN",
+    "color": "Linen",
+    "brand": "Rivet",
+    "price": 367.99,
+    "image": "assets/products/A1mZePWsMhL.webp",
+    "gallery": [
+      "assets/products/A1mZePWsMhL.webp",
+      "assets/products/A1uEUGnpCSL.webp",
+      "assets/products/A1RJ1Dg4dCL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1uEUGnpCSL.webp",
+      "assets/products/A1RJ1Dg4dCL.webp"
+    ]
+  },
+  {
+    "id": "B082VML3QJ",
+    "name": "Amazon Brand – Rivet Alvin Contemporary Livingroom Ottoman, 29.5\"W, Aqua Teal Blue",
+    "category": "Furniture",
+    "product_type": "OTTOMAN",
+    "color": "Teal",
+    "brand": "Rivet",
+    "price": 690.99,
+    "image": "assets/products/71an9fwM6pL.webp",
+    "gallery": [
+      "assets/products/71an9fwM6pL.webp",
+      "assets/products/91kQ6sFvElL.webp",
+      "assets/products/81HGtB2wIyL.webp"
+    ],
+    "query_images": [
+      "assets/products/91kQ6sFvElL.webp",
+      "assets/products/81HGtB2wIyL.webp"
+    ]
+  },
+  {
+    "id": "B075X2CVQK",
+    "name": "Amazon Brand – Rivet Mid-Century Leather Headboard Queen Platform Wood Bed, 65\"W, Mahogany",
+    "category": "Furniture",
+    "product_type": "HEADBOARD",
+    "color": "Brown",
+    "brand": "Rivet",
+    "price": 100.99,
+    "image": "assets/products/81PZZ8H3XwL.webp",
+    "gallery": [
+      "assets/products/81PZZ8H3XwL.webp",
+      "assets/products/A1XFvLaU05L.webp",
+      "assets/products/81J+dqcUO1L.webp"
+    ],
+    "query_images": [
+      "assets/products/A1XFvLaU05L.webp",
+      "assets/products/81J+dqcUO1L.webp"
+    ]
+  },
+  {
+    "id": "B075X4QMW7",
+    "name": "Amazon Brand – Rivet Eva Mid-Century Modern Tufted Velvet Down-Filled Sectional Sofa Couch, 87\"W, Navy",
+    "category": "Furniture",
+    "product_type": "SOFA",
+    "color": "Navy",
+    "brand": "Rivet",
+    "price": 277.99,
+    "image": "assets/products/81KZp1brWYL.webp",
+    "gallery": [
+      "assets/products/81KZp1brWYL.webp",
+      "assets/products/818WXL2uM1L.webp",
+      "assets/products/A1P3tPyy2nL.webp"
+    ],
+    "query_images": [
+      "assets/products/818WXL2uM1L.webp",
+      "assets/products/A1P3tPyy2nL.webp"
+    ]
+  },
+  {
+    "id": "B07MF1V33V",
+    "name": "Amazon Brand – Ravenna Home Traditional Dining Table 29\"H, White and Rustic Honey Pine",
+    "category": "Furniture",
+    "product_type": "TABLE",
+    "color": "White/Rustic Honey Pine",
+    "brand": "Ravenna Home",
+    "price": 93.99,
+    "image": "assets/products/51MgXcKz8NL.webp",
+    "gallery": [
+      "assets/products/51MgXcKz8NL.webp",
+      "assets/products/91OK1eGyEiL.webp",
+      "assets/products/612KKQq4U9L.webp"
+    ],
+    "query_images": [
+      "assets/products/91OK1eGyEiL.webp",
+      "assets/products/612KKQq4U9L.webp"
+    ]
+  },
+  {
+    "id": "B082DP4S94",
+    "name": "Amazon Brand – Rivet Single-Light Domed Metal Pendant Light, 63\"H, Soft Matte Gray",
+    "category": "Lighting",
+    "product_type": "LIGHT_FIXTURE",
+    "color": "Soft Gray",
+    "brand": "Rivet",
+    "price": 94.99,
+    "image": "assets/products/71GRcNj6fxL.webp",
+    "gallery": [
+      "assets/products/71GRcNj6fxL.webp",
+      "assets/products/71v5wkeSDYL.webp",
+      "assets/products/61rWLYncWJL.webp"
+    ],
+    "query_images": [
+      "assets/products/71v5wkeSDYL.webp",
+      "assets/products/61rWLYncWJL.webp"
+    ]
+  },
+  {
+    "id": "B073751DMK",
+    "name": "Amazon Brand – Stone & Beam Modern Metal Cut-Out Living Room Standing Floor Lamp With Light Bulb - 19 x 8 x 59.5 Inches, Earth Tone Shade",
     "category": "Lighting",
     "product_type": "LAMP",
-    "color": "Navy Shade",
-    "brand": "Ravenna Home",
-    "price": 220.99,
-    "image": "assets/products/51DIs8Vd0JL.jpg",
+    "color": "Black",
+    "brand": "Stone & Beam",
+    "price": 94.99,
+    "image": "assets/products/61IxCp5YIbL.webp",
     "gallery": [
-      "assets/products/51DIs8Vd0JL.jpg",
-      "assets/products/41jxf4FzhIL.jpg",
-      "assets/products/51BURnUTJ5L.jpg"
+      "assets/products/61IxCp5YIbL.webp",
+      "assets/products/61tWGAlyJyL.webp",
+      "assets/products/61I5SJqDw9L.webp"
     ],
     "query_images": [
-      "assets/products/41jxf4FzhIL.jpg",
-      "assets/products/51BURnUTJ5L.jpg"
+      "assets/products/61tWGAlyJyL.webp",
+      "assets/products/61I5SJqDw9L.webp"
     ]
   },
   {
-    "id": "B0825D8BP7",
-    "name": "Amazon Brand – Stone & Beam Contemporary Textured 2-Tone Resin Table Lamp, LED Bulb Included, 24.5\"H, White",
+    "id": "B07HKCRWSY",
+    "name": "Amazon Brand – Rivet Modern Frosted Opal Glass Outdoor Wall Mount Sconce with Light Bulb - 5.91 x 6.97 x 14.97 Inches, Antique Bronze Steel",
+    "category": "Lighting",
+    "product_type": "LIGHT_FIXTURE",
+    "color": "Antique Bronze",
+    "brand": "Rivet",
+    "price": 129.99,
+    "image": "assets/products/717yH-AoHuL.webp",
+    "gallery": [
+      "assets/products/717yH-AoHuL.webp",
+      "assets/products/91K-8vP6kvL.webp",
+      "assets/products/91ehlcnMz1L.webp"
+    ],
+    "query_images": [
+      "assets/products/91K-8vP6kvL.webp",
+      "assets/products/91ehlcnMz1L.webp"
+    ]
+  },
+  {
+    "id": "B073WF6JMB",
+    "name": "AmazonBasics Patio Lights, White, 25'",
+    "category": "Lighting",
+    "product_type": "STRING_LIGHT",
+    "color": "White",
+    "brand": "AmazonBasics",
+    "price": 60.99,
+    "image": "assets/products/71JkThIGNDL.webp",
+    "gallery": [
+      "assets/products/71JkThIGNDL.webp",
+      "assets/products/91NU+mfyZ6L.webp",
+      "assets/products/91WnKkidzfL.webp"
+    ],
+    "query_images": [
+      "assets/products/91NU+mfyZ6L.webp",
+      "assets/products/91WnKkidzfL.webp"
+    ]
+  },
+  {
+    "id": "B07QF91NYT",
+    "name": "Amazon Brand – Stone & Beam Modern Table Lamp with a Tripod Base, 27.75\"H, Black",
+    "category": "Lighting",
+    "product_type": "LAMP",
+    "color": "Natural With Brushed Steel",
+    "brand": "Stone & Beam",
+    "price": 145.99,
+    "image": "assets/products/81+W9lH47bL.webp",
+    "gallery": [
+      "assets/products/81+W9lH47bL.webp",
+      "assets/products/91faHUSYXZL.webp",
+      "assets/products/91l+eSgW-cL.webp"
+    ],
+    "query_images": [
+      "assets/products/91faHUSYXZL.webp",
+      "assets/products/91l+eSgW-cL.webp"
+    ]
+  },
+  {
+    "id": "B07DT4GYTD",
+    "name": "Amazon Brand – Stone & Beam Modern Farmhouse Indoor Wall Sconce With LED Vintage Light Bulb And Glass Shade - 5 x 6.5 x 9.75 Inches, Dark Bronze",
+    "category": "Lighting",
+    "product_type": "LIGHT_FIXTURE",
+    "color": "Bronze",
+    "brand": "Stone & Beam",
+    "price": 46.99,
+    "image": "assets/products/51oLMKHfOtL.webp",
+    "gallery": [
+      "assets/products/51oLMKHfOtL.webp",
+      "assets/products/51ElIt5XPuL.webp",
+      "assets/products/71oeniBuvxL.webp"
+    ],
+    "query_images": [
+      "assets/products/51ElIt5XPuL.webp",
+      "assets/products/71oeniBuvxL.webp"
+    ]
+  },
+  {
+    "id": "B07HKGHTGF",
+    "name": "Amazon Brand – Stone & Beam Ceramic Geometric Cut-Out Table Desk Lamp With LED Light Bulb, 18.3\"H, White",
     "category": "Lighting",
     "product_type": "LAMP",
     "color": "White",
     "brand": "Stone & Beam",
-    "price": 107.99,
-    "image": "assets/products/51f0yO5vf3L.jpg",
+    "price": 200.99,
+    "image": "assets/products/71cgSPgnYsL.webp",
     "gallery": [
-      "assets/products/51f0yO5vf3L.jpg",
-      "assets/products/51wqKF3mjSL.jpg",
-      "assets/products/81CyrHWMW6L.jpg"
+      "assets/products/71cgSPgnYsL.webp",
+      "assets/products/91KnVGr4jRL.webp",
+      "assets/products/81MELNJZKSL.webp"
     ],
     "query_images": [
-      "assets/products/51wqKF3mjSL.jpg",
-      "assets/products/81CyrHWMW6L.jpg"
+      "assets/products/91KnVGr4jRL.webp",
+      "assets/products/81MELNJZKSL.webp"
+    ]
+  },
+  {
+    "id": "B07ML7N7L4",
+    "name": "Amazon Brand – Ravenna Home Classic 5 Light Chandelier, Bulbs Included, Adjustable 15-72\"H, Dark Bronze",
+    "category": "Lighting",
+    "product_type": "LIGHT_FIXTURE",
+    "color": "Bronze",
+    "brand": "Ravenna Home",
+    "price": 211.99,
+    "image": "assets/products/51m3qZA4wzL.webp",
+    "gallery": [
+      "assets/products/51m3qZA4wzL.webp",
+      "assets/products/51P7ikBHhXL.webp",
+      "assets/products/51N0Tgzx-XL.webp"
+    ],
+    "query_images": [
+      "assets/products/51P7ikBHhXL.webp",
+      "assets/products/51N0Tgzx-XL.webp"
+    ]
+  },
+  {
+    "id": "B071HSMXBT",
+    "name": "Amazon Brand – Stone & Beam Industrial Hood Pendant Light Chandelier - 8 Inch Shade, 13 - 61 Inch Cord, Brushed Nickel",
+    "category": "Lighting",
+    "product_type": "LIGHT_FIXTURE",
+    "color": "Brushed Nickel",
+    "brand": "Stone & Beam",
+    "price": 114.99,
+    "image": "assets/products/71uhORZmz8L.webp",
+    "gallery": [
+      "assets/products/71uhORZmz8L.webp",
+      "assets/products/61tzFNJs-9L.webp",
+      "assets/products/71FIGnM3gOL.webp"
+    ],
+    "query_images": [
+      "assets/products/61tzFNJs-9L.webp",
+      "assets/products/71FIGnM3gOL.webp"
+    ]
+  },
+  {
+    "id": "B07HKGMQ37",
+    "name": "Amazon Brand – Stone & Beam Modern Farmhouse Metal Base Desk Table Lamp with Light Bulb - 11.5 x 11.5 x 22 Inches, Matte Black",
+    "category": "Lighting",
+    "product_type": "LAMP",
+    "color": "Matte Black",
+    "brand": "Stone & Beam",
+    "price": 223.99,
+    "image": "assets/products/711N92xJMZL.webp",
+    "gallery": [
+      "assets/products/711N92xJMZL.webp",
+      "assets/products/91MkpzyNP8L.webp",
+      "assets/products/81vVc9Zuy2L.webp"
+    ],
+    "query_images": [
+      "assets/products/91MkpzyNP8L.webp",
+      "assets/products/81vVc9Zuy2L.webp"
+    ]
+  },
+  {
+    "id": "B0742D9X4R",
+    "name": "Rivet Mid-Century Modern Tripod Décor Living Room Standing Floor Lamp with Light Bulb and Drum Shade, 58\"H, Black",
+    "category": "Lighting",
+    "product_type": "LAMP",
+    "color": "Black",
+    "brand": "Rivet",
+    "price": 172.99,
+    "image": "assets/products/71DgbcNX95L.webp",
+    "gallery": [
+      "assets/products/71DgbcNX95L.webp",
+      "assets/products/71o5MD3YbYL.webp",
+      "assets/products/A18OvIWVnWL.webp"
+    ],
+    "query_images": [
+      "assets/products/71o5MD3YbYL.webp",
+      "assets/products/A18OvIWVnWL.webp"
     ]
   },
   {
@@ -935,225 +785,92 @@
     "product_type": "LAMP",
     "color": "Brushed Nickel",
     "brand": "Ravenna Home",
-    "price": 146.99,
-    "image": "assets/products/41AxSPpfZ9L.jpg",
+    "price": 148.99,
+    "image": "assets/products/41AxSPpfZ9L.webp",
     "gallery": [
-      "assets/products/41AxSPpfZ9L.jpg",
-      "assets/products/41ZjFxF2F-L.jpg",
-      "assets/products/91G9MHOH0HL.jpg"
+      "assets/products/41AxSPpfZ9L.webp",
+      "assets/products/41ZjFxF2F-L.webp",
+      "assets/products/91G9MHOH0HL.webp"
     ],
     "query_images": [
-      "assets/products/41ZjFxF2F-L.jpg",
-      "assets/products/91G9MHOH0HL.jpg"
+      "assets/products/41ZjFxF2F-L.webp",
+      "assets/products/91G9MHOH0HL.webp"
     ]
   },
   {
-    "id": "B0825DBW3G",
-    "name": "Amazon Brand - Stone & Beam Traditional Chinoiserie Ceramic Table Lamp, LED Bulb Included, 19.5\"H, Blue Geometric",
+    "id": "B07QB7DRSK",
+    "name": "Rivet Modern Arc Floor Lamp with Bulb and Fabric Shade, 69\"H, Matte Black",
     "category": "Lighting",
     "product_type": "LAMP",
-    "color": "Blue Geometric",
-    "brand": "Stone & Beam",
-    "price": 161.99,
-    "image": "assets/products/51k8mJEVbpL.jpg",
-    "gallery": [
-      "assets/products/51k8mJEVbpL.jpg",
-      "assets/products/61IoWko-StL.jpg",
-      "assets/products/61PsQ9wGjtL.jpg"
-    ],
-    "query_images": [
-      "assets/products/61IoWko-StL.jpg",
-      "assets/products/61PsQ9wGjtL.jpg"
-    ]
-  },
-  {
-    "id": "B071F6WMP6",
-    "name": "Amazon Brand – Stone & Beam Jordan Industrial Farmhouse Ceiling 4-Pendant Cage Fixture With 4 Light Bulbs - 4.8 x 32 Inches, 17.5 - 46 Inch Cord, Black",
-    "category": "Lighting",
-    "product_type": "LIGHT_FIXTURE",
-    "color": "Matte Black",
-    "brand": "Stone & Beam",
-    "price": 102.99,
-    "image": "assets/products/71J9xEcSExL.jpg",
-    "gallery": [
-      "assets/products/71J9xEcSExL.jpg",
-      "assets/products/A1rpGOrXiKL.jpg",
-      "assets/products/81lyty0Q2nL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1rpGOrXiKL.jpg",
-      "assets/products/81lyty0Q2nL.jpg"
-    ]
-  },
-  {
-    "id": "B075X2XZDY",
-    "name": "Amazon Brand – Rivet Mid-Century Modern Brass Trimmed Table Lamp with LED Light Bulb, 26\"H, Clear",
-    "category": "Lighting",
-    "product_type": "LAMP",
-    "color": "Brass",
+    "color": "",
     "brand": "Rivet",
-    "price": 247.99,
-    "image": "assets/products/81VNa33FpwL.jpg",
+    "price": 165.99,
+    "image": "assets/products/51OzeVgNiWL.webp",
     "gallery": [
-      "assets/products/81VNa33FpwL.jpg",
-      "assets/products/811iVuuzVFL.jpg",
-      "assets/products/91Ee+DgEGEL.jpg"
+      "assets/products/51OzeVgNiWL.webp",
+      "assets/products/71oWJwwEDxL.webp",
+      "assets/products/91l+eSgW-cL.webp"
     ],
     "query_images": [
-      "assets/products/811iVuuzVFL.jpg",
-      "assets/products/91Ee+DgEGEL.jpg"
+      "assets/products/71oWJwwEDxL.webp",
+      "assets/products/91l+eSgW-cL.webp"
     ]
   },
   {
-    "id": "B07DTFBCZN",
-    "name": "Amazon Brand – Rivet Mid-Century Modern Glass Globe Plug-In Wall Mount Sconce With LED Light Bulb - 9.5 x 6.25 x 9.75 Inches, Dark Bronze",
+    "id": "B07374SBFM",
+    "name": "Amazon Brand – Rivet Mid Century Modern Diamond Cut Concrete Bedside Table Desk Lamp With Light Bulb - 20 Inches",
     "category": "Lighting",
-    "product_type": "LIGHT_FIXTURE",
-    "color": "Dark Bronze",
+    "product_type": "LAMP",
+    "color": "Polished Nickel",
     "brand": "Rivet",
-    "price": 214.99,
-    "image": "assets/products/41WuvnknksL.jpg",
+    "price": 121.99,
+    "image": "assets/products/81bZw6LZDDL.webp",
     "gallery": [
-      "assets/products/41WuvnknksL.jpg",
-      "assets/products/41Lhnr75+xL.jpg",
-      "assets/products/51JdA5to-3L.jpg"
+      "assets/products/81bZw6LZDDL.webp",
+      "assets/products/91AW57sXtxL.webp",
+      "assets/products/A1y4SGAvQZL.webp"
     ],
     "query_images": [
-      "assets/products/41Lhnr75+xL.jpg",
-      "assets/products/51JdA5to-3L.jpg"
+      "assets/products/91AW57sXtxL.webp",
+      "assets/products/A1y4SGAvQZL.webp"
     ]
   },
   {
-    "id": "B07QGF2H8G",
-    "name": "Amazon Brand – Ravenna Home Wall Sconce, 11.73\"H, Brushed Nickel",
-    "category": "Lighting",
-    "product_type": "LIGHT_FIXTURE",
-    "color": "Brushed Nickel",
-    "brand": "Ravenna Home",
-    "price": 107.99,
-    "image": "assets/products/81+jmyDjdTL.jpg",
-    "gallery": [
-      "assets/products/81+jmyDjdTL.jpg",
-      "assets/products/81HZuF14jfL.jpg",
-      "assets/products/81ykWihmQrL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81HZuF14jfL.jpg",
-      "assets/products/81ykWihmQrL.jpg"
-    ]
-  },
-  {
-    "id": "B07MBFDHM9",
-    "name": "Amazon Brand – Rivet Table Lamp with Textured Ceramic Base, Bulb Included, 20 Inch Height, Gibraltar Sea Blue",
-    "category": "Lighting",
-    "product_type": "LAMP",
-    "color": "Gibraltar Sea Blue",
-    "brand": "Rivet",
-    "price": 97.99,
-    "image": "assets/products/51IXPw0AbiL.jpg",
-    "gallery": [
-      "assets/products/51IXPw0AbiL.jpg",
-      "assets/products/61M-lclEETL.jpg",
-      "assets/products/A1Z9xhEB85L.jpg"
-    ],
-    "query_images": [
-      "assets/products/61M-lclEETL.jpg",
-      "assets/products/A1Z9xhEB85L.jpg"
-    ]
-  },
-  {
-    "id": "B0824FLNHK",
-    "name": "Amazon Brand – Ravenna Home Contemporary Cylindrical Glass Table Lamp, LED Bulb Included, 24.5\"H, Clear",
-    "category": "Lighting",
-    "product_type": "LAMP",
-    "color": "Clear",
-    "brand": "Ravenna Home",
-    "price": 223.99,
-    "image": "assets/products/410gIsG+uiL.jpg",
-    "gallery": [
-      "assets/products/410gIsG+uiL.jpg",
-      "assets/products/5150-0kOpCL.jpg",
-      "assets/products/51UYnj72TYL.jpg"
-    ],
-    "query_images": [
-      "assets/products/5150-0kOpCL.jpg",
-      "assets/products/51UYnj72TYL.jpg"
-    ]
-  },
-  {
-    "id": "B07K51RV9K",
-    "name": "UMI Table Lamp Fabric Shade with Rectangular Wood Base 11.5 Inches",
-    "category": "Lighting",
-    "product_type": "LAMP",
-    "color": "Nickel",
-    "brand": "UMI",
-    "price": 235.99,
-    "image": "assets/products/919NrXmGAnL.jpg",
-    "gallery": [
-      "assets/products/919NrXmGAnL.jpg",
-      "assets/products/81gtb7MjbuL.jpg",
-      "assets/products/71C39YJEnHL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81gtb7MjbuL.jpg",
-      "assets/products/71C39YJEnHL.jpg"
-    ]
-  },
-  {
-    "id": "B078JG4N1G",
-    "name": "Amazon Brand – Rivet Ceramic Planter with Leather Strap, 5.3\"H, Modern, Blue and Ivory",
+    "id": "B07SCNS9Q7",
+    "name": "AmazonBasics Tabletop Planter, Square - Grey/Copper",
     "category": "Plants",
     "product_type": "PLANTER",
-    "color": "Blue",
-    "brand": "Rivet",
-    "price": 52.99,
-    "image": "assets/products/71PDu5yd6KL.jpg",
-    "gallery": [
-      "assets/products/71PDu5yd6KL.jpg",
-      "assets/products/71iD1ytBUcL.jpg",
-      "assets/products/91wldEUdTQL.jpg"
-    ],
-    "query_images": [
-      "assets/products/71iD1ytBUcL.jpg",
-      "assets/products/91wldEUdTQL.jpg"
-    ]
-  },
-  {
-    "id": "B0831PL1FX",
-    "name": "Amazon Brand – Rivet Terrazzo Planter with Wood Stand, 16.5\"H, White",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "White",
-    "brand": "Rivet",
-    "price": 28.99,
-    "image": "assets/products/71Uk6grwAjL.jpg",
-    "gallery": [
-      "assets/products/71Uk6grwAjL.jpg",
-      "assets/products/71Mkagg7qjL.jpg",
-      "assets/products/61rRPLmIgdL.jpg"
-    ],
-    "query_images": [
-      "assets/products/71Mkagg7qjL.jpg",
-      "assets/products/61rRPLmIgdL.jpg"
-    ]
-  },
-  {
-    "id": "B07S7DGVN3",
-    "name": "AmazonBasics White & Black Oval Table Planter",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "Weiß / Schwarz",
+    "color": "Grey/Copper",
     "brand": "AmazonBasics",
-    "price": 70.99,
-    "image": "assets/products/71TMl0Hh4xL.jpg",
+    "price": 29.99,
+    "image": "assets/products/61mRvPdvffL.webp",
     "gallery": [
-      "assets/products/71TMl0Hh4xL.jpg",
-      "assets/products/9148fEMqtfL.jpg",
-      "assets/products/71hCfohkAcL.jpg"
+      "assets/products/61mRvPdvffL.webp",
+      "assets/products/71pKX+1IBSL.webp",
+      "assets/products/81Gf36COxxL.webp"
     ],
     "query_images": [
-      "assets/products/9148fEMqtfL.jpg",
-      "assets/products/71hCfohkAcL.jpg"
+      "assets/products/71pKX+1IBSL.webp",
+      "assets/products/81Gf36COxxL.webp"
+    ]
+  },
+  {
+    "id": "B07S8CHZ9D",
+    "name": "AmazonBasics Square Table Planter",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "Grau / Kupferfarben",
+    "brand": "AmazonBasics",
+    "price": 108.99,
+    "image": "assets/products/713lQxiK7kL.webp",
+    "gallery": [
+      "assets/products/713lQxiK7kL.webp",
+      "assets/products/71pKX+1IBSL.webp",
+      "assets/products/81Gf36COxxL.webp"
+    ],
+    "query_images": [
+      "assets/products/71pKX+1IBSL.webp",
+      "assets/products/81Gf36COxxL.webp"
     ]
   },
   {
@@ -1163,434 +880,472 @@
     "product_type": "PLANTER",
     "color": "Aqua",
     "brand": "Rivet",
-    "price": 63.99,
-    "image": "assets/products/8181IGao9dL.jpg",
+    "price": 38.99,
+    "image": "assets/products/8181IGao9dL.webp",
     "gallery": [
-      "assets/products/8181IGao9dL.jpg",
-      "assets/products/71hShjgH5uL.jpg",
-      "assets/products/81zgJd9yNYL.jpg"
+      "assets/products/8181IGao9dL.webp",
+      "assets/products/71hShjgH5uL.webp",
+      "assets/products/81zgJd9yNYL.webp"
     ],
     "query_images": [
-      "assets/products/71hShjgH5uL.jpg",
-      "assets/products/81zgJd9yNYL.jpg"
+      "assets/products/71hShjgH5uL.webp",
+      "assets/products/81zgJd9yNYL.webp"
     ]
   },
   {
-    "id": "B07SCNS94J",
-    "name": "AmazonBasics Wall Planter, Oval - White/Brass",
+    "id": "B07QJL99Z7",
+    "name": "Rivet Amazon Brand Mid-Century Ceramic Planter with Iron Stand, 18.9\" H, Black and White",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "White/Black",
+    "brand": "Rivet",
+    "price": 106.99,
+    "image": "assets/products/51cd+FomCcL.webp",
+    "gallery": [
+      "assets/products/51cd+FomCcL.webp",
+      "assets/products/512AbUKlU9L.webp",
+      "assets/products/911K8sgzeIL.webp"
+    ],
+    "query_images": [
+      "assets/products/512AbUKlU9L.webp",
+      "assets/products/911K8sgzeIL.webp"
+    ]
+  },
+  {
+    "id": "B075HXQJTQ",
+    "name": "Amazon Brand – Rivet Mid-Century Ceramic Planter with Iron Stand 14\"H, Pale Green",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "Green",
+    "brand": "Rivet",
+    "price": 54.99,
+    "image": "assets/products/91Ne4DGaqHL.webp",
+    "gallery": [
+      "assets/products/91Ne4DGaqHL.webp",
+      "assets/products/91l+nVFOMzL.webp",
+      "assets/products/A1EMTcAD8eL.webp"
+    ],
+    "query_images": [
+      "assets/products/91l+nVFOMzL.webp",
+      "assets/products/A1EMTcAD8eL.webp"
+    ]
+  },
+  {
+    "id": "B07QHKQMZW",
+    "name": "Amazon Brand – Rivet Mid-Century Stoneware Planter with Wood Stand, 12.99\"H, Green Ombre",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "",
+    "brand": "Rivet",
+    "price": 72.99,
+    "image": "assets/products/71utDeGh6DL.webp",
+    "gallery": [
+      "assets/products/71utDeGh6DL.webp",
+      "assets/products/71lLUk+jYoL.webp",
+      "assets/products/91pKsvzW0+L.webp"
+    ],
+    "query_images": [
+      "assets/products/71lLUk+jYoL.webp",
+      "assets/products/91pKsvzW0+L.webp"
+    ]
+  },
+  {
+    "id": "B07S9FQ1TY",
+    "name": "AmazonBasics Hanging Planter, Round - White/Brass (3-Pack)",
     "category": "Plants",
     "product_type": "PLANTER",
     "color": "White/Brass",
     "brand": "AmazonBasics",
-    "price": 60.99,
-    "image": "assets/products/715u6DE+rWL.jpg",
+    "price": 79.99,
+    "image": "assets/products/61wr9lno8iL.webp",
     "gallery": [
-      "assets/products/715u6DE+rWL.jpg",
-      "assets/products/61dnuy4teKL.jpg",
-      "assets/products/81WDCcfvSKL.jpg"
+      "assets/products/61wr9lno8iL.webp",
+      "assets/products/71tA3gFAkyL.webp",
+      "assets/products/51BBFeoaWUL.webp"
     ],
     "query_images": [
-      "assets/products/61dnuy4teKL.jpg",
-      "assets/products/81WDCcfvSKL.jpg"
+      "assets/products/71tA3gFAkyL.webp",
+      "assets/products/51BBFeoaWUL.webp"
     ]
   },
   {
-    "id": "B0842LKSS4",
-    "name": "Amazon Brand – Stone & Beam Textured Stoneware Planter, 5.1\"H, Ivory",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "Ivory",
-    "brand": "Stone & Beam",
-    "price": 77.99,
-    "image": "assets/products/51kDHrS6otL.jpg",
-    "gallery": [
-      "assets/products/51kDHrS6otL.jpg",
-      "assets/products/41sXFUVfe+L.jpg",
-      "assets/products/41hjCi9-C0L.jpg"
-    ],
-    "query_images": [
-      "assets/products/41sXFUVfe+L.jpg",
-      "assets/products/41hjCi9-C0L.jpg"
-    ]
-  },
-  {
-    "id": "B083YFL9K1",
-    "name": "Amazon Brand – Stone & Beam Medium Fan-Embossed Planter, 6\"H, Cloud Dancer White",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "White",
-    "brand": "Stone & Beam",
-    "price": 15.99,
-    "image": "assets/products/41veNGfE6NL.jpg",
-    "gallery": [
-      "assets/products/41veNGfE6NL.jpg",
-      "assets/products/412mHzLs2ZL.jpg",
-      "assets/products/41-tG4ZdNHL.jpg"
-    ],
-    "query_images": [
-      "assets/products/412mHzLs2ZL.jpg",
-      "assets/products/41-tG4ZdNHL.jpg"
-    ]
-  },
-  {
-    "id": "B07HSJKY8H",
-    "name": "Amazon Brand – Rivet planters",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "",
-    "brand": "Rivet",
-    "price": 73.99,
-    "image": "assets/products/91fP+8+rZ2L.jpg",
-    "gallery": [
-      "assets/products/91fP+8+rZ2L.jpg",
-      "assets/products/91q2pbtWwEL.jpg",
-      "assets/products/81cDxFq7+LL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91q2pbtWwEL.jpg",
-      "assets/products/81cDxFq7+LL.jpg"
-    ]
-  },
-  {
-    "id": "B07CBP4FG7",
-    "name": "Amazon Brand – Rivet Mid-Century Ceramic Planter with Stand, 17\"H, White",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "White",
-    "brand": "Rivet",
-    "price": 86.99,
-    "image": "assets/products/81rFUaQYkeL.jpg",
-    "gallery": [
-      "assets/products/81rFUaQYkeL.jpg",
-      "assets/products/81Uv1KrtV5L.jpg",
-      "assets/products/A1AdAW8hSLL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81Uv1KrtV5L.jpg",
-      "assets/products/A1AdAW8hSLL.jpg"
-    ]
-  },
-  {
-    "id": "B075HX5PQ7",
-    "name": "Amazon Brand – Rivet Cone-Shaped Wall Mount Vase, 10.4\"H, Modern Earthenware, Grey",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "Grey",
-    "brand": "Rivet",
-    "price": 72.99,
-    "image": "assets/products/81V14VEk0SL.jpg",
-    "gallery": [
-      "assets/products/81V14VEk0SL.jpg",
-      "assets/products/7180nzjVttL.jpg",
-      "assets/products/81BcoNBhk5L.jpg"
-    ],
-    "query_images": [
-      "assets/products/7180nzjVttL.jpg",
-      "assets/products/81BcoNBhk5L.jpg"
-    ]
-  },
-  {
-    "id": "B07QFB4LWJ",
-    "name": "Amazon Brand – Rivet Rustic Cross-Patterned Stoneware Planter, 6.3\"H, White and Gray",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "",
-    "brand": "Rivet",
-    "price": 14.99,
-    "image": "assets/products/81qNWaFJNIL.jpg",
-    "gallery": [
-      "assets/products/81qNWaFJNIL.jpg",
-      "assets/products/810TGbN3u7L.jpg",
-      "assets/products/91+5xg9vXTL.jpg"
-    ],
-    "query_images": [
-      "assets/products/810TGbN3u7L.jpg",
-      "assets/products/91+5xg9vXTL.jpg"
-    ]
-  },
-  {
-    "id": "B0842L95PD",
-    "name": "Amazon Brand – Stone & Beam Textured Stoneware Planter, 7.5\"H, Ivory",
-    "category": "Plants",
-    "product_type": "PLANTER",
-    "color": "Ivory",
-    "brand": "Stone & Beam",
-    "price": 74.99,
-    "image": "assets/products/61ceq1OffpL.jpg",
-    "gallery": [
-      "assets/products/61ceq1OffpL.jpg",
-      "assets/products/41sXFUVfe+L.jpg",
-      "assets/products/41a8iChE19L.jpg"
-    ],
-    "query_images": [
-      "assets/products/41sXFUVfe+L.jpg",
-      "assets/products/41a8iChE19L.jpg"
-    ]
-  },
-  {
-    "id": "B07SBJLQQC",
-    "name": "AmazonBasics Wall Planter, Square - White/Black (3-Pack)",
+    "id": "B07SBJLQQ3",
+    "name": "AmazonBasics Hanging Planter, Square - White/Black (2-Pack)",
     "category": "Plants",
     "product_type": "PLANTER",
     "color": "White/Black",
     "brand": "AmazonBasics",
-    "price": 110.99,
-    "image": "assets/products/61UIkMhcUwL.jpg",
+    "price": 52.99,
+    "image": "assets/products/6125WaLrUeL.webp",
     "gallery": [
-      "assets/products/61UIkMhcUwL.jpg",
-      "assets/products/811XuFJh0hL.jpg",
-      "assets/products/51VMaEU920L.jpg"
+      "assets/products/6125WaLrUeL.webp",
+      "assets/products/51iEmC9YkKL.webp",
+      "assets/products/51J6NA4uU+L.webp"
     ],
     "query_images": [
-      "assets/products/811XuFJh0hL.jpg",
-      "assets/products/51VMaEU920L.jpg"
+      "assets/products/51iEmC9YkKL.webp",
+      "assets/products/51J6NA4uU+L.webp"
     ]
   },
   {
-    "id": "B075HR7LHQ",
-    "name": "Amazon Brand – Rivet Rustic Stoneware Crosshatch Indoor Flower Plant Pot, 6.25\"H, Silver, Medium Planter",
+    "id": "B07S6B9M1Q",
+    "name": "AmazonBasics Wall Planter, Square - Grey/Copper (3-Pack)",
     "category": "Plants",
     "product_type": "PLANTER",
-    "color": "Silver",
+    "color": "Grey/Copper",
+    "brand": "AmazonBasics",
+    "price": 118.99,
+    "image": "assets/products/71k56lXXovL.webp",
+    "gallery": [
+      "assets/products/71k56lXXovL.webp",
+      "assets/products/81HCZfudobL.webp",
+      "assets/products/714sAtc56tL.webp"
+    ],
+    "query_images": [
+      "assets/products/81HCZfudobL.webp",
+      "assets/products/714sAtc56tL.webp"
+    ]
+  },
+  {
+    "id": "B07QGG6C8G",
+    "name": "Amazon Brand – Rivet Mid-Century Stoneware Planter with Wood Stand, 7.08\"H, Gray and Beige",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "",
+    "brand": "Rivet",
+    "price": 103.99,
+    "image": "assets/products/61uwfjQ5rqL.webp",
+    "gallery": [
+      "assets/products/61uwfjQ5rqL.webp",
+      "assets/products/91UOQS9pRFL.webp",
+      "assets/products/41dT5yh4EsL.webp"
+    ],
+    "query_images": [
+      "assets/products/91UOQS9pRFL.webp",
+      "assets/products/41dT5yh4EsL.webp"
+    ]
+  },
+  {
+    "id": "B07QHL59FH",
+    "name": "Amazon Brand – Rivet Rustic Cross-Patterned Stoneware Planter, 8.85\"H, White and Gray",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "",
+    "brand": "Rivet",
+    "price": 54.99,
+    "image": "assets/products/91iw8WBUcUL.webp",
+    "gallery": [
+      "assets/products/91iw8WBUcUL.webp",
+      "assets/products/81Dfs7rglEL.webp",
+      "assets/products/91dPAM3x0zL.webp"
+    ],
+    "query_images": [
+      "assets/products/81Dfs7rglEL.webp",
+      "assets/products/91dPAM3x0zL.webp"
+    ]
+  },
+  {
+    "id": "B07QGG3PP7",
+    "name": "Amazon Brand – Stone & Beam Mid-Century Patterned Planter, 10.53\"H, Dark Green",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "Moss",
+    "brand": "Stone & Beam",
+    "price": 49.99,
+    "image": "assets/products/81RBzy2DUGL.webp",
+    "gallery": [
+      "assets/products/81RBzy2DUGL.webp",
+      "assets/products/91kzrb8IpEL.webp",
+      "assets/products/71Qb6sxbD8L.webp"
+    ],
+    "query_images": [
+      "assets/products/91kzrb8IpEL.webp",
+      "assets/products/71Qb6sxbD8L.webp"
+    ]
+  },
+  {
+    "id": "B07CF75N65",
+    "name": "Amazon Brand – Rivet Mid-Century Ceramic Planter with Stand, 17\"H, Salmon",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "Salmon",
+    "brand": "Rivet",
+    "price": 107.99,
+    "image": "assets/products/91I6strtGqL.webp",
+    "gallery": [
+      "assets/products/91I6strtGqL.webp",
+      "assets/products/A1YSHTY6Q9L.webp",
+      "assets/products/81zmBq9+aFL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1YSHTY6Q9L.webp",
+      "assets/products/81zmBq9+aFL.webp"
+    ]
+  },
+  {
+    "id": "B07HSJVP6M",
+    "name": "Amazon Brand – Rivet Casual Metal Planter and Stand, 20.87\"H, Cement Gray and Gold",
+    "category": "Plants",
+    "product_type": "PLANTER",
+    "color": "",
+    "brand": "Rivet",
+    "price": 113.99,
+    "image": "assets/products/814novtW-FL.webp",
+    "gallery": [
+      "assets/products/814novtW-FL.webp",
+      "assets/products/81f7TKuiraL.webp",
+      "assets/products/91+AfPtCCiL.webp"
+    ],
+    "query_images": [
+      "assets/products/81f7TKuiraL.webp",
+      "assets/products/91+AfPtCCiL.webp"
+    ]
+  },
+  {
+    "id": "B07TZMWH9C",
+    "name": "Amazon Basics - 8'X10' Plush Diamond Trellis Shag Rug, Grey",
+    "category": "Rugs",
+    "product_type": "RUG",
+    "color": "Grey/White",
+    "brand": "Amazon Basics",
+    "price": 168.99,
+    "image": "assets/products/91JY3-qfJHL.webp",
+    "gallery": [
+      "assets/products/91JY3-qfJHL.webp",
+      "assets/products/A1ZueNwxNgL.webp",
+      "assets/products/A1rHclyEVFL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1ZueNwxNgL.webp",
+      "assets/products/A1rHclyEVFL.webp"
+    ]
+  },
+  {
+    "id": "B071SHLFHN",
+    "name": "Amazon Brand – Rivet Motion Modern Grid Pop Area Rug, 3' 6\" x 5' 6\", Stone",
+    "category": "Rugs",
+    "product_type": "RUG",
+    "color": "Stone",
     "brand": "Rivet",
     "price": 86.99,
-    "image": "assets/products/A1W5OMF345L.jpg",
+    "image": "assets/products/A13WEnwnf-L.webp",
     "gallery": [
-      "assets/products/A1W5OMF345L.jpg",
-      "assets/products/A1v5feVXZ8L.jpg",
-      "assets/products/91G48++pd3L.jpg"
+      "assets/products/A13WEnwnf-L.webp",
+      "assets/products/A1xQeTZjaaL.webp",
+      "assets/products/81y9Xf8Y5ML.webp"
     ],
     "query_images": [
-      "assets/products/A1v5feVXZ8L.jpg",
-      "assets/products/91G48++pd3L.jpg"
+      "assets/products/A1xQeTZjaaL.webp",
+      "assets/products/81y9Xf8Y5ML.webp"
     ]
   },
   {
-    "id": "B071SHHZVC",
-    "name": "Amazon Brand – Rivet Charcoal Distressed Medallion Area Rug, 4 x 6 Foot",
+    "id": "B07QJMFC4D",
+    "name": "Amazon Brand – Stone & Beam Distressed Handtufted Cotton and Wool Area Rug 4' x 6', Gold and Cream",
     "category": "Rugs",
     "product_type": "RUG",
-    "color": "Charcoal",
-    "brand": "Rivet",
-    "price": 225.99,
-    "image": "assets/products/A1VQJnskE4L.jpg",
+    "color": "Olive/Beige",
+    "brand": "Stone & Beam",
+    "price": 232.99,
+    "image": "assets/products/A173FnvCxhL.webp",
     "gallery": [
-      "assets/products/A1VQJnskE4L.jpg",
-      "assets/products/A1AdPxLvnLL.jpg",
-      "assets/products/915PcM4MbaL.jpg"
+      "assets/products/A173FnvCxhL.webp",
+      "assets/products/91ptR+NmnTL.webp",
+      "assets/products/91BPVAjnvqL.webp"
     ],
     "query_images": [
-      "assets/products/A1AdPxLvnLL.jpg",
-      "assets/products/915PcM4MbaL.jpg"
+      "assets/products/91ptR+NmnTL.webp",
+      "assets/products/91BPVAjnvqL.webp"
     ]
   },
   {
-    "id": "B07HSN8CV8",
-    "name": "Amazon Brand – Stone & Beam Modern Jute Area Rug, 4 x 6 Foot, Nuetral Multicolor",
+    "id": "B071SHLFH6",
+    "name": "Amazon Brand – Rivet Modern Wave Cosmopolitan Area Rug, 5 x 7 Foot, Blue",
+    "category": "Rugs",
+    "product_type": "RUG",
+    "color": "Blue",
+    "brand": "Rivet",
+    "price": 206.99,
+    "image": "assets/products/A14y7nfwa2L.webp",
+    "gallery": [
+      "assets/products/A14y7nfwa2L.webp",
+      "assets/products/A1-dC6yJ2sL.webp",
+      "assets/products/A1m-QDIdnhL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1-dC6yJ2sL.webp",
+      "assets/products/A1m-QDIdnhL.webp"
+    ]
+  },
+  {
+    "id": "B075Z8GZ45",
+    "name": "Amazon Brand – Rivet Elevated Chevron Patterned Area Rug, 5' x 7'6\", Cream",
+    "category": "Rugs",
+    "product_type": "RUG",
+    "color": "Ivory",
+    "brand": "Rivet",
+    "price": 198.99,
+    "image": "assets/products/A1ULezEa76L.webp",
+    "gallery": [
+      "assets/products/A1ULezEa76L.webp",
+      "assets/products/91OibrMwMtL.webp",
+      "assets/products/A1ECmuKAUzL.webp"
+    ],
+    "query_images": [
+      "assets/products/91OibrMwMtL.webp",
+      "assets/products/A1ECmuKAUzL.webp"
+    ]
+  },
+  {
+    "id": "B07HSLHG6R",
+    "name": "Rivet Wool Rug, 5' x 8', Black, White",
     "category": "Rugs",
     "product_type": "RUG",
     "color": "",
-    "brand": "Stone & Beam",
-    "price": 175.99,
-    "image": "assets/products/A1OvIwtNPeL.jpg",
-    "gallery": [
-      "assets/products/A1OvIwtNPeL.jpg",
-      "assets/products/A1SPyH8s7bL.jpg",
-      "assets/products/A1EhrTckabL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A1SPyH8s7bL.jpg",
-      "assets/products/A1EhrTckabL.jpg"
-    ]
-  },
-  {
-    "id": "B07QHKRRZL",
-    "name": "Amazon Brand – Rivet Handtufted Diamond-Patterned Cotton and Wool Area Rug, 5' x 8', Ivory with Charcoal and Blush",
-    "category": "Rugs",
-    "product_type": "RUG",
-    "color": "Ivory/Gray",
     "brand": "Rivet",
-    "price": 117.99,
-    "image": "assets/products/A1RVo8nkznL.jpg",
+    "price": 256.99,
+    "image": "assets/products/A10WqEhBpiL.webp",
     "gallery": [
-      "assets/products/A1RVo8nkznL.jpg",
-      "assets/products/81V-j8eYSFL.jpg",
-      "assets/products/91s6srYRLyL.jpg"
+      "assets/products/A10WqEhBpiL.webp",
+      "assets/products/81Ilo1yDGxL.webp",
+      "assets/products/91DiSYtWqoL.webp"
     ],
     "query_images": [
-      "assets/products/81V-j8eYSFL.jpg",
-      "assets/products/91s6srYRLyL.jpg"
+      "assets/products/81Ilo1yDGxL.webp",
+      "assets/products/91DiSYtWqoL.webp"
     ]
   },
   {
-    "id": "B07B4ZQDH7",
-    "name": "Amazon Brand – Stone & Beam Casual Plaid Rug, 2' 6\" x 8', Flatweave, Light Gray, Beige",
+    "id": "B07Q753DLK",
+    "name": "Amazon Basics Modern Plush High-Pile Shag Area Rug - 8x10 (7'10\" x 9'10\"), Beige",
     "category": "Rugs",
     "product_type": "RUG",
-    "color": "Light Gray, Beige",
-    "brand": "Stone & Beam",
-    "price": 203.99,
-    "image": "assets/products/81so+2SZV8L.jpg",
+    "color": "Beige",
+    "brand": "Amazon Basics",
+    "price": 44.99,
+    "image": "assets/products/91zE0lK1wQL.webp",
     "gallery": [
-      "assets/products/81so+2SZV8L.jpg",
-      "assets/products/81X9uplo3hL.jpg",
-      "assets/products/71bXOS-uvtL.jpg"
+      "assets/products/91zE0lK1wQL.webp",
+      "assets/products/8178TFtNUcL.webp",
+      "assets/products/91MFyqD2CrL.webp"
     ],
     "query_images": [
-      "assets/products/81X9uplo3hL.jpg",
-      "assets/products/71bXOS-uvtL.jpg"
+      "assets/products/8178TFtNUcL.webp",
+      "assets/products/91MFyqD2CrL.webp"
     ]
   },
   {
-    "id": "B07MJL5QVL",
-    "name": "Ravenna Home Prospect Rug, 5'W x 7'6\"L, Moroccan Lattice Design",
-    "category": "Rugs",
-    "product_type": "RUG",
-    "color": "",
-    "brand": "Ravenna Home",
-    "price": 384.99,
-    "image": "assets/products/A1DOXEoaByL.jpg",
-    "gallery": [
-      "assets/products/A1DOXEoaByL.jpg",
-      "assets/products/91M9gD+IklL.jpg",
-      "assets/products/71birkZ5dGL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91M9gD+IklL.jpg",
-      "assets/products/71birkZ5dGL.jpg"
-    ]
-  },
-  {
-    "id": "B07HSLXH4F",
-    "name": "Stone & Beam Rug, 5'3\" x 7'3\", Gray, Orange, Multicolor",
-    "category": "Rugs",
-    "product_type": "RUG",
-    "color": "Navy",
-    "brand": "Stone & Beam",
-    "price": 93.99,
-    "image": "assets/products/A1Ijt2Ojh5L.jpg",
-    "gallery": [
-      "assets/products/A1Ijt2Ojh5L.jpg",
-      "assets/products/91PsqmpFdiL.jpg",
-      "assets/products/91IvpfvaqdL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91PsqmpFdiL.jpg",
-      "assets/products/91IvpfvaqdL.jpg"
-    ]
-  },
-  {
-    "id": "B0735V7FK6",
-    "name": "Amazon Brand – Rivet Geometric Boho Bohemian Wool Area Rug, 5 x 8 Foot, Cream",
+    "id": "B075Z9Z1C5",
+    "name": "Amazon Brand – Rivet Shag Diamond Morrocan Area Rug, 3' 11\" x 6' 7\", Cream",
     "category": "Rugs",
     "product_type": "RUG",
     "color": "Cream",
     "brand": "Rivet",
-    "price": 262.99,
-    "image": "assets/products/A1b9orc-RML.jpg",
+    "price": 243.99,
+    "image": "assets/products/A1LqO64vwfL.webp",
     "gallery": [
-      "assets/products/A1b9orc-RML.jpg",
-      "assets/products/A18jbd9pqfL.jpg",
-      "assets/products/A1PSnUfyaoL.jpg"
+      "assets/products/A1LqO64vwfL.webp",
+      "assets/products/A1eYOAUQ+1L.webp",
+      "assets/products/918U+zyQHTL.webp"
     ],
     "query_images": [
-      "assets/products/A18jbd9pqfL.jpg",
-      "assets/products/A1PSnUfyaoL.jpg"
+      "assets/products/A1eYOAUQ+1L.webp",
+      "assets/products/918U+zyQHTL.webp"
     ]
   },
   {
-    "id": "B07HSN8783",
-    "name": "Amazon Brand – Stone & Beam Traditional Passionate Area Rug, 6' 7\" x 9' 6\", Navy",
+    "id": "B072PW7DXX",
+    "name": "Amazon Brand – Rivet Red Mosaic Multi-Print Wool Rug, 5' x 8', Red",
     "category": "Rugs",
     "product_type": "RUG",
-    "color": "Navy",
-    "brand": "Stone & Beam",
-    "price": 228.99,
-    "image": "assets/products/A18eFHkbVDL.jpg",
-    "gallery": [
-      "assets/products/A18eFHkbVDL.jpg",
-      "assets/products/A15xfpLeIRL.jpg",
-      "assets/products/A1iuyzBs2BL.jpg"
-    ],
-    "query_images": [
-      "assets/products/A15xfpLeIRL.jpg",
-      "assets/products/A1iuyzBs2BL.jpg"
-    ]
-  },
-  {
-    "id": "B07B4ZWMMJ",
-    "name": "Amazon Brand – Rivet Modern Geometric Area Rug, 5 x 8 Foot, Red, Beige",
-    "category": "Rugs",
-    "product_type": "RUG",
-    "color": "Red, Beige",
+    "color": "Red",
     "brand": "Rivet",
-    "price": 72.99,
-    "image": "assets/products/A11d+NWI9yL.jpg",
+    "price": 284.99,
+    "image": "assets/products/A1S74C8enKL.webp",
     "gallery": [
-      "assets/products/A11d+NWI9yL.jpg",
-      "assets/products/A1aO0bT+QNL.jpg",
-      "assets/products/81F-qJ+BRzL.jpg"
+      "assets/products/A1S74C8enKL.webp",
+      "assets/products/A1+U5OyVzzL.webp",
+      "assets/products/91FRX8eXIIL.webp"
     ],
     "query_images": [
-      "assets/products/A1aO0bT+QNL.jpg",
-      "assets/products/81F-qJ+BRzL.jpg"
+      "assets/products/A1+U5OyVzzL.webp",
+      "assets/products/91FRX8eXIIL.webp"
     ]
   },
   {
-    "id": "B07121ZVX4",
-    "name": "Amazon Brand – Stone & Beam Contemporary Textured Jute Area Rug, 5 x 7 Foot, Tan",
+    "id": "B0735SK5N7",
+    "name": "Amazon Brand – Rivet Geometric Criss-Cross Woven Wool Runner Rug, 2'6\" x 8' Cream",
     "category": "Rugs",
     "product_type": "RUG",
-    "color": "Tan",
-    "brand": "Stone & Beam",
-    "price": 127.99,
-    "image": "assets/products/A1ZNU5+r3LL.jpg",
+    "color": "",
+    "brand": "Rivet",
+    "price": 238.99,
+    "image": "assets/products/81JZKHJOm3L.webp",
     "gallery": [
-      "assets/products/A1ZNU5+r3LL.jpg",
-      "assets/products/A1nvxukqUYL.jpg",
-      "assets/products/91ybd7OBLHL.jpg"
+      "assets/products/81JZKHJOm3L.webp",
+      "assets/products/91LTvEIz-sL.webp",
+      "assets/products/A15wc2feIXL.webp"
     ],
     "query_images": [
-      "assets/products/A1nvxukqUYL.jpg",
-      "assets/products/91ybd7OBLHL.jpg"
+      "assets/products/91LTvEIz-sL.webp",
+      "assets/products/A15wc2feIXL.webp"
     ]
   },
   {
-    "id": "B07QGG3PZC",
-    "name": "Ravenna Home Vintage Rug, 6' x 9', Blue on Ivory",
-    "category": "Rugs",
-    "product_type": "RUG",
-    "color": "Ivory/Blue",
-    "brand": "Ravenna Home",
-    "price": 132.99,
-    "image": "assets/products/A1phuRF2vxL.jpg",
-    "gallery": [
-      "assets/products/A1phuRF2vxL.jpg",
-      "assets/products/910bFlm7g5L.jpg",
-      "assets/products/81HTWr0vHfL.jpg"
-    ],
-    "query_images": [
-      "assets/products/910bFlm7g5L.jpg",
-      "assets/products/81HTWr0vHfL.jpg"
-    ]
-  },
-  {
-    "id": "B0735S6CYM",
-    "name": "Amazon Brand – Stone & Beam Contemporary Striped Area Rug, 5 x 8 Foot, Neutral",
+    "id": "B07Q9TFWGL",
+    "name": "Amazon Basics Modern Plush Standard-Pile Shag Area Rug - 4x6 (3'11\" x 5'3\"), Beige",
     "category": "Rugs",
     "product_type": "RUG",
     "color": "Beige",
-    "brand": "Stone & Beam",
-    "price": 71.99,
-    "image": "assets/products/A106fFBgMRL.jpg",
+    "brand": "Amazon Basics",
+    "price": 40.99,
+    "image": "assets/products/91sGqq8UluL.webp",
     "gallery": [
-      "assets/products/A106fFBgMRL.jpg",
-      "assets/products/81qrOXUmmBL.jpg",
-      "assets/products/91sMYcxrfHL.jpg"
+      "assets/products/91sGqq8UluL.webp",
+      "assets/products/81JdY2YFEgL.webp",
+      "assets/products/91t+jvE9x5L.webp"
     ],
     "query_images": [
-      "assets/products/81qrOXUmmBL.jpg",
-      "assets/products/91sMYcxrfHL.jpg"
+      "assets/products/81JdY2YFEgL.webp",
+      "assets/products/91t+jvE9x5L.webp"
+    ]
+  },
+  {
+    "id": "B07B51T9VY",
+    "name": "Amazon Brand – Stone & Beam Casual Plaid Area Rug, 5 x 8 Foot, Flatweave, Beige, Brown, Orange",
+    "category": "Rugs",
+    "product_type": "RUG",
+    "color": "Beige, Brown, Orange",
+    "brand": "Stone & Beam",
+    "price": 244.99,
+    "image": "assets/products/91lMCi71YPL.webp",
+    "gallery": [
+      "assets/products/91lMCi71YPL.webp",
+      "assets/products/A1nDSN0JKQL.webp",
+      "assets/products/81lzhBtIKjL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1nDSN0JKQL.webp",
+      "assets/products/81lzhBtIKjL.webp"
+    ]
+  },
+  {
+    "id": "B071W2XLQJ",
+    "name": "Amazon Brand – Rivet Shaggy Short Rug, 5' x 8', Taupe",
+    "category": "Rugs",
+    "product_type": "RUG",
+    "color": "Taupe",
+    "brand": "Rivet",
+    "price": 369.99,
+    "image": "assets/products/A1oOiIVC0yL.webp",
+    "gallery": [
+      "assets/products/A1oOiIVC0yL.webp",
+      "assets/products/A10yjWgjSXL.webp",
+      "assets/products/A1z6dw3R6BL.webp"
+    ],
+    "query_images": [
+      "assets/products/A10yjWgjSXL.webp",
+      "assets/products/A1z6dw3R6BL.webp"
     ]
   },
   {
@@ -1600,206 +1355,223 @@
     "product_type": "RUG",
     "color": "Stone",
     "brand": "Rivet",
-    "price": 73.99,
-    "image": "assets/products/A15GKCAtZgL.jpg",
+    "price": 285.99,
+    "image": "assets/products/A15GKCAtZgL.webp",
     "gallery": [
-      "assets/products/A15GKCAtZgL.jpg",
-      "assets/products/A1VuO0LtpvL.jpg",
-      "assets/products/91EjaYAnXnL.jpg"
+      "assets/products/A15GKCAtZgL.webp",
+      "assets/products/A1VuO0LtpvL.webp",
+      "assets/products/91EjaYAnXnL.webp"
     ],
     "query_images": [
-      "assets/products/A1VuO0LtpvL.jpg",
-      "assets/products/91EjaYAnXnL.jpg"
+      "assets/products/A1VuO0LtpvL.webp",
+      "assets/products/91EjaYAnXnL.webp"
     ]
   },
   {
-    "id": "B07QGG3MS3",
-    "name": "Amazon Brand – Rivet Contemporary Handtufted Cotton-and-Wool Rug Runner with Geometric Feathered Pattern, 2'6\" x 8', Gold and Cream",
-    "category": "Rugs",
-    "product_type": "RUG",
-    "color": "Gold/Cream",
-    "brand": "Rivet",
-    "price": 337.99,
-    "image": "assets/products/A1vSwtWWHmL.jpg",
-    "gallery": [
-      "assets/products/A1vSwtWWHmL.jpg",
-      "assets/products/91u8B4-RhGL.jpg",
-      "assets/products/A1vtX82Q3GL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91u8B4-RhGL.jpg",
-      "assets/products/A1vtX82Q3GL.jpg"
-    ]
-  },
-  {
-    "id": "B07FFSKF4F",
-    "name": "AmazonBasics Under-Sink Storage Basket Organizer",
+    "id": "B08C2XWMD3",
+    "name": "(Renewed) Amazon Brand - Solimo U Steel Drying Rack",
     "category": "Storage",
-    "product_type": "BASKET",
-    "color": "",
-    "brand": "AmazonBasics",
-    "price": 34.99,
-    "image": "assets/products/71tb9zg7YKL.jpg",
-    "gallery": [
-      "assets/products/71tb9zg7YKL.jpg",
-      "assets/products/81SfbpZT-DL.jpg",
-      "assets/products/81xeUnEkQ0L.jpg"
-    ],
-    "query_images": [
-      "assets/products/81SfbpZT-DL.jpg",
-      "assets/products/81xeUnEkQ0L.jpg"
-    ]
-  },
-  {
-    "id": "B014VBHEFW",
-    "name": "AmazonBasics 4-Piece Packing Cube Set - Medium, Blue",
-    "category": "Storage",
-    "product_type": "STORAGE_BAG",
+    "product_type": "HOME_ORGANIZERS_AND_STORAGE",
     "color": "Blue",
-    "brand": "AmazonBasics",
-    "price": 63.99,
-    "image": "assets/products/917npUj8DRL.jpg",
+    "brand": "Amazon Brand - Solimo",
+    "price": 50.99,
+    "image": "assets/products/51KDO7jfWwL.webp",
     "gallery": [
-      "assets/products/917npUj8DRL.jpg",
-      "assets/products/A1ltNx6bp9L.jpg",
-      "assets/products/81jG+-nFOOL.jpg"
+      "assets/products/51KDO7jfWwL.webp",
+      "assets/products/71srKUZhQ-L.webp",
+      "assets/products/71jXY3uO1uL.webp"
     ],
     "query_images": [
-      "assets/products/A1ltNx6bp9L.jpg",
-      "assets/products/81jG+-nFOOL.jpg"
+      "assets/products/71srKUZhQ-L.webp",
+      "assets/products/71jXY3uO1uL.webp"
     ]
   },
   {
-    "id": "B07JHDJ44K",
-    "name": "AmazonBasics Medium Duty Storage/Filing Boxes with Lift-Off Lid - Legal Size, 12-Pack",
-    "category": "Storage",
-    "product_type": "STORAGE_BOX",
-    "color": "white",
-    "brand": "AmazonBasics",
-    "price": 48.99,
-    "image": "assets/products/716PokWAq5L.jpg",
-    "gallery": [
-      "assets/products/716PokWAq5L.jpg",
-      "assets/products/61OXYhESBQL.jpg",
-      "assets/products/61Iy1nyPzLL.jpg"
-    ],
-    "query_images": [
-      "assets/products/61OXYhESBQL.jpg",
-      "assets/products/61Iy1nyPzLL.jpg"
-    ]
-  },
-  {
-    "id": "B07XWJG33X",
-    "name": "Stone & Beam Modern Round Metal Wire Storage Basket with Faux Leather Handles - Pack of 2, Brown (Renewed)",
+    "id": "B07QGW987B",
+    "name": "AmazonBasics Fabric Storage Bin - Large Rectangle, Charcoal Grey",
     "category": "Storage",
     "product_type": "BASKET",
-    "color": "Brown",
-    "brand": "Stone & Beam",
-    "price": 50.99,
-    "image": "assets/products/81AjRzHxRZL.jpg",
+    "color": "Charcoal Grey",
+    "brand": "AmazonBasics",
+    "price": 39.99,
+    "image": "assets/products/817YDI4oNBL.webp",
     "gallery": [
-      "assets/products/81AjRzHxRZL.jpg",
-      "assets/products/81YAPquID7L.jpg",
-      "assets/products/81D2SIUQj1L.jpg"
+      "assets/products/817YDI4oNBL.webp",
+      "assets/products/31drD+UQibL.webp",
+      "assets/products/81my81YugEL.webp"
     ],
     "query_images": [
-      "assets/products/81YAPquID7L.jpg",
-      "assets/products/81D2SIUQj1L.jpg"
+      "assets/products/31drD+UQibL.webp",
+      "assets/products/81my81YugEL.webp"
     ]
   },
   {
-    "id": "B072JT7WFN",
-    "name": "AmazonBasics - Shelf for medium weight objects, solid poles, chipboard, 121 x 45 x 182 cm",
+    "id": "B07VWJ2C93",
+    "name": "AmazonBasics Large 26 Litre Insulated Foldable Shopping Bag Cooler with Aluminium Handles, Patchwork Design",
     "category": "Storage",
-    "product_type": "STORAGE_RACK",
-    "color": "Aluminium",
+    "product_type": "BASKET",
+    "color": "Patchwork Design",
+    "brand": "AmazonBasics",
+    "price": 26.99,
+    "image": "assets/products/91tOgMkrosL.webp",
+    "gallery": [
+      "assets/products/91tOgMkrosL.webp",
+      "assets/products/71tWA2rNtbL.webp",
+      "assets/products/A1aKXPCLzUL.webp"
+    ],
+    "query_images": [
+      "assets/products/71tWA2rNtbL.webp",
+      "assets/products/A1aKXPCLzUL.webp"
+    ]
+  },
+  {
+    "id": "B07SK3DB6K",
+    "name": "AmazonBasics Fabric 4-Drawer Storage Organizer Unit for Closet, Black",
+    "category": "Storage",
+    "product_type": "STORAGE_DRAWER",
+    "color": "Black",
     "brand": "AmazonBasics",
     "price": 45.99,
-    "image": "assets/products/61lehm5tN+L.jpg",
+    "image": "assets/products/A1wrvCJ2FcL.webp",
     "gallery": [
-      "assets/products/61lehm5tN+L.jpg",
-      "assets/products/816r8unFmvL.jpg",
-      "assets/products/81K3G9YDd1L.jpg"
+      "assets/products/A1wrvCJ2FcL.webp",
+      "assets/products/A1DbTg98C5L.webp",
+      "assets/products/813k1n+mpaL.webp"
     ],
     "query_images": [
-      "assets/products/816r8unFmvL.jpg",
-      "assets/products/81K3G9YDd1L.jpg"
+      "assets/products/A1DbTg98C5L.webp",
+      "assets/products/813k1n+mpaL.webp"
     ]
   },
   {
-    "id": "B07QFRD351",
-    "name": "AmazonBasics Fabric Storage Basket",
+    "id": "B07WDGZ25V",
+    "name": "Stone & Beam Rustic Acorn Shaped Stoneware Box, 4.25\" H, White and Clay (Renewed)",
+    "category": "Storage",
+    "product_type": "STORAGE_BOX",
+    "color": "White and Clay",
+    "brand": "Stone & Beam",
+    "price": 86.99,
+    "image": "assets/products/81M-ELp2TwL.webp",
+    "gallery": [
+      "assets/products/81M-ELp2TwL.webp",
+      "assets/products/81wvOwQPiHL.webp"
+    ],
+    "query_images": [
+      "assets/products/81wvOwQPiHL.webp"
+    ]
+  },
+  {
+    "id": "B07WNLT9GJ",
+    "name": "Eono by Amazon - Compression Packing Cubes, Travel Luggage Organiser Set, Travel Cubes, Extensible Organizer Bags for Travel Suitcase Organization, Black, 4 Set",
+    "category": "Storage",
+    "product_type": "STORAGE_BAG",
+    "color": "Set of 4, Black",
+    "brand": "Eono",
+    "price": 21.99,
+    "image": "assets/products/61lsx5Icg1L.webp",
+    "gallery": [
+      "assets/products/61lsx5Icg1L.webp",
+      "assets/products/61yIubVqKEL.webp",
+      "assets/products/81CF-GmtYWL.webp"
+    ],
+    "query_images": [
+      "assets/products/61yIubVqKEL.webp",
+      "assets/products/81CF-GmtYWL.webp"
+    ]
+  },
+  {
+    "id": "B07JGYYWY9",
+    "name": "Eono by Amazon - 8 Pcs Packing Cubes for Suitcase Lightweight Luggage Packing Organizers Packing Cubes for Travel Accessories, Black",
+    "category": "Storage",
+    "product_type": "STORAGE_BAG",
+    "color": "Black",
+    "brand": "Eono",
+    "price": 59.99,
+    "image": "assets/products/713PAZJ6QVL.webp",
+    "gallery": [
+      "assets/products/713PAZJ6QVL.webp",
+      "assets/products/71RJCeOVKNL.webp",
+      "assets/products/91l6PjlGfrL.webp"
+    ],
+    "query_images": [
+      "assets/products/71RJCeOVKNL.webp",
+      "assets/products/91l6PjlGfrL.webp"
+    ]
+  },
+  {
+    "id": "B07X1V9XP9",
+    "name": "Stone & Beam Organic-Shape Stoneware Round Decorative Organizer Box, 6.4 Inch Height, Blue and Gray (Renewed)",
+    "category": "Storage",
+    "product_type": "STORAGE_BOX",
+    "color": "Grey",
+    "brand": "Stone & Beam",
+    "price": 51.99,
+    "image": "assets/products/818SW47XWoL.webp",
+    "gallery": [
+      "assets/products/818SW47XWoL.webp",
+      "assets/products/91Trvl+1nJL.webp",
+      "assets/products/91ZAPH+vtWL.webp"
+    ],
+    "query_images": [
+      "assets/products/91Trvl+1nJL.webp",
+      "assets/products/91ZAPH+vtWL.webp"
+    ]
+  },
+  {
+    "id": "B01KBEP6D0",
+    "name": "AmazonBasics Moving Boxes - Large, 15-Pack",
+    "category": "Storage",
+    "product_type": "STORAGE_BOX",
+    "color": "",
+    "brand": "AmazonBasics",
+    "price": 16.99,
+    "image": "assets/products/91VyLFwZ4xL.webp",
+    "gallery": [
+      "assets/products/91VyLFwZ4xL.webp",
+      "assets/products/91uMfVEdoZL.webp",
+      "assets/products/31BvgeHDxNL.webp"
+    ],
+    "query_images": [
+      "assets/products/91uMfVEdoZL.webp",
+      "assets/products/31BvgeHDxNL.webp"
+    ]
+  },
+  {
+    "id": "B07QGW7LD6",
+    "name": "AmazonBasics Fabric Storage Bin - Tall Round, Charcoal Grey",
     "category": "Storage",
     "product_type": "BASKET",
-    "color": "duifblauw",
+    "color": "Charcoal Grey",
     "brand": "AmazonBasics",
-    "price": 12.99,
-    "image": "assets/products/71UaS1VVJSL.jpg",
+    "price": 28.99,
+    "image": "assets/products/91KMgSWLeKL.webp",
     "gallery": [
-      "assets/products/71UaS1VVJSL.jpg",
-      "assets/products/91Xr8oDvLXL.jpg",
-      "assets/products/31-+TOm+oZL.jpg"
+      "assets/products/91KMgSWLeKL.webp",
+      "assets/products/A1+SfGQiEaL.webp",
+      "assets/products/21QysQdW9pL.webp"
     ],
     "query_images": [
-      "assets/products/91Xr8oDvLXL.jpg",
-      "assets/products/31-+TOm+oZL.jpg"
+      "assets/products/A1+SfGQiEaL.webp",
+      "assets/products/21QysQdW9pL.webp"
     ]
   },
   {
-    "id": "B07W81PFD3",
-    "name": "AmazonBasics Wooden Jewelry/Watch Box with Glass Top - 2-Drawer Beige 1014199-656-A60",
-    "category": "Storage",
-    "product_type": "JEWELRY_STORAGE",
-    "color": "Walnut",
-    "brand": "AmazonBasics",
-    "price": 15.99,
-    "image": "assets/products/81LGJdYohSL.jpg",
-    "gallery": [
-      "assets/products/81LGJdYohSL.jpg",
-      "assets/products/819ivTGimPL.jpg",
-      "assets/products/813efYcETmL.jpg"
-    ],
-    "query_images": [
-      "assets/products/819ivTGimPL.jpg",
-      "assets/products/813efYcETmL.jpg"
-    ]
-  },
-  {
-    "id": "B07JFXBDDC",
-    "name": "AmazonBasics Heavy Duty Storage Box with Removable Lid (Pack of 12)",
+    "id": "B07B4VY11Z",
+    "name": "Amazon Brand – Stone & Beam Bishop Modern Wood King Bed, 79\"W, Weathered Oak",
     "category": "Storage",
     "product_type": "STORAGE_BOX",
-    "color": "White",
-    "brand": "AmazonBasics",
-    "price": 19.99,
-    "image": "assets/products/71+3URWLaRL.jpg",
+    "color": "Weathered Oak",
+    "brand": "Stone & Beam",
+    "price": 30.99,
+    "image": "assets/products/81j1xWw5xgL.webp",
     "gallery": [
-      "assets/products/71+3URWLaRL.jpg",
-      "assets/products/71dPeHsFdHL.jpg",
-      "assets/products/61qK-rb9B0L.jpg"
+      "assets/products/81j1xWw5xgL.webp",
+      "assets/products/810FBHUy4ML.webp",
+      "assets/products/A1ZlnFrWdhL.webp"
     ],
     "query_images": [
-      "assets/products/71dPeHsFdHL.jpg",
-      "assets/products/61qK-rb9B0L.jpg"
-    ]
-  },
-  {
-    "id": "B07VG7FHC3",
-    "name": "AmazonBasics Medium Duty Storage/Filing Boxes with String & Button Closure - Letter Size, 12-Pack (Renewed)",
-    "category": "Storage",
-    "product_type": "STORAGE_BOX",
-    "color": "White",
-    "brand": "AmazonBasics",
-    "price": 74.99,
-    "image": "assets/products/71JxOvQQA6L.jpg",
-    "gallery": [
-      "assets/products/71JxOvQQA6L.jpg",
-      "assets/products/81hYloAU4rL.jpg",
-      "assets/products/61adx0YjrfL.jpg"
-    ],
-    "query_images": [
-      "assets/products/81hYloAU4rL.jpg",
-      "assets/products/61adx0YjrfL.jpg"
+      "assets/products/810FBHUy4ML.webp",
+      "assets/products/A1ZlnFrWdhL.webp"
     ]
   },
   {
@@ -1809,92 +1581,318 @@
     "product_type": "STORAGE_BOX",
     "color": "Silver",
     "brand": "Stone & Beam",
-    "price": 65.99,
-    "image": "assets/products/81Sg2g3mvfL.jpg",
+    "price": 16.99,
+    "image": "assets/products/81Sg2g3mvfL.webp",
     "gallery": [
-      "assets/products/81Sg2g3mvfL.jpg",
-      "assets/products/91tMlLTEYeL.jpg",
-      "assets/products/A1WubzD2fPL.jpg"
+      "assets/products/81Sg2g3mvfL.webp",
+      "assets/products/91tMlLTEYeL.webp",
+      "assets/products/A1WubzD2fPL.webp"
     ],
     "query_images": [
-      "assets/products/91tMlLTEYeL.jpg",
-      "assets/products/A1WubzD2fPL.jpg"
+      "assets/products/91tMlLTEYeL.webp",
+      "assets/products/A1WubzD2fPL.webp"
     ]
   },
   {
-    "id": "B07QNWSRPQ",
-    "name": "Amazon Brand - Solimo Quilted Jewellery Kit, Blue",
-    "category": "Storage",
-    "product_type": "JEWELRY_STORAGE",
-    "color": "Blue",
-    "brand": "Amazon Brand - Solimo",
-    "price": 86.99,
-    "image": "assets/products/91W5bZeer2L.jpg",
-    "gallery": [
-      "assets/products/91W5bZeer2L.jpg",
-      "assets/products/91JYStcs5qL.jpg",
-      "assets/products/9101mjrliYL.jpg"
-    ],
-    "query_images": [
-      "assets/products/91JYStcs5qL.jpg",
-      "assets/products/9101mjrliYL.jpg"
-    ]
-  },
-  {
-    "id": "B014VBH29U",
-    "name": "Doppelte zips for easy and quick opening and closing",
-    "category": "Storage",
-    "product_type": "STORAGE_BAG",
-    "color": "rood",
-    "brand": "AmazonBasics",
-    "price": 64.99,
-    "image": "assets/products/81q8a4skSbL.jpg",
-    "gallery": [
-      "assets/products/81q8a4skSbL.jpg",
-      "assets/products/91RadY07eML.jpg",
-      "assets/products/A1i55d2B99L.jpg"
-    ],
-    "query_images": [
-      "assets/products/91RadY07eML.jpg",
-      "assets/products/A1i55d2B99L.jpg"
-    ]
-  },
-  {
-    "id": "B07FQDVPJ5",
-    "name": "Amazon Brand - Solimo 4 Piece Fabric Storage Organiser,Beige",
-    "category": "Storage",
-    "product_type": "STORAGE_DRAWER",
-    "color": "Beige",
-    "brand": "Amazon Brand - Solimo",
-    "price": 27.99,
-    "image": "assets/products/91-uvcvYSjL.jpg",
-    "gallery": [
-      "assets/products/91-uvcvYSjL.jpg",
-      "assets/products/91ssPGW--gL.jpg",
-      "assets/products/710zUd3W41L.jpg"
-    ],
-    "query_images": [
-      "assets/products/91ssPGW--gL.jpg",
-      "assets/products/710zUd3W41L.jpg"
-    ]
-  },
-  {
-    "id": "B07B4W2MFG",
-    "name": "Amazon Brand – Stone & Beam Bishop Modern Wood Underbed Storage, 81.5\"W, Weathered Oak",
+    "id": "B077RSN3TB",
+    "name": "AmazonBasics Set of 3 Clip Boxes - 3 x 0.25 l",
     "category": "Storage",
     "product_type": "STORAGE_BOX",
-    "color": "Weathered Oak",
-    "brand": "Stone & Beam",
-    "price": 56.99,
-    "image": "assets/products/81aAoveM0+L.jpg",
+    "color": "",
+    "brand": "AmazonBasics",
+    "price": 16.99,
+    "image": "assets/products/51G4QeM8NlL.webp",
     "gallery": [
-      "assets/products/81aAoveM0+L.jpg",
-      "assets/products/91PivsSL-KL.jpg",
-      "assets/products/81WClhwOSnL.jpg"
+      "assets/products/51G4QeM8NlL.webp",
+      "assets/products/21uZeXTmmcL.webp",
+      "assets/products/61PjypGp1OL.webp"
     ],
     "query_images": [
-      "assets/products/91PivsSL-KL.jpg",
-      "assets/products/81WClhwOSnL.jpg"
+      "assets/products/21uZeXTmmcL.webp",
+      "assets/products/61PjypGp1OL.webp"
+    ]
+  },
+  {
+    "id": "B07D8TV1S1",
+    "name": "Packing cube, travel clothes bag set, suitcase organiser travel cube, luggage organiser, packing bags set hand luggage, packing cube clothes bags, organising system",
+    "category": "Storage",
+    "product_type": "STORAGE_BAG",
+    "color": "6 Pcs-dunkelblau",
+    "brand": "Eono",
+    "price": 75.99,
+    "image": "assets/products/71G9oOd08iL.webp",
+    "gallery": [
+      "assets/products/71G9oOd08iL.webp",
+      "assets/products/9102JpxitYL.webp",
+      "assets/products/71dph6XnMCL.webp"
+    ],
+    "query_images": [
+      "assets/products/9102JpxitYL.webp",
+      "assets/products/71dph6XnMCL.webp"
+    ]
+  },
+  {
+    "id": "B07JQX8PSC",
+    "name": "Amazon Basics Tufted Outdoor High Back Patio Chair Cushion- Red Stripe",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Red Stripe",
+    "brand": "Amazon Basics",
+    "price": 59.99,
+    "image": "assets/products/A10kEAX8MTL.webp",
+    "gallery": [
+      "assets/products/A10kEAX8MTL.webp",
+      "assets/products/91re8ELE27L.webp",
+      "assets/products/913Db+wopdL.webp"
+    ],
+    "query_images": [
+      "assets/products/91re8ELE27L.webp",
+      "assets/products/913Db+wopdL.webp"
+    ]
+  },
+  {
+    "id": "B07C3X477N",
+    "name": "AmazonBasics Ultra-Soft Flat Sheet - Breathable, Easy to Wash - Queen, Dove Grey",
+    "category": "Textiles",
+    "product_type": "FLAT_SHEET",
+    "color": "Dove Grey",
+    "brand": "AmazonBasics",
+    "price": 111.99,
+    "image": "assets/products/715FzT5jxRL.webp",
+    "gallery": [
+      "assets/products/715FzT5jxRL.webp",
+      "assets/products/81g-Lkl7yHL.webp",
+      "assets/products/810LY-+7caL.webp"
+    ],
+    "query_images": [
+      "assets/products/81g-Lkl7yHL.webp",
+      "assets/products/810LY-+7caL.webp"
+    ]
+  },
+  {
+    "id": "B07DBF3TWR",
+    "name": "Amazon Brand – Ravenna Home Darian Oversized Pillow Sofa, 92\"W, Cream",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Cream",
+    "brand": "Ravenna Home",
+    "price": 85.99,
+    "image": "assets/products/811mRNtELXL.webp",
+    "gallery": [
+      "assets/products/811mRNtELXL.webp",
+      "assets/products/818VghjLIuL.webp",
+      "assets/products/81UcVraHiSL.webp"
+    ],
+    "query_images": [
+      "assets/products/818VghjLIuL.webp",
+      "assets/products/81UcVraHiSL.webp"
+    ]
+  },
+  {
+    "id": "B07HSGP5PS",
+    "name": "Amazon Brand – Rivet Contemporary Fir Decorative Blanket Ladder with Iron Rungs - 71.65\"H, Black and Natural Wood",
+    "category": "Textiles",
+    "product_type": "BLANKET",
+    "color": "",
+    "brand": "Rivet",
+    "price": 89.99,
+    "image": "assets/products/71JAHF5tLGL.webp",
+    "gallery": [
+      "assets/products/71JAHF5tLGL.webp",
+      "assets/products/91hL08oU-rL.webp",
+      "assets/products/91E2+1H6pPL.webp"
+    ],
+    "query_images": [
+      "assets/products/91hL08oU-rL.webp",
+      "assets/products/91E2+1H6pPL.webp"
+    ]
+  },
+  {
+    "id": "B074VLPC2B",
+    "name": "Amazon Brand – Stone & Beam Striated Velvet Linen-Look Decorative Throw Pillow, 17\" x 17\", Henna",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Henna",
+    "brand": "Stone & Beam",
+    "price": 80.99,
+    "image": "assets/products/A1sMl1fQ4rL.webp",
+    "gallery": [
+      "assets/products/A1sMl1fQ4rL.webp",
+      "assets/products/91Zonlxsx1L.webp",
+      "assets/products/A1B0oiSEOYL.webp"
+    ],
+    "query_images": [
+      "assets/products/91Zonlxsx1L.webp",
+      "assets/products/A1B0oiSEOYL.webp"
+    ]
+  },
+  {
+    "id": "B07MBFDS2R",
+    "name": "Amazon Brand – Ravenna Home Casual Striped Throw Pillow - 17 x 17 Inch, Navy",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Navy",
+    "brand": "Ravenna Home",
+    "price": 19.99,
+    "image": "assets/products/A1ZVTinnQJL.webp",
+    "gallery": [
+      "assets/products/A1ZVTinnQJL.webp",
+      "assets/products/A1tmJiSRwnL.webp",
+      "assets/products/81N4ShM6XeL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1tmJiSRwnL.webp",
+      "assets/products/81N4ShM6XeL.webp"
+    ]
+  },
+  {
+    "id": "B07PLSY9XP",
+    "name": "AmazonBasics Super-Soft Cotton Sheet Set - Queen, Grey Grid",
+    "category": "Textiles",
+    "product_type": "FLAT_SHEET",
+    "color": "Grey Grid",
+    "brand": "AmazonBasics",
+    "price": 24.99,
+    "image": "assets/products/919njvGMeaL.webp",
+    "gallery": [
+      "assets/products/919njvGMeaL.webp",
+      "assets/products/71398NzcJBL.webp",
+      "assets/products/81FuFfU7MVL.webp"
+    ],
+    "query_images": [
+      "assets/products/71398NzcJBL.webp",
+      "assets/products/81FuFfU7MVL.webp"
+    ]
+  },
+  {
+    "id": "B000RH1IH0",
+    "name": "Pinzon 400-Thread-Count 100% Cotton Sateen Hotel Satin Stitch Full/Queen Duvet, Sage",
+    "category": "Textiles",
+    "product_type": "FLAT_SHEET",
+    "color": "Sage",
+    "brand": "Pinzon",
+    "price": 32.99,
+    "image": "assets/products/81v2765EgxS.webp",
+    "gallery": [
+      "assets/products/81v2765EgxS.webp",
+      "assets/products/91dXdm5W5+S.webp"
+    ],
+    "query_images": [
+      "assets/products/91dXdm5W5+S.webp"
+    ]
+  },
+  {
+    "id": "B07C3HTZW7",
+    "name": "AmazonBasics Ultra-Soft Cotton Fitted Bed Sheet, Breathable, Easy to Wash, Twin, Graphite Grey",
+    "category": "Textiles",
+    "product_type": "FLAT_SHEET",
+    "color": "Graphite",
+    "brand": "AmazonBasics",
+    "price": 132.99,
+    "image": "assets/products/712PReOD2ML.webp",
+    "gallery": [
+      "assets/products/712PReOD2ML.webp",
+      "assets/products/71dI-c64iEL.webp",
+      "assets/products/816sUqL84UL.webp"
+    ],
+    "query_images": [
+      "assets/products/71dI-c64iEL.webp",
+      "assets/products/816sUqL84UL.webp"
+    ]
+  },
+  {
+    "id": "B07JXDPKBQ",
+    "name": "Amazon Brand – Stone & Beam Casual Tassel Throw Pillow - 17 x 17 Inch, Twine",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Twine",
+    "brand": "Stone & Beam",
+    "price": 115.99,
+    "image": "assets/products/91S9bh2e0iL.webp",
+    "gallery": [
+      "assets/products/91S9bh2e0iL.webp",
+      "assets/products/91Kx6wjaMZL.webp",
+      "assets/products/91gVheajwYL.webp"
+    ],
+    "query_images": [
+      "assets/products/91Kx6wjaMZL.webp",
+      "assets/products/91gVheajwYL.webp"
+    ]
+  },
+  {
+    "id": "B074VLRP92",
+    "name": "Amazon Brand – Stone & Beam French Laundry Stripe Decorative Throw Pillow, 12\" x 24\", Tan",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Tan",
+    "brand": "Stone & Beam",
+    "price": 153.99,
+    "image": "assets/products/A10GGs7+QtL.webp",
+    "gallery": [
+      "assets/products/A10GGs7+QtL.webp",
+      "assets/products/91Uf6W7lchL.webp",
+      "assets/products/91jwfVuGycL.webp"
+    ],
+    "query_images": [
+      "assets/products/91Uf6W7lchL.webp",
+      "assets/products/91jwfVuGycL.webp"
+    ]
+  },
+  {
+    "id": "B07KZ8JKNK",
+    "name": "AmazonBasics Premium Microfibre Flat Sheet - 180 x 260 cm, Light Grey",
+    "category": "Textiles",
+    "product_type": "FLAT_SHEET",
+    "color": "Light Grey",
+    "brand": "AmazonBasics",
+    "price": 114.99,
+    "image": "assets/products/617UNVKE3dL.webp",
+    "gallery": [
+      "assets/products/617UNVKE3dL.webp",
+      "assets/products/71bQDkyaxgL.webp",
+      "assets/products/71Gj1b3cV2L.webp"
+    ],
+    "query_images": [
+      "assets/products/71bQDkyaxgL.webp",
+      "assets/products/71Gj1b3cV2L.webp"
+    ]
+  },
+  {
+    "id": "B07JPGP3XN",
+    "name": "Amazon Basics Tufted Outdoor Lounger Patio Cushion - Blue",
+    "category": "Textiles",
+    "product_type": "PILLOW",
+    "color": "Blue",
+    "brand": "Amazon Basics",
+    "price": 47.99,
+    "image": "assets/products/81qjKFNCHmL.webp",
+    "gallery": [
+      "assets/products/81qjKFNCHmL.webp",
+      "assets/products/A1t5kDK-7eL.webp",
+      "assets/products/91FI21EZUAL.webp"
+    ],
+    "query_images": [
+      "assets/products/A1t5kDK-7eL.webp",
+      "assets/products/91FI21EZUAL.webp"
+    ]
+  },
+  {
+    "id": "B01DT37YEY",
+    "name": "AmazonBasics Microfiber Flat Sheet, Double - Grey Stripe",
+    "category": "Textiles",
+    "product_type": "FLAT_SHEET",
+    "color": "Grey Stripe",
+    "brand": "AmazonBasics",
+    "price": 98.99,
+    "image": "assets/products/71RVjY24xKL.webp",
+    "gallery": [
+      "assets/products/71RVjY24xKL.webp",
+      "assets/products/912TjiLN0DL.webp",
+      "assets/products/61fRhwfIoJL.webp"
+    ],
+    "query_images": [
+      "assets/products/912TjiLN0DL.webp",
+      "assets/products/61fRhwfIoJL.webp"
     ]
   }
 ]

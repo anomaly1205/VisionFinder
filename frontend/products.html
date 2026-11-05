@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop All Products · VisionFinder Home</title>
+  <meta name="description" content="Browse furniture, lighting, rugs and decor.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='20' fill='%23fff' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Gilda+Display&family=Jost:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/products.js"></script>
+</head>
+<body>
+  <header class="site-header"></header>
+  <main class="wrap page">
+    <div id="crumbs"></div>
+    <div class="page-head">
+      <div>
+        <h1 id="list-title">All Products</h1>
+        <p class="page-count" id="list-count" aria-live="polite"></p>
+      </div>
+      <a class="btn btn-outline" href="search.html" id="photo-btn"></a>
+    </div>
+    <form class="filters" id="filters" aria-label="Filter products">
+      <label>Category <select name="category" id="f-category"></select></label>
+      <label>Color <select name="color" id="f-color"></select></label>
+      <label>Sort <select name="sort" id="f-sort">
+        <option value="">Featured</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+        <option value="name">Name: A to Z</option>
+      </select></label>
+      <p class="active-sub" id="active-sub" hidden></p>
+    </form>
+    <div class="grid-4" id="list-grid"></div>
+    <div class="empty" id="list-empty" hidden></div>
+    <div class="load-more"><button class="btn btn-outline" type="button" id="load-more" hidden>Load more</button></div>
+  </main>
+  <footer class="site-footer"></footer>
+</body>
+</html>

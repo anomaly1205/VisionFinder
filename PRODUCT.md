@@ -38,7 +38,7 @@ Presents as a real shop; AI visual search is the headline feature, reachable fro
 ## Brand Commitments
 
 - Name: VisionFinder Home.
-- User-pinned direction: Nordic minimal (white, warm greys, generous whitespace, compact sans).
+- User-pinned direction: editorial home-decor marketplace in the manner of chairish.com, style and layout only (see Style Reference). Nordic minimal was tried and rejected on 2026-11-06.
 - Footer attribution required: "Product data © Amazon.com, Amazon Berkeley Objects (CC BY 4.0). Prices are for demo only."
 
 ## Evidence on Hand
@@ -52,3 +52,16 @@ Presents as a real shop; AI visual search is the headline feature, reachable fro
 2. Show confidence honestly: scores, latency, and a refusal when unsure.
 3. The product photo is the hero; the interface recedes.
 4. Never fake data: label demo mode and demo prices.
+
+## Style Reference (learned from chairish.com, 2026-11-06)
+
+Layout and style only; no logo, names, images or copy taken. Measured via computed styles:
+
+- Fonts: serif for display and main nav (moderno-fb, 400), light geometric sans for UI/body (europa, 300). Substitutes here: Gilda Display (serif) + Jost (sans).
+- Color: white ground #fff, ink #111, muted #757575, hairline #ebebeb, search field #fafafa, sale red #cc4639, cool blue accent #2e5167. Footer is solid #111 with white text. Top promo bar black, 30px.
+- Type scale: body 14/21 w300, letter-spacing 0.01em. Nav serif 14px, ls 0.03–0.04em. Mega menu 12px. Hero heading serif 44/48 w400. Section headings serif ~30px.
+- Buttons: square (radius 0), black fill, white 12px w600 uppercase, ls 0.16em, height 44px.
+- Search: wide pill field in header, 475px+, radius 18px, bg #fafafa, 1px #ebebeb border.
+- Product card: white tile, square image showing the whole object, outline heart top-right, title 14px w400, price 14px w600, no borders or shadows.
+- Footer: multi-column, headings 12px uppercase w600 ls 0.16em, links 12px w300.
+- Structure: promo bar, header (logo left, search center, icons right), serif nav row with mega menus, editorial hero carousel (image left, serif headline + copy + button right), product rows, category tiles.
