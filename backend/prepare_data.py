@@ -33,11 +33,11 @@ CATEGORY = {
     "Storage": ["STORAGE_BOX", "BASKET", "STORAGE_BAG", "STORAGE_RACK", "STORAGE_DRAWER",
                 "HOME_ORGANIZERS_AND_STORAGE", "JEWELRY_STORAGE"],
     "Plants": ["PLANTER", "ARTIFICIAL_PLANT", "ARTIFICIAL_TREE"],
-    "Bedding": ["PILLOW", "FLAT_SHEET", "BLANKET"],
+    "Textiles": ["PILLOW", "FLAT_SHEET", "BLANKET"],
 }
 TYPE2CAT = {t: c for c, ts in CATEGORY.items() for t in ts}
 PRICE = {"Furniture": (80, 900), "Lighting": (20, 250), "Rugs": (40, 400), "Decor": (10, 150),
-         "Storage": (10, 90), "Plants": (15, 120), "Bedding": (15, 160)}
+         "Storage": (10, 90), "Plants": (15, 120), "Textiles": (15, 160)}
 
 
 def en_value(field):
