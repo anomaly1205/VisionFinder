@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/home.css">
+  <link rel="stylesheet" href="/CSS/product-cards.css">
+  <link rel="stylesheet" href="/CSS/shoppingcart.css">
+  <link rel="stylesheet" href="/CSS/mini-cart.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/slick/slick.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+  <script defer src="/javascript/navbar-dropdown.js"></script>
+</head>
+
+<body id="top">
+  <!--Phần TOPBAR-->
+  <header class="topbar">
+    <div class="topbar-left">
+      <a href="#">INTRODUCE</a>
+      <a href="#">84RISING*</a>
+      <a href="#">COOLXPRINT</a>
+    </div>
+    <div class="topbar-right">
+      <a href="#">CoolClub <i class="fa-solid fa-star"></i></a>
+      <a href="#">Blog</a>
+      <a href="#">Customer Support Center</a>
+      <a href="Login.html">Sign In</a>
+    </div>
+  </header>
+  <!------------------------------------------------------------------------>
+
+  <!--Phần NAVBAR-->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="/home.html">
+        <img src="/Image/Logo/LOGO2.png" alt="Craftora Logo">
+      </a>
+    </div>
+
+    <div class="navbar-center">
+      <ul class="nav-links">
+        <li class="has-dropdown">
+          <a href="/product.html" style="font-weight: lighter;">PRODUCTS</a>
+          <div class="mega-menu mega-menu-products">
+            <div class="mega-row top">
+              <div class="mega-column">
+                <h4>Products</h4>
+              </div>
+              <div class="mega-column">
+                <h4>Storage & Baskets</h4>
+                <a href="#">Baskets & Bins</a>
+                <a href="#">Collapsible Baskets</a>
+                <a href="#">Laundry Hampers</a>
+              </div>
+              <div class="mega-column">
+                <h4>Furniture</h4>
+                <a href="#">Ottomans & stools</a>
+                <a href="#">Coffee Tables</a>
+                <a href="#">Side Tables</a>
+              </div>
+              <div class="mega-column">
+                <h4>Rugs</h4>
+                <a href="#">Area Rugs</a>
+                <a href="#">Doormats</a>
+                <a href="#">Round Rugs</a>
+                <a href="#">Runners</a>
+              </div>
+              <div class="mega-column">
+                <h4>Home decor</h4>
+                <a href="#">Decorative Trays</a>
+                <a href="#">Desk Organizer</a>
+                <a href="#">Wall Décor</a>
+                <a href="#">Wall mirrors</a>
+              </div>
+              <div class="mega-column">
+                <h4>Kitchen & Dining</h4>
+                <a href="#">Napkin rings</a>
+                <a href="#">Organization & Food Storage</a>
+                <a href="#">Placemats</a>
+                <a href="#">Seagrass Tumbler</a>
+              </div>
+            </div>
+            <div class="mega-row bottom">
+              <div class="mega-column">
+                <h4></h4>
+              </div>
+              <div class="mega-column">
+                <h4>Woven planters</h4>
+                <a href="#">Hanging planters</a>
+                <a href="#">Indoor Planters</a>
+                <a href="#">Outdoor Planter</a>
+              </div>
+              <div class="mega-column">
+                <h4>Lighting</h4>
+                <a href="#">Lampshades</a>
+                <a href="#">Lanterns</a>
+                <a href="#">Table lamps</a>
+              </div>
+              <div class="mega-column">
+                <h4>Handbags</h4>
+                <a href="#">Beach straw bags</a>
+                <a href="#">Fashion Handbags</a>
+                <a href="#">Shopping bags</a>
+              </div>
+              <div class="mega-column">
+                <h4>Pet supplies</h4>
+                <a href="#">Pet houses and beds</a>
+                <a href="#">Pet toys and accessories</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="/lookbook.html" style="font-weight: lighter;">LOOKBOOKS</a>
+        </li>
+        <li class="has-dropdown">
+          <a href="/story.html" style="font-weight: lighter;">STORY</a>
+          <div class="mega-menu mega-menu-story">
+            <div class="mega-column">
+              <a href="/story.html#company">Company</a>
+              <a href="/story.html#founder">Founder</a>
+              <a href="/story.html#craftsmanship">Craftsmanship</a>
+              <a href="/story.html#sustainability">Sustainability</a>
+              <a href="/story.html#trade-shows">Trade Shows</a>
+              <a href="/story.html#team">Team</a>
+            </div>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <a href="#" style="font-weight: lighter;">CONTACT</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-icons">
+      <div class="search">
+        <input type="text" placeholder="Search products...">
+        <i class="fa fa-search"></i>
+      </div>
+      <a href="Login.html" class="fa fa-user" style="color: black;"></a>
+
+      <div class="cart-container" >
+        <div class="cart">
+          <a href="shoppingcart.html"><i class="fa fa-shopping-bag"></i></a>
+          <span class="badge" id="cart-count">0</span>
+        </div>
+        <div class="mini-cart" id="mini-cart">
+          <div id="mini-cart-content"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+<div class="checkout-container">
+    <div class="left-column">
+      <section class="shipping-section">
+        <h2 class="section-title">Shipping Information</h2>
+        <form class="shipping-form vi">
+          <div class="grid-2">
+            <div class="form-field">
+              <label>Full Name</label>
+              <div class="name-combo" data-component="prefix-combo">
+                <button type="button" class="prefix-button" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="selected">Mr/Ms</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <ul class="prefix-options" role="listbox" aria-label="Salutation">
+                  <li role="option" data-value="Mr">Mr</li>
+                  <li role="option" data-value="Ms">Ms</li>
+                  <li role="option" data-value="Prefer not to say">Prefer not to say</li>
+                </ul>
+                <input type="text" class="input-pill" placeholder="Enter your full name" aria-label="Full name">
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Phone Number</label>
+              <input type="tel" class="input-pill" placeholder="Enter your phone number" aria-label="Phone number">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" class="input-pill" placeholder="Enter your email" aria-label="Email">
+          </div>
+
+          <div class="form-field">
+            <label>Address</label>
+            <input type="text" class="input-pill" placeholder="Enter your address" aria-label="Address">
+          </div>
+
+          <div class="form-field">
+            <label>Select City/Province</label>
+            <select class="input-pill select-pill" aria-label="City/Province">
+              <option value="" selected disabled>Select city/province</option>
+              <option>Hanoi</option>
+              <option>Ho Chi Minh City</option>
+              <option>Da Nang</option>
+              <option>Hai Phong</option>
+              <option>Can Tho</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Notes</label>
+            <input type="text" class="input-pill" placeholder="Enter notes (optional)" aria-label="Notes">
+          </div>
+
+          <!-- Toggle: Other recipient -->
+          <div class="toggle-block">
+            <label class="toggle-header" for="other-recipient-toggle">
+              <input type="checkbox" id="other-recipient-toggle"> Deliver to someone else (if needed)
+            </label>
+            <div class="toggle-panel recipient-panel">
+              <div class="gender-toggle">
+                <label class="radio-pill"><input type="radio" name="recipient_gender" value="male" checked> <span>Male</span></label>
+                <label class="radio-pill"><input type="radio" name="recipient_gender" value="female"> <span>Female</span></label>
+              </div>
+              <div class="grid-2">
+                <input type="text" class="input-pill" placeholder="Recipient full name" aria-label="Recipient full name">
+                <input type="tel" class="input-pill" placeholder="Recipient phone number" aria-label="Recipient phone number">
+              </div>
+            </div>
+          </div>
+
+          <!-- Toggle: VAT invoice -->
+          <div class="toggle-block">
+            <label class="toggle-header" for="vat-toggle">
+              <input type="checkbox" id="vat-toggle"> Issue VAT invoice <i class="fa-regular fa-circle-question" title="Craftora will issue a business invoice within 1 working day after successful delivery. Please verify your information; after this time, changes may not be supported."></i>
+            </label>
+            <div class="toggle-panel vat-panel">
+              <div class="grid-2">
+                <input type="text" class="input-pill" placeholder="Company name" aria-label="Company name">
+                <input type="text" class="input-pill" placeholder="Tax ID" aria-label="Tax ID">
+                <input type="text" class="input-pill" placeholder="Company address" aria-label="Company address">
+                <input type="email" class="input-pill" placeholder="Company email" aria-label="Company email">
+              </div>
+              <div class="vat-notes">
+                <p class="note-title">Important notes:</p>
+                <ul class="note-list">
+                  <li>Invoices are automatically issued after successful delivery, based on order information.</li>
+                  <li>Please provide accurate tax registration details (Company name, Tax ID, Address) when placing the order.</li>
+                  <li><strong>Important:</strong> Invoices are issued once only. If information is missing, a retail invoice will be issued and cannot be reissued.</li>
+                  <li>Please double-check information before payment to ensure your rights.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <h3>Payment Method</h3>
+      <div class="payment-methods">
+        <div class="payment-grid">
+          <label class="payment-card selected" data-method="COD">
+            <input type="radio" name="method" value="COD" checked>
+            <span class="icon"><i class="fa fa-truck"></i></span>
+            <span class="name">Cash on Delivery</span>
+          </label>
+          <label class="payment-card" data-method="ZALOPAY">
+            <input type="radio" name="method" value="ZALOPAY">
+            <span class="icon"><img src="/Image/Logo/ZALO.png" width="20" alt="ZaloPay"></span>
+            <span class="name">ZaloPay</span>
+          </label>
+          <label class="payment-card" data-method="APPLEPAY">
+            <input type="radio" name="method" value="APPLEPAY">
+            <span class="icon"><i class="fa-brands fa-apple"></i></span>
+            <span class="name">Apple Pay</span>
+          </label>
+          <label class="payment-card" data-method="MOMO">
+            <input type="radio" name="method" value="MOMO">
+            <span class="icon"><img src="/Image/Logo/MOMO.webp" width="20" alt="MoMo"></span>
+            <span class="name">MoMo</span>
+          </label>
+          <label class="payment-card" data-method="VNPAY">
+            <input type="radio" name="method" value="VNPAY">
+            <span class="icon"><img src="/Image/Logo/VNPAY.webp" width="20" alt="VNPAY"></span>
+            <span class="name">VNPAY</span>
+          </label>
+          <label class="payment-card" data-method="VNPAY">
+            <input type="radio" name="method" value="VNPAY">
+            <span class="icon"><img src="/Image/Logo/VNPAY.webp" width="20" alt="VNPAY"></span>
+            <span class="name">VNPAY</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div id="cart-summary-container">
+        <p><strong>Your Cart:</strong></p>
+        <div id="checkout-cart-items"></div>
+      </div>
+
+      <div class="voucher-section">
+        <input type="text" id="voucher-code" placeholder="Enter voucher code">
+        <button id="apply-voucher-btn">APPLY</button>
+      </div>
+
+      <div class="total-section">
+        <p>Subtotal: <span id="subtotal">0$</span></p>
+        <p>Discount: <span id="discount">0$</span></p>
+        <p><strong>Total: <span id="total">0$</span></strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLACE ORDER bar -->
+  <div class="fixed-order-bar">
+    <div class="method-summary">
+      <i class="fa fa-truck"></i> Cash on Delivery
+      <span class="divider">|</span>
+      <i class="fa fa-percent"></i> Voucher
+    </div>
+    <div class="order-button">
+      <strong id="total-bottom">0$</strong>
+      <button id="place-order-btn">PLACE ORDER</button>
+    </div>
+  </div>
+ <!----------------------------------JavaScript------------------------------------->
+ 
+  <script src="/javascript/giohang.js"></script>
+  <script src="/javascript/checkout.js"></script>
+  
+  <script>
+    // Initialize shopping cart system for checkout page
+    let shoppingCart;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize shopping cart first
+      shoppingCart = new ShoppingCart();
+      
+      // Then initialize checkout manager
+      if (typeof CheckoutManager !== 'undefined') {
+        window.checkoutManager = new CheckoutManager();
+      }
+    });
+  </script>
+
+ <!----------------------------------JavaScript------------------------------------->
+
+<!-- Toast thông báo -->
+<div id="toast" class="toast">Product added to cart successfully!</div>
+
+</body>
+</html>

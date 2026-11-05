@@ -1,0 +1,472 @@
+- generic [active] [ref=f6e1]:
+  - banner [ref=f6e2]:
+    - generic [ref=f6e3]:
+      - link "INTRODUCE" [ref=f6e4] [cursor=pointer]:
+        - /url: "#"
+      - link "84RISING*" [ref=f6e5] [cursor=pointer]:
+        - /url: "#"
+      - link "COOLXPRINT" [ref=f6e6] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f6e7]:
+      - link "CoolClub " [ref=f6e8] [cursor=pointer]:
+        - /url: "#"
+        - text: CoolClub
+        - generic [ref=f6e9]: 
+      - link "Blog" [ref=f6e10] [cursor=pointer]:
+        - /url: "#"
+      - link "Customer Support Center" [ref=f6e11] [cursor=pointer]:
+        - /url: "#"
+      - link "Sign In" [ref=f6e12] [cursor=pointer]:
+        - /url: Login.html
+  - navigation [ref=f6e13]:
+    - link [ref=f6e15] [cursor=pointer]:
+      - /url: /home.html
+      - img "Craftora Logo" [ref=f6e16]
+    - list [ref=f6e18]:
+      - listitem [ref=f6e19]:
+        - link "PRODUCTS" [ref=f6e20] [cursor=pointer]:
+          - /url: /product.html
+      - listitem [ref=f6e21]:
+        - link "LOOKBOOKS" [ref=f6e22] [cursor=pointer]:
+          - /url: /lookbook.html
+      - listitem [ref=f6e23]:
+        - link "STORY" [ref=f6e24] [cursor=pointer]:
+          - /url: /story.html
+      - listitem [ref=f6e25]:
+        - link "CONTACT" [ref=f6e26] [cursor=pointer]:
+          - /url: "#"
+    - generic [ref=f6e27]:
+      - generic [ref=f6e28]:
+        - textbox "Search products..." [ref=f6e29]
+        - generic [ref=f6e30]: 
+      - link "" [ref=f6e31] [cursor=pointer]:
+        - /url: Login.html
+      - link "" [ref=f6e34] [cursor=pointer]:
+        - /url: shoppingcart.html
+  - main [ref=f6e36]:
+    - generic [ref=f6e37]:
+      - button "← " [ref=f6e38] [cursor=pointer]:
+        - text: ←
+        - generic: 
+      - button "→ " [ref=f6e55] [cursor=pointer]:
+        - text: →
+        - generic: 
+    - generic [ref=f6e56]:
+      - generic [ref=f6e57]:
+        - button "Decor" [ref=f6e58] [cursor=pointer]
+        - button "Lifestyle" [ref=f6e59] [cursor=pointer]
+        - button "Storage" [ref=f6e60] [cursor=pointer]
+      - generic [ref=f6e61]:
+        - paragraph [ref=f6e65] [cursor=pointer]: Furniture
+        - paragraph [ref=f6e69] [cursor=pointer]: Rugs
+        - paragraph [ref=f6e73] [cursor=pointer]: Home decor
+        - paragraph [ref=f6e77] [cursor=pointer]: Lighting
+      - generic [ref=f6e80]:
+        - generic [ref=f6e81]:
+          - generic [ref=f6e82]:
+            - heading "Decor" [level=2] [ref=f6e83]
+            - link "Add" [ref=f6e84] [cursor=pointer]:
+              - /url: /product.html
+          - generic [ref=f6e85]:
+            - button "Previous" [ref=f6e86] [cursor=pointer]
+            - generic [ref=f6e88]:
+              - generic [ref=f6e92]:
+                - generic [ref=f6e93]: OS-D03
+                - generic [ref=f6e94]: Trendy Round Seagrass Woven Ottoman
+                - generic [ref=f6e95]: MOQ:50
+                - generic [ref=f6e96]: 10$
+              - generic [ref=f6e100]:
+                - generic [ref=f6e101]: OS-D04
+                - generic [ref=f6e102]: Popular weaving rattan round tray
+                - generic [ref=f6e103]: MOQ:50
+                - generic [ref=f6e104]: 25$
+              - generic [ref=f6e108]:
+                - generic [ref=f6e109]: OS-D05
+                - generic [ref=f6e110]: Wholesale wicker bamboo rattan decorative tray
+                - generic [ref=f6e111]: MOQ:50
+                - generic [ref=f6e112]: 30$
+              - generic [ref=f6e116]:
+                - generic [ref=f6e117]: OS-D06
+                - generic [ref=f6e118]: Handwoven Seagrass & Corn Husk Leaf Area Rug
+                - generic [ref=f6e119]: MOQ:50
+                - generic [ref=f6e120]: 15$
+              - generic [ref=f6e124]:
+                - generic [ref=f6e125]: OS-D07
+                - generic [ref=f6e126]: Minimalist Natural Seagrass Lantern Wholesale
+                - generic [ref=f6e127]: MOQ:50
+                - generic [ref=f6e128]: 10$
+              - generic [ref=f6e129]:
+                - img "sp1" [ref=f6e131]
+                - generic [ref=f6e132]:
+                  - generic [ref=f6e133]: OS-D01
+                  - generic [ref=f6e134]: Creative handmade Seagrass Ottoman Round Pouf
+                  - generic [ref=f6e135]: MOQ:50
+                  - generic [ref=f6e136]: 20$
+              - generic [ref=f6e137]:
+                - img "sp1" [ref=f6e139]
+                - generic [ref=f6e140]:
+                  - generic [ref=f6e141]: OS-D02
+                  - generic [ref=f6e142]: Top pick Seagrass Woven Ottoman for Living room
+                  - generic [ref=f6e143]: MOQ:50
+                  - generic [ref=f6e144]: 15$
+              - generic [ref=f6e145]:
+                - img "sp1" [ref=f6e147]
+                - generic [ref=f6e148]:
+                  - generic [ref=f6e149]: OS-D03
+                  - generic [ref=f6e150]: Trendy Round Seagrass Woven Ottoman
+                  - generic [ref=f6e151]: MOQ:50
+                  - generic [ref=f6e152]: 10$
+              - generic [ref=f6e153]:
+                - img "sp1" [ref=f6e155]
+                - generic [ref=f6e156]:
+                  - generic [ref=f6e157]: OS-D04
+                  - generic [ref=f6e158]: Popular weaving rattan round tray
+                  - generic [ref=f6e159]: MOQ:50
+                  - generic [ref=f6e160]: 25$
+              - generic [ref=f6e161]:
+                - img "sp1" [ref=f6e163]
+                - generic [ref=f6e164]:
+                  - generic [ref=f6e165]: OS-D05
+                  - generic [ref=f6e166]: Wholesale wicker bamboo rattan decorative tray
+                  - generic [ref=f6e167]: MOQ:50
+                  - generic [ref=f6e168]: 30$
+              - generic [ref=f6e172]:
+                - generic [ref=f6e173]: OS-D06
+                - generic [ref=f6e174]: Handwoven Seagrass & Corn Husk Leaf Area Rug
+                - generic [ref=f6e175]: MOQ:50
+                - generic [ref=f6e176]: 15$
+              - generic [ref=f6e180]:
+                - generic [ref=f6e181]: OS-D07
+                - generic [ref=f6e182]: Minimalist Natural Seagrass Lantern Wholesale
+                - generic [ref=f6e183]: MOQ:50
+                - generic [ref=f6e184]: 10$
+              - generic [ref=f6e188]:
+                - generic [ref=f6e189]: OS-D01
+                - generic [ref=f6e190]: Creative handmade Seagrass Ottoman Round Pouf
+                - generic [ref=f6e191]: MOQ:50
+                - generic [ref=f6e192]: 20$
+              - generic [ref=f6e196]:
+                - generic [ref=f6e197]: OS-D02
+                - generic [ref=f6e198]: Top pick Seagrass Woven Ottoman for Living room
+                - generic [ref=f6e199]: MOQ:50
+                - generic [ref=f6e200]: 15$
+              - generic [ref=f6e204]:
+                - generic [ref=f6e205]: OS-D03
+                - generic [ref=f6e206]: Trendy Round Seagrass Woven Ottoman
+                - generic [ref=f6e207]: MOQ:50
+                - generic [ref=f6e208]: 10$
+              - generic [ref=f6e212]:
+                - generic [ref=f6e213]: OS-D04
+                - generic [ref=f6e214]: Popular weaving rattan round tray
+                - generic [ref=f6e215]: MOQ:50
+                - generic [ref=f6e216]: 25$
+              - generic [ref=f6e220]:
+                - generic [ref=f6e221]: OS-D05
+                - generic [ref=f6e222]: Wholesale wicker bamboo rattan decorative tray
+                - generic [ref=f6e223]: MOQ:50
+                - generic [ref=f6e224]: 30$
+              - generic [ref=f6e228]:
+                - generic [ref=f6e229]: OS-D06
+                - generic [ref=f6e230]: Handwoven Seagrass & Corn Husk Leaf Area Rug
+                - generic [ref=f6e231]: MOQ:50
+                - generic [ref=f6e232]: 15$
+              - generic [ref=f6e236]:
+                - generic [ref=f6e237]: OS-D07
+                - generic [ref=f6e238]: Minimalist Natural Seagrass Lantern Wholesale
+                - generic [ref=f6e239]: MOQ:50
+                - generic [ref=f6e240]: 10$
+            - button "Next" [ref=f6e241] [cursor=pointer]
+        - generic [ref=f6e242]:
+          - generic [ref=f6e243]:
+            - heading "Lifestyle" [level=2] [ref=f6e244]
+            - link "Add" [ref=f6e245] [cursor=pointer]:
+              - /url: /product.html
+          - generic [ref=f6e246]:
+            - button "Previous" [ref=f6e247] [cursor=pointer]
+            - generic [ref=f6e249]:
+              - generic [ref=f6e253]:
+                - generic [ref=f6e254]: OS-L03
+                - generic [ref=f6e255]: Multiple sizes Minimalism design Seagrass Placemat
+                - generic [ref=f6e256]: MOQ:50
+                - generic [ref=f6e257]: 10$
+              - generic [ref=f6e261]:
+                - generic [ref=f6e262]: OS-L04
+                - generic [ref=f6e263]: Elegant Water Hyacinth Beach Handbag Wholesale
+                - generic [ref=f6e264]: MOQ:50
+                - generic [ref=f6e265]: 25$
+              - generic [ref=f6e269]:
+                - generic [ref=f6e270]: OS-L05
+                - generic [ref=f6e271]: Popular Water Hyacinth Beach Handbag Wholesale
+                - generic [ref=f6e272]: MOQ:50
+                - generic [ref=f6e273]: 30$
+              - generic [ref=f6e277]:
+                - generic [ref=f6e278]: OS-L06
+                - generic [ref=f6e279]: Natural Seagrass lounger for your pet so cute
+                - generic [ref=f6e280]: MOQ:50
+                - generic [ref=f6e281]: 15$
+              - generic [ref=f6e285]:
+                - generic [ref=f6e286]: OS-L07
+                - generic [ref=f6e287]: Unique Design Round Grass House For Rabbit
+                - generic [ref=f6e288]: MOQ:50
+                - generic [ref=f6e289]: 10$
+              - generic [ref=f6e290]:
+                - img "sp1" [ref=f6e292]
+                - generic [ref=f6e293]:
+                  - generic [ref=f6e294]: OS-L01
+                  - generic [ref=f6e295]: Hot Selling Light Yellow Bamboo Placemat Wholesale
+                  - generic [ref=f6e296]: MOQ:50
+                  - generic [ref=f6e297]: 20$
+              - generic [ref=f6e298]:
+                - img "sp1" [ref=f6e300]
+                - generic [ref=f6e301]:
+                  - generic [ref=f6e302]: OS-L02
+                  - generic [ref=f6e303]: Light Yellow Flower Shape Bamboo Placemat
+                  - generic [ref=f6e304]: MOQ:50
+                  - generic [ref=f6e305]: 15$
+              - generic [ref=f6e306]:
+                - img "sp1" [ref=f6e308]
+                - generic [ref=f6e309]:
+                  - generic [ref=f6e310]: OS-L03
+                  - generic [ref=f6e311]: Multiple sizes Minimalism design Seagrass Placemat
+                  - generic [ref=f6e312]: MOQ:50
+                  - generic [ref=f6e313]: 10$
+              - generic [ref=f6e314]:
+                - img "sp1" [ref=f6e316]
+                - generic [ref=f6e317]:
+                  - generic [ref=f6e318]: OS-L04
+                  - generic [ref=f6e319]: Elegant Water Hyacinth Beach Handbag Wholesale
+                  - generic [ref=f6e320]: MOQ:50
+                  - generic [ref=f6e321]: 25$
+              - generic [ref=f6e322]:
+                - img "sp1" [ref=f6e324]
+                - generic [ref=f6e325]:
+                  - generic [ref=f6e326]: OS-L05
+                  - generic [ref=f6e327]: Popular Water Hyacinth Beach Handbag Wholesale
+                  - generic [ref=f6e328]: MOQ:50
+                  - generic [ref=f6e329]: 30$
+              - generic [ref=f6e333]:
+                - generic [ref=f6e334]: OS-L06
+                - generic [ref=f6e335]: Natural Seagrass lounger for your pet so cute
+                - generic [ref=f6e336]: MOQ:50
+                - generic [ref=f6e337]: 15$
+              - generic [ref=f6e341]:
+                - generic [ref=f6e342]: OS-L07
+                - generic [ref=f6e343]: Unique Design Round Grass House For Rabbit
+                - generic [ref=f6e344]: MOQ:50
+                - generic [ref=f6e345]: 10$
+              - generic [ref=f6e349]:
+                - generic [ref=f6e350]: OS-L01
+                - generic [ref=f6e351]: Hot Selling Light Yellow Bamboo Placemat Wholesale
+                - generic [ref=f6e352]: MOQ:50
+                - generic [ref=f6e353]: 20$
+              - generic [ref=f6e357]:
+                - generic [ref=f6e358]: OS-L02
+                - generic [ref=f6e359]: Light Yellow Flower Shape Bamboo Placemat
+                - generic [ref=f6e360]: MOQ:50
+                - generic [ref=f6e361]: 15$
+              - generic [ref=f6e365]:
+                - generic [ref=f6e366]: OS-L03
+                - generic [ref=f6e367]: Multiple sizes Minimalism design Seagrass Placemat
+                - generic [ref=f6e368]: MOQ:50
+                - generic [ref=f6e369]: 10$
+              - generic [ref=f6e373]:
+                - generic [ref=f6e374]: OS-L04
+                - generic [ref=f6e375]: Elegant Water Hyacinth Beach Handbag Wholesale
+                - generic [ref=f6e376]: MOQ:50
+                - generic [ref=f6e377]: 25$
+              - generic [ref=f6e381]:
+                - generic [ref=f6e382]: OS-L05
+                - generic [ref=f6e383]: Popular Water Hyacinth Beach Handbag Wholesale
+                - generic [ref=f6e384]: MOQ:50
+                - generic [ref=f6e385]: 30$
+              - generic [ref=f6e389]:
+                - generic [ref=f6e390]: OS-L06
+                - generic [ref=f6e391]: Natural Seagrass lounger for your pet so cute
+                - generic [ref=f6e392]: MOQ:50
+                - generic [ref=f6e393]: 15$
+              - generic [ref=f6e397]:
+                - generic [ref=f6e398]: OS-L07
+                - generic [ref=f6e399]: Unique Design Round Grass House For Rabbit
+                - generic [ref=f6e400]: MOQ:50
+                - generic [ref=f6e401]: 10$
+            - button "Next" [ref=f6e402] [cursor=pointer]
+        - generic [ref=f6e403]:
+          - generic [ref=f6e404]:
+            - heading "Storage" [level=2] [ref=f6e405]
+            - link "Add" [ref=f6e406] [cursor=pointer]:
+              - /url: /product.html
+          - generic [ref=f6e407]:
+            - button "Previous" [ref=f6e408] [cursor=pointer]
+            - generic [ref=f6e410]:
+              - generic [ref=f6e414]:
+                - generic [ref=f6e415]: OS-S03
+                - generic [ref=f6e416]: Collapsible Planter Basket for multiple purposes
+                - generic [ref=f6e417]: MOQ:50
+                - generic [ref=f6e418]: 10$
+              - generic [ref=f6e422]:
+                - generic [ref=f6e423]: OS-S04
+                - generic [ref=f6e424]: New Water Hyacinth Basket Planter For Farmer
+                - generic [ref=f6e425]: MOQ:50
+                - generic [ref=f6e426]: 25$
+              - generic [ref=f6e430]:
+                - generic [ref=f6e431]: OS-S05
+                - generic [ref=f6e432]: Rustic Style Water Hyacinth Laundry Baskets
+                - generic [ref=f6e433]: MOQ:50
+                - generic [ref=f6e434]: 30$
+              - generic [ref=f6e438]:
+                - generic [ref=f6e439]: OS-S06
+                - generic [ref=f6e440]: Elegant Belly Handwoven Seagrass Basket
+                - generic [ref=f6e441]: MOQ:50
+                - generic [ref=f6e442]: 15$
+              - generic [ref=f6e446]:
+                - generic [ref=f6e447]: OS-S07
+                - generic [ref=f6e448]: Beautiful Water Hyacinth Basket with Strap for Kitchen Decor
+                - generic [ref=f6e449]: MOQ:50
+                - generic [ref=f6e450]: 10$
+              - generic [ref=f6e451]:
+                - img "sp1" [ref=f6e453]
+                - generic [ref=f6e454]:
+                  - generic [ref=f6e455]: OS-S01
+                  - generic [ref=f6e456]: Belly Water Hyacinth Basket Planter Wholesale
+                  - generic [ref=f6e457]: MOQ:50
+                  - generic [ref=f6e458]: 20$
+              - generic [ref=f6e459]:
+                - img "sp1" [ref=f6e461]
+                - generic [ref=f6e462]:
+                  - generic [ref=f6e463]: OS-S02
+                  - generic [ref=f6e464]: Seagrass Hand Woven Basket Planter for Home Decor
+                  - generic [ref=f6e465]: MOQ:50
+                  - generic [ref=f6e466]: 15$
+              - generic [ref=f6e467]:
+                - img "sp1" [ref=f6e469]
+                - generic [ref=f6e470]:
+                  - generic [ref=f6e471]: OS-S03
+                  - generic [ref=f6e472]: Collapsible Planter Basket for multiple purposes
+                  - generic [ref=f6e473]: MOQ:50
+                  - generic [ref=f6e474]: 10$
+              - generic [ref=f6e475]:
+                - img "sp1" [ref=f6e477]
+                - generic [ref=f6e478]:
+                  - generic [ref=f6e479]: OS-S04
+                  - generic [ref=f6e480]: New Water Hyacinth Basket Planter For Farmer
+                  - generic [ref=f6e481]: MOQ:50
+                  - generic [ref=f6e482]: 25$
+              - generic [ref=f6e483]:
+                - img "sp1" [ref=f6e485]
+                - generic [ref=f6e486]:
+                  - generic [ref=f6e487]: OS-S05
+                  - generic [ref=f6e488]: Rustic Style Water Hyacinth Laundry Baskets
+                  - generic [ref=f6e489]: MOQ:50
+                  - generic [ref=f6e490]: 30$
+              - generic [ref=f6e494]:
+                - generic [ref=f6e495]: OS-S06
+                - generic [ref=f6e496]: Elegant Belly Handwoven Seagrass Basket
+                - generic [ref=f6e497]: MOQ:50
+                - generic [ref=f6e498]: 15$
+              - generic [ref=f6e502]:
+                - generic [ref=f6e503]: OS-S07
+                - generic [ref=f6e504]: Beautiful Water Hyacinth Basket with Strap for Kitchen Decor
+                - generic [ref=f6e505]: MOQ:50
+                - generic [ref=f6e506]: 10$
+              - generic [ref=f6e510]:
+                - generic [ref=f6e511]: OS-S01
+                - generic [ref=f6e512]: Belly Water Hyacinth Basket Planter Wholesale
+                - generic [ref=f6e513]: MOQ:50
+                - generic [ref=f6e514]: 20$
+              - generic [ref=f6e518]:
+                - generic [ref=f6e519]: OS-S02
+                - generic [ref=f6e520]: Seagrass Hand Woven Basket Planter for Home Decor
+                - generic [ref=f6e521]: MOQ:50
+                - generic [ref=f6e522]: 15$
+              - generic [ref=f6e526]:
+                - generic [ref=f6e527]: OS-S03
+                - generic [ref=f6e528]: Collapsible Planter Basket for multiple purposes
+                - generic [ref=f6e529]: MOQ:50
+                - generic [ref=f6e530]: 10$
+              - generic [ref=f6e534]:
+                - generic [ref=f6e535]: OS-S04
+                - generic [ref=f6e536]: New Water Hyacinth Basket Planter For Farmer
+                - generic [ref=f6e537]: MOQ:50
+                - generic [ref=f6e538]: 25$
+              - generic [ref=f6e542]:
+                - generic [ref=f6e543]: OS-S05
+                - generic [ref=f6e544]: Rustic Style Water Hyacinth Laundry Baskets
+                - generic [ref=f6e545]: MOQ:50
+                - generic [ref=f6e546]: 30$
+              - generic [ref=f6e550]:
+                - generic [ref=f6e551]: OS-S06
+                - generic [ref=f6e552]: Elegant Belly Handwoven Seagrass Basket
+                - generic [ref=f6e553]: MOQ:50
+                - generic [ref=f6e554]: 15$
+              - generic [ref=f6e558]:
+                - generic [ref=f6e559]: OS-S07
+                - generic [ref=f6e560]: Beautiful Water Hyacinth Basket with Strap for Kitchen Decor
+                - generic [ref=f6e561]: MOQ:50
+                - generic [ref=f6e562]: 10$
+            - button "Next" [ref=f6e563] [cursor=pointer]
+  - link "" [ref=f6e564] [cursor=pointer]:
+    - /url: "#top"
+  - contentinfo [ref=f6e566]:
+    - generic [ref=f6e567]:
+      - generic [ref=f6e568]:
+        - img "Viet Trang Logo" [ref=f6e569]
+        - generic [ref=f6e570]:
+          - generic [ref=f6e571]: 
+          - generic [ref=f6e572]: "Email:"
+          - link "sales@viettrangcraft.com" [ref=f6e573] [cursor=pointer]:
+            - /url: mailto:sales@viettrangcraft.com
+        - generic [ref=f6e574]:
+          - link "" [ref=f6e575] [cursor=pointer]:
+            - /url: "#"
+          - link "" [ref=f6e577] [cursor=pointer]:
+            - /url: "#"
+          - link "" [ref=f6e579] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=f6e581]:
+        - generic [ref=f6e582]:
+          - heading "Our Story" [level=4] [ref=f6e583]
+          - link "Company" [ref=f6e584] [cursor=pointer]:
+            - /url: /story.html#company
+          - link "Founder" [ref=f6e585] [cursor=pointer]:
+            - /url: /story.html#founder
+          - link "Team" [ref=f6e586] [cursor=pointer]:
+            - /url: /story.html#team
+          - link "Craftsmanship" [ref=f6e587] [cursor=pointer]:
+            - /url: /story.html#craftsmanship
+          - link "Sustainability" [ref=f6e588] [cursor=pointer]:
+            - /url: /story.html#sustainability
+        - generic [ref=f6e589]:
+          - heading "Products" [level=4] [ref=f6e590]
+          - link "Lookbooks" [ref=f6e591] [cursor=pointer]:
+            - /url: /lookbook.html
+          - link "All Products" [ref=f6e592] [cursor=pointer]:
+            - /url: /product.html
+          - link "Basket" [ref=f6e593] [cursor=pointer]:
+            - /url: /product.html#storage
+          - link "Rug" [ref=f6e594] [cursor=pointer]:
+            - /url: /product.html#rugs
+        - generic [ref=f6e595]:
+          - heading "Partnership" [level=4] [ref=f6e596]
+          - link "Trade Platform" [ref=f6e597] [cursor=pointer]:
+            - /url: /story.html#trade-platform
+          - link "Trade Show" [ref=f6e598] [cursor=pointer]:
+            - /url: /story.html#trade-shows
+          - link "FAQs" [ref=f6e599] [cursor=pointer]:
+            - /url: /story.html#faqs
+          - link "Alibaba" [ref=f6e600] [cursor=pointer]:
+            - /url: https://www.alibaba.com
+        - generic [ref=f6e601]:
+          - heading "More" [level=4] [ref=f6e602]
+          - link "Careers" [ref=f6e603] [cursor=pointer]:
+            - /url: "#"
+          - link "Journal" [ref=f6e604] [cursor=pointer]:
+            - /url: "#"
+          - link "Privacy Policy" [ref=f6e605] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms and Conditions" [ref=f6e606] [cursor=pointer]:
+            - /url: "#"
+          - link "Contact Us" [ref=f6e607] [cursor=pointer]:
+            - /url: "#"
+    - generic [ref=f6e608]:
+      - paragraph [ref=f6e609]: "©2020, Công ty TNHH Xuất Khẩu Việt Trang, Địa chỉ: Khu công nghiệp làng nghề, Thị trấn Nga Sơn, huyện Nga Sơn, tỉnh Thanh Hoá, Việt Nam. Điện thoại: +84943905504, MST: 2800670783, Cấp ngày 9 tháng 11 năm 2001, bởi Sở Kế Hoạch và Đầu Tư, Tỉnh Thanh Hoá. @2020, Viet Trang Export Company Limited, Address: Traditional Village, Nga Son Town, Nga Son District, Thanh Hoa Province, Vietnam,"
+      - paragraph [ref=f6e610]: "Phone: +84943905504, Tax No: 2800670783, Issued on November 9 2001 by Department of Planning & Investment Thanh Hoa"

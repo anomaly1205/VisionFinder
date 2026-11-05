@@ -1,0 +1,28 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets
+.env
+
+# Model / index files (regenerate with build_index.py)
+*.index
+*.faiss
+*.npy
+*.pt
+*.pth
+models/
+
+# Editor / OS
+.idea/
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Claude Code local settings
+.claude/settings.local.json
