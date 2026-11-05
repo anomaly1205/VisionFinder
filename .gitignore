@@ -30,3 +30,7 @@ desktop.ini
 # Tool output
 .playwright-mcp/
 .impeccable/
+
+# Tool output
+.playwright-mcp/
+.impeccable/
