@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
 .venv/
@@ -26,10 +26,6 @@ desktop.ini
 
 # Claude Code local settings
 .claude/settings.local.json
-
-# Tool output
-.playwright-mcp/
-.impeccable/
 
 # Tool output
 .playwright-mcp/
