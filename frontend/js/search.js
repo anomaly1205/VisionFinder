@@ -21,7 +21,7 @@ function loadPhoto(blob) {
   crop.hidden = false;
   // Cropper.js is a deferred classic script; module scripts run after it, so window.Cropper exists.
   cropper = new window.Cropper(cropImg, {
-    viewMode: 1, autoCropArea: 0.9, background: false, zoomable: false,
+    viewMode: 1, autoCropArea: 1, background: false, zoomable: false,
     ready: () => run(),
   });
 }
