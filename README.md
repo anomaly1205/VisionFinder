@@ -44,7 +44,7 @@ Evaluation uses the **other camera angles** of each product as queries, so accur
 |---|---|
 | Top-1 accuracy | 60.0% |
 | Top-5 accuracy | 74.7% |
-| Latency per query (CPU, mean / p95) | 99 ms / 107 ms |
+| Latency per query (CPU, mean / p95) | 86 ms / 93 ms |
 | Thresholds (default) | high >= 0.825, medium >= 0.70 |
 
 Measured by `backend/evaluate.py` with OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`): 999 positive queries (other camera angles of catalog products, not indexed) and 295 negative queries (every image of the 100 holdout products). Latency is one full query (decode, preprocess, embed, search) on CPU. Full numbers, including the threshold sweep, are in `backend/eval_results.json`.
