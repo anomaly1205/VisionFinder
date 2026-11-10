@@ -1,5 +1,7 @@
 ﻿# VisionFinder Home
 
+![VisionFinder demo: upload a photo, crop it, get matching products](docs/screenshots/demo.gif)
+
 **Search home & living products by photo, not by keywords.**
 
 VisionFinder Home is a home & living e-commerce demo with AI-powered visual search. Snap or upload a photo of a chair, lamp, rug or vase, crop the item you care about, and the system finds the closest matching products in the catalog. You can also search by a short text description.
@@ -15,6 +17,18 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 - [x] **Visually similar**: product pages suggest look-alike items
 - [ ] **Shop the look**: detect several items in a room photo and search each one (planned)
 - [x] **Catalog**: 500 home & living products across 7 categories
+
+## Screenshots
+
+| Home | Search by photo |
+|---|---|
+| ![Home page](docs/screenshots/home.png) | ![Photo search results](docs/screenshots/search-photo.png) |
+| **Search by text** | **Product page** |
+| ![Text search for "brass table lamp"](docs/screenshots/search-text.png) | ![Product page with gallery and visually similar items](docs/screenshots/product.png) |
+
+**Mobile**
+
+<img src="docs/screenshots/mobile.png" alt="Visual search on mobile" width="300">
 
 ## How it works
 
