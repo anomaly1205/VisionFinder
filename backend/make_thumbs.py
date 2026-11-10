@@ -1,6 +1,6 @@
 """Make 400 px WebP thumbnails for cards and galleries, and add a "thumb" field to the product JSON files.
 
-Run after prepare_data.py (which rewrites the JSON without "thumb"): python make_thumbs.py
+prepare_data.py calls this at the end. To run alone: python make_thumbs.py
 Skips thumbnails that already exist.
 """
 import json

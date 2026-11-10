@@ -17,6 +17,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 from PIL import Image
 
+import make_thumbs
+
 ABO = sys.argv[1] if len(sys.argv) > 1 else r"F:\Download\ABO"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONT = os.path.join(ROOT, "frontend")
@@ -179,6 +181,7 @@ def main():
     size = sum(os.path.getsize(f) for f in glob.glob(os.path.join(IMG_DIR, "*.webp")))
     print(f"Removed old jpg: {len(old_jpg)}. Image folder: {size / 2**20:.1f} MB")
     print(f"Images: downloaded={c['ok']} skipped(existing)={c['skip']} failed={c['fail']} total_ok={len(ok_ids)}")
+    make_thumbs.main()  # the JSON above has no "thumb" field yet; this adds it and makes any missing thumbnails
 
 
 if __name__ == "__main__":
