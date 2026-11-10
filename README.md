@@ -4,15 +4,15 @@
 
 VisionFinder Home is a home & living e-commerce demo with AI-powered visual search. Snap or upload a photo of a chair, lamp, rug or vase, crop the item you care about, and the system finds the closest matching products in the catalog. You can also search by a short text description.
 
-> Work in progress. Items marked (planned) are not done yet.
+> Work in progress. Items marked (planned) are not done yet. The frontend falls back to a simulated **demo mode** when the backend is offline.
 
 ## Features
 
-- [ ] **Image search**: upload / drag & drop / paste a photo, get the top-k most similar products with a similarity score (planned)
-- [ ] **Crop before search**: select only the product region of the photo (planned)
-- [ ] **Text search**: describe the product ("light wood dining chair") and search the same embedding space (planned)
-- [ ] **Confidence threshold**: returns "No confident match" instead of a wrong answer (planned)
-- [ ] **Visually similar**: product pages suggest look-alike items (planned)
+- [x] **Image search**: upload / drag & drop / paste a photo, get the top-k most similar products with a similarity score
+- [x] **Crop before search**: select only the product region of the photo
+- [x] **Text search**: describe the product ("light wood dining chair") and search the same embedding space
+- [x] **Confidence threshold**: returns "No confident match" instead of a wrong answer
+- [x] **Visually similar**: product pages suggest look-alike items
 - [ ] **Shop the look**: detect several items in a room photo and search each one (planned)
 - [x] **Catalog**: 500 home & living products across 7 categories
 
@@ -42,9 +42,24 @@ Evaluation uses the **other camera angles** of each product as queries, so accur
 
 | Metric | Value |
 |---|---|
-| Top-1 accuracy | TBD |
-| Top-5 accuracy | TBD |
-| Avg. response time | TBD |
+| Top-1 accuracy | 60.0% |
+| Top-5 accuracy | 74.7% |
+| Latency per query (CPU, mean / p95) | 93 ms / 105 ms |
+| Threshold (default) | 0.825: accepts 27.1% of catalog queries correctly, 18.3% of holdout queries by mistake |
+
+Measured by `backend/evaluate.py` with OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`): 999 positive queries (other camera angles of catalog products, not indexed) and 295 negative queries (every image of the 100 holdout products). Latency is one full query (decode, preprocess, embed, search) on CPU. Full numbers, including the threshold sweep, are in `backend/eval_results.json`.
+
+| Category | Queries | Top-1 |
+|---|---|---|
+| Decor | 144 | 75.7% |
+| Furniture | 143 | 58.7% |
+| Lighting | 144 | 69.4% |
+| Plants | 142 | 53.5% |
+| Rugs | 142 | 44.4% |
+| Storage | 142 | 72.5% |
+| Textiles | 142 | 45.1% |
+
+The threshold is the one with the largest gap between correct accepts and false accepts (swept 0.50-0.95 in 0.025 steps). The gap is small: many holdout products are near-twins of catalog items (same brand and style), so a confident score does not guarantee the exact product. Override with the `VF_THRESHOLD` environment variable.
 
 ## Tech stack
 
@@ -65,9 +80,13 @@ Evaluation uses the **other camera angles** of each product as queries, so accur
     │   └── assets/products/        # product images (shared with backend)
     └── backend/
         ├── prepare_data.py         # select products from ABO + download images
-        ├── build_index.py          # (planned) images -> CLIP vectors -> FAISS index
-        ├── app.py                  # (planned) FastAPI search API
-        └── evaluate.py             # (planned) Top-1 / Top-5 / latency / threshold
+        ├── config.py               # shared paths, model name, threshold, CORS
+        ├── embedder.py             # image preprocessing + CLIP embeddings
+        ├── build_index.py          # images -> CLIP vectors -> FAISS index (backend/data/)
+        ├── search_engine.py        # image / text / similar search (used by app + evaluate)
+        ├── app.py                  # FastAPI search API
+        ├── evaluate.py             # Top-1 / Top-5 / latency / threshold sweep
+        └── tests/test_api.py       # API tests (pytest)
 
 ## Getting started
 
@@ -75,22 +94,26 @@ Evaluation uses the **other camera angles** of each product as queries, so accur
 
 **Data (already included):** to rebuild, download `abo-listings.tar` and `images.csv.gz` from ABO, then run `python backend/prepare_data.py`.
 
-**Backend (planned):**
+**Backend** (PowerShell, tested on Python 3.14; the first run downloads the CLIP model, about 600 MB):
 
     cd backend
     python -m venv .venv
     .venv\Scripts\Activate.ps1
     pip install -r requirements.txt
-    python build_index.py
-    uvicorn app:app --reload
+    python build_index.py          # ~30 s on CPU; add --limit 20 for a quick test
+    python -m pytest -q            # optional
+    python evaluate.py             # optional, rewrites eval_results.json
+    uvicorn app:app --port 8000
+
+With the API running on port 8000, reload the frontend: the "Demo mode" badge disappears and searches hit the real model. Endpoints: `GET /api/health`, `POST /api/search/image`, `GET /api/search/text?q=`, `GET /api/similar/{id}` (docs at http://127.0.0.1:8000/docs).
 
 ## Roadmap
 
 - [x] Select 500 home & living products from ABO
-- [ ] Frontend redesign (Scandinavian minimal) with AI search UI
-- [ ] CLIP embeddings + FAISS index
-- [ ] Search API + frontend integration
-- [ ] Evaluation and threshold tuning
+- [x] Frontend redesign (Scandinavian minimal) with AI search UI
+- [x] CLIP embeddings + FAISS index
+- [x] Search API + frontend integration
+- [x] Evaluation and threshold tuning
 - [ ] Deploy (GitHub Pages + Hugging Face Spaces)
 - [ ] Shop the look
 

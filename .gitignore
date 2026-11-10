@@ -30,3 +30,6 @@ desktop.ini
 # Tool output
 .playwright-mcp/
 .impeccable/
+
+# Generated index (build_index.py)
+backend/data/

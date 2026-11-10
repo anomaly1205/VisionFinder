@@ -101,7 +101,7 @@ function done() {
   $("results-grid").classList.remove("is-loading");
 }
 
-function render({ results, ms, demo }, q) {
+function render({ results, ms, demo, match }, q) {
   const what = cropper ? (q ? `your photo + “${escapeHtml(q)}”` : "your photo") : `“${escapeHtml(q)}”`;
   const notice = $("notice"), grid = $("results-grid");
   $("results-meta").textContent = `${results.length} results · ${ms} ms${demo ? " · demo mode" : ""}`;
@@ -115,7 +115,7 @@ function render({ results, ms, demo }, q) {
     return;
   }
   const best = results[0].score;
-  if (best < THRESHOLD) {
+  if (!(match ?? best >= THRESHOLD)) { // backend decides when it answers; demo mode compares locally
     $("results-title").innerHTML = `Closest pieces to ${what}`;
     notice.hidden = false;
     notice.innerHTML = `<p><strong>No confident match.</strong> The best score is ${Math.round(best * 100)}%, below our ${Math.round(THRESHOLD * 100)}% bar. These are the nearest pieces, not the same item. A tighter crop or a clearer photo usually helps.</p>`;

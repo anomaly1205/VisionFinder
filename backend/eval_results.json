@@ -1,0 +1,160 @@
+{
+  "model": "ViT-B-32/laion2b_s34b_b79k",
+  "catalog": 500,
+  "positive_queries": 999,
+  "negative_queries": 295,
+  "top1": 0.5995995995995996,
+  "top5": 0.7467467467467468,
+  "top1_by_category": {
+    "Decor": {
+      "n": 144,
+      "top1": 0.7569444444444444
+    },
+    "Furniture": {
+      "n": 143,
+      "top1": 0.5874125874125874
+    },
+    "Lighting": {
+      "n": 144,
+      "top1": 0.6944444444444444
+    },
+    "Plants": {
+      "n": 142,
+      "top1": 0.5352112676056338
+    },
+    "Rugs": {
+      "n": 142,
+      "top1": 0.44366197183098594
+    },
+    "Storage": {
+      "n": 142,
+      "top1": 0.7253521126760564
+    },
+    "Textiles": {
+      "n": 142,
+      "top1": 0.4507042253521127
+    }
+  },
+  "latency_ms": {
+    "mean": 93.29895200018655,
+    "p95": 104.97758500096097,
+    "runs": 50
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.5,
+      "correct_accept": 0.5965965965965966,
+      "false_accept": 0.9830508474576272,
+      "precision": 0.47003154574132494
+    },
+    {
+      "threshold": 0.525,
+      "correct_accept": 0.5945945945945946,
+      "false_accept": 0.976271186440678,
+      "precision": 0.47180301826846704
+    },
+    {
+      "threshold": 0.55,
+      "correct_accept": 0.5925925925925926,
+      "false_accept": 0.9627118644067797,
+      "precision": 0.4758842443729904
+    },
+    {
+      "threshold": 0.575,
+      "correct_accept": 0.5875875875875876,
+      "false_accept": 0.9389830508474576,
+      "precision": 0.4867330016583748
+    },
+    {
+      "threshold": 0.6,
+      "correct_accept": 0.5775775775775776,
+      "false_accept": 0.9016949152542373,
+      "precision": 0.4991349480968858
+    },
+    {
+      "threshold": 0.625,
+      "correct_accept": 0.5685685685685685,
+      "false_accept": 0.8067796610169492,
+      "precision": 0.5211009174311927
+    },
+    {
+      "threshold": 0.65,
+      "correct_accept": 0.5585585585585585,
+      "false_accept": 0.7491525423728813,
+      "precision": 0.5401742497579864
+    },
+    {
+      "threshold": 0.675,
+      "correct_accept": 0.5305305305305306,
+      "false_accept": 0.6338983050847458,
+      "precision": 0.5779716466739367
+    },
+    {
+      "threshold": 0.7,
+      "correct_accept": 0.4954954954954955,
+      "false_accept": 0.5322033898305085,
+      "precision": 0.61875
+    },
+    {
+      "threshold": 0.725,
+      "correct_accept": 0.45845845845845845,
+      "false_accept": 0.4576271186440678,
+      "precision": 0.6505681818181818
+    },
+    {
+      "threshold": 0.75,
+      "correct_accept": 0.4084084084084084,
+      "false_accept": 0.3728813559322034,
+      "precision": 0.6721581548599671
+    },
+    {
+      "threshold": 0.775,
+      "correct_accept": 0.35935935935935936,
+      "false_accept": 0.3152542372881356,
+      "precision": 0.6943907156673114
+    },
+    {
+      "threshold": 0.8,
+      "correct_accept": 0.3173173173173173,
+      "false_accept": 0.2440677966101695,
+      "precision": 0.7204545454545455
+    },
+    {
+      "threshold": 0.825,
+      "correct_accept": 0.27127127127127126,
+      "false_accept": 0.18305084745762712,
+      "precision": 0.7506925207756233
+    },
+    {
+      "threshold": 0.85,
+      "correct_accept": 0.22422422422422422,
+      "false_accept": 0.14576271186440679,
+      "precision": 0.7697594501718213
+    },
+    {
+      "threshold": 0.875,
+      "correct_accept": 0.16116116116116116,
+      "false_accept": 0.10508474576271186,
+      "precision": 0.7815533980582524
+    },
+    {
+      "threshold": 0.9,
+      "correct_accept": 0.11911911911911911,
+      "false_accept": 0.06779661016949153,
+      "precision": 0.8206896551724138
+    },
+    {
+      "threshold": 0.925,
+      "correct_accept": 0.06606606606606606,
+      "false_accept": 0.04406779661016949,
+      "precision": 0.7951807228915663
+    },
+    {
+      "threshold": 0.95,
+      "correct_accept": 0.03303303303303303,
+      "false_accept": 0.03389830508474576,
+      "precision": 0.7333333333333333
+    }
+  ],
+  "recommended_threshold": 0.825
+}
