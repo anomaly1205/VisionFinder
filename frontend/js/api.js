@@ -3,7 +3,10 @@
 import { loadProducts, productById } from "./common.js";
 
 export const API_BASE = "http://127.0.0.1:8000/api";
-export let THRESHOLD = 0.6; // best score below this -> "No confident match"; replaced by the backend's value
+// Photo search confidence: best >= THRESHOLD -> match, >= THRESHOLD_LOW -> similar pieces, else no confident match.
+// Replaced by the backend's values; demo mode has no middle level.
+export let THRESHOLD = 0.6;
+export let THRESHOLD_LOW = 0.6;
 const K = 12;
 
 let backendUp; // cached per page load
@@ -12,7 +15,11 @@ async function backendAvailable() {
   try {
     const r = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(1500) });
     backendUp = r.ok;
-    if (backendUp) THRESHOLD = (await r.json()).threshold ?? THRESHOLD;
+    if (backendUp) {
+      const h = await r.json();
+      THRESHOLD = h.threshold_high ?? h.threshold ?? THRESHOLD;
+      THRESHOLD_LOW = h.threshold_low ?? THRESHOLD;
+    }
   } catch {
     backendUp = false;
   }
@@ -40,7 +47,7 @@ async function call(path, init) {
     const product = await productById(id);
     if (product) results.push({ product, score });
   }
-  return { results, ms: data.took_ms ?? Math.round(performance.now() - t0), demo: false, match: data.match };
+  return { results, ms: data.took_ms ?? Math.round(performance.now() - t0), demo: false, match: data.match, confidence: data.confidence };
 }
 
 // ---- mock (demo mode) ----

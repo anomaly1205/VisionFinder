@@ -7,7 +7,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
-from config import CORS_ORIGINS, MAX_UPLOAD, MODEL, PRETRAINED, THRESHOLD
+from config import CORS_ORIGINS, MAX_UPLOAD, MODEL, PRETRAINED, THRESHOLD_HIGH, THRESHOLD_LOW
 from embedder import load_image
 from search_engine import SearchEngine
 
@@ -31,7 +31,12 @@ def ms(t0):
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "products": engine.index.ntotal, "model": f"{MODEL}/{PRETRAINED}", "threshold": THRESHOLD}
+    return {"status": "ok", "products": engine.index.ntotal, "model": f"{MODEL}/{PRETRAINED}",
+            "threshold": THRESHOLD_HIGH, "threshold_high": THRESHOLD_HIGH, "threshold_low": THRESHOLD_LOW}
+
+
+def confidence(score):
+    return "high" if score >= THRESHOLD_HIGH else "medium" if score >= THRESHOLD_LOW else "low"
 
 
 @app.post("/api/search/image")
@@ -46,7 +51,9 @@ def search_image(file: UploadFile = File(...), text: str = Form(None), k: int = 
     t0 = time.perf_counter()
     results = engine.search_image(img, (text or "").strip(), k)
     top = results[0]["score"] if results else 0.0
-    return {"results": results, "match": top >= THRESHOLD, "top_score": top, "threshold": THRESHOLD, "took_ms": ms(t0)}
+    conf = confidence(top)
+    return {"results": results, "match": conf == "high", "confidence": conf, "top_score": top,
+            "threshold": THRESHOLD_HIGH, "threshold_low": THRESHOLD_LOW, "took_ms": ms(t0)}
 
 
 @app.get("/api/search/text")

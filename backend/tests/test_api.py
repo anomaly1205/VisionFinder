@@ -28,13 +28,13 @@ def post_image(client, path, text=None):
 
 def test_health(client):
     r = client.get("/api/health").json()
-    assert r["status"] == "ok" and r["products"] > 0 and 0 < r["threshold"] < 1
+    assert r["status"] == "ok" and r["products"] > 0 and 0 < r["threshold_low"] < r["threshold_high"] < 1
 
 
 def test_catalog_image_finds_itself(client):
     r = post_image(client, image_path(P["image"])).json()
     assert r["results"][0]["id"] == P["id"]
-    assert r["match"] is True and r["top_score"] > 0.99
+    assert r["match"] is True and r["confidence"] == "high" and r["top_score"] > 0.99
     assert {"took_ms", "threshold"} <= r.keys()
 
 

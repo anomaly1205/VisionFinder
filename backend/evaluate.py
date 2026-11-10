@@ -11,7 +11,7 @@ from collections import defaultdict
 
 import numpy as np
 
-from config import BACKEND, HOLDOUT_JSON, MODEL, PRETRAINED, PRODUCTS_JSON, image_path
+from config import BACKEND, HOLDOUT_JSON, MODEL, PRETRAINED, PRODUCTS_JSON, THRESHOLD_HIGH, THRESHOLD_LOW, image_path
 from embedder import load_image
 from search_engine import SearchEngine
 
@@ -67,6 +67,15 @@ def main():
             "precision": float(correct.sum() / accepted) if accepted else 1.0,
         })
     best = max(sweep, key=lambda r: r["correct_accept"] - r["false_accept"])
+    low = min((r for r in sweep if r["precision"] >= 0.6), key=lambda r: r["threshold"], default=best)
+
+    # Confidence levels at the configured thresholds: share of queries per level, and top-1 within it.
+    def level(s):
+        return np.where(s >= THRESHOLD_HIGH, "high", np.where(s >= THRESHOLD_LOW, "medium", "low"))
+    lp, ln = level(s_pos), level(s_neg)
+    levels = {lv: {"positive_share": float((lp == lv).mean()),
+                   "positive_top1": float(top1[lp == lv].mean()) if (lp == lv).any() else None,
+                   "negative_share": float((ln == lv).mean())} for lv in ("high", "medium", "low")}
 
     res = {
         "model": f"{MODEL}/{PRETRAINED}",
@@ -76,6 +85,8 @@ def main():
         "latency_ms": {"mean": float(np.mean(lat)), "p95": float(np.percentile(lat, 95)), "runs": len(lat)},
         "threshold_sweep": sweep,
         "recommended_threshold": best["threshold"],
+        "recommended_threshold_low": low["threshold"],
+        "confidence_levels": {"threshold_high": THRESHOLD_HIGH, "threshold_low": THRESHOLD_LOW, **levels},
     }
     with open(os.path.join(BACKEND, "eval_results.json"), "w", encoding="utf-8") as f:
         json.dump(res, f, indent=2)
@@ -86,6 +97,12 @@ def main():
     print(f"| Latency per query (CPU, mean / p95) | {res['latency_ms']['mean']:.0f} ms / {res['latency_ms']['p95']:.0f} ms |")
     print(f"| Recommended threshold | {best['threshold']} (correct accept {pct(best['correct_accept'])}, "
           f"false accept {pct(best['false_accept'])}) |")
+    print(f"| Recommended low threshold (precision >= 60%) | {low['threshold']} |")
+    print(f"\n| Confidence (high >= {THRESHOLD_HIGH}, medium >= {THRESHOLD_LOW}) | Catalog queries | "
+          f"Top-1 correct within level | Holdout queries |\n|---|---|---|---|")
+    for lv, v in levels.items():
+        t1 = pct(v["positive_top1"]) if v["positive_top1"] is not None else "-"
+        print(f"| {lv} | {pct(v['positive_share'])} | {t1} | {pct(v['negative_share'])} |")
     print("\n| Category | Queries | Top-1 |\n|---|---|---|")
     for c, v in res["top1_by_category"].items():
         print(f"| {c} | {v['n']} | {pct(v['top1'])} |")

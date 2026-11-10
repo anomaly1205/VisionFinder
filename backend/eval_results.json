@@ -36,8 +36,8 @@
     }
   },
   "latency_ms": {
-    "mean": 98.52982999989763,
-    "p95": 107.25413500294962,
+    "mean": 85.61116200056858,
+    "p95": 93.22436499824107,
     "runs": 50
   },
   "threshold_sweep": [
@@ -156,5 +156,25 @@
       "precision": 0.7333333333333333
     }
   ],
-  "recommended_threshold": 0.825
+  "recommended_threshold": 0.825,
+  "recommended_threshold_low": 0.7,
+  "confidence_levels": {
+    "threshold_high": 0.825,
+    "threshold_low": 0.7,
+    "high": {
+      "positive_share": 0.3073073073073073,
+      "positive_top1": 0.8827361563517915,
+      "negative_share": 0.18305084745762712
+    },
+    "medium": {
+      "positive_share": 0.33633633633633636,
+      "positive_top1": 0.6666666666666666,
+      "negative_share": 0.34915254237288135
+    },
+    "low": {
+      "positive_share": 0.3563563563563564,
+      "positive_top1": 0.29213483146067415,
+      "negative_share": 0.46779661016949153
+    }
+  }
 }

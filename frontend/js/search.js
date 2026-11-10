@@ -1,6 +1,6 @@
 import { crumbs } from "./layout.js";
 import { CATEGORIES, productCard, escapeHtml, icon } from "./common.js";
-import { searchByImage, searchByText, THRESHOLD } from "./api.js";
+import { searchByImage, searchByText, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 
 const $ = (id) => document.getElementById(id);
 document.querySelector("main").insertAdjacentHTML("afterbegin", crumbs([["Home", "index.html"], ["Visual Search"]]));
@@ -101,7 +101,7 @@ function done() {
   $("results-grid").classList.remove("is-loading");
 }
 
-function render({ results, ms, demo, match }, q) {
+function render({ results, ms, demo, match, confidence }, q) {
   const what = cropper ? (q ? `your photo + “${escapeHtml(q)}”` : "your photo") : `“${escapeHtml(q)}”`;
   const notice = $("notice"), grid = $("results-grid");
   $("results-meta").textContent = `${results.length} results · ${ms} ms${demo ? " · demo mode" : ""}`;
@@ -115,17 +115,21 @@ function render({ results, ms, demo, match }, q) {
     return;
   }
   const best = results[0].score;
-  const photo = !!cropper; // THRESHOLD is an image-score bar; text scores use a different scale
-  if (photo && !(match ?? best >= THRESHOLD)) { // backend decides when it answers; demo mode compares locally
+  const photo = !!cropper; // thresholds are image-score bars; text scores use a different scale
+  // Backend decides when it answers (older backends only send match); demo mode compares locally.
+  const level = confidence ?? (match ?? best >= THRESHOLD ? "high" : best >= THRESHOLD_LOW ? "medium" : "low");
+  if (photo && level === "low") {
     $("results-title").innerHTML = `Closest pieces to ${what}`;
     notice.hidden = false;
-    notice.innerHTML = `<p><strong>No confident match.</strong> The best score is ${Math.round(best * 100)}%, below our ${Math.round(THRESHOLD * 100)}% bar. These are the nearest pieces, not the same item. A tighter crop or a clearer photo usually helps.</p>`;
+    notice.innerHTML = `<p><strong>No confident match.</strong> The best score is ${Math.round(best * 100)}%, below our ${Math.round(THRESHOLD_LOW * 100)}% bar. These are the nearest pieces, not the same item. A tighter crop or a clearer photo usually helps.</p>`;
+  } else if (photo && level === "medium") {
+    $("results-title").innerHTML = `Similar pieces to ${what}`;
   } else {
     $("results-title").innerHTML = `Matches for ${what}`;
   }
   grid.innerHTML = results.map(({ product, score }) => {
     const pct = Math.round(score * 100);
-    return productCard(product, `<p class="match${photo && score < THRESHOLD ? " low" : ""}"><span style="--p:${pct}%"></span>${pct}% similar</p>`);
+    return productCard(product, `<p class="match${photo && score < THRESHOLD_LOW ? " low" : ""}"><span style="--p:${pct}%"></span>${pct}% similar</p>`);
   }).join("");
 }
 

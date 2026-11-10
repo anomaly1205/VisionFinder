@@ -12,7 +12,7 @@ TEXT_WEIGHT = 0.5  # combined = image score + TEXT_WEIGHT * text score
 
 # CLIP text-to-image cosine sits roughly in 0.15-0.35 (image-to-image is ~0.5-1.0).
 # For display only, text scores are mapped linearly from [TEXT_LO, TEXT_HI] to [0, 1] and clipped.
-# They are not comparable to THRESHOLD, so text search never applies it.
+# They are not comparable to the image thresholds, so text search never applies them.
 TEXT_LO, TEXT_HI = 0.15, 0.35
 
 
@@ -33,7 +33,7 @@ class SearchEngine:
         return D[0], I[0]
 
     def search_image(self, image, text=None, k=12):
-        """Score returned is always the image score, so THRESHOLD keeps its meaning."""
+        """Score returned is always the image score, so the thresholds keep their meaning."""
         q = self.emb.embed_images([image])[0]
         if not text:
             D, I = self._search(q, k)

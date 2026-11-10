@@ -11,7 +11,7 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 - [x] **Image search**: upload / drag & drop / paste a photo, get the top-k most similar products with a similarity score
 - [x] **Crop before search**: select only the product region of the photo
 - [x] **Text search**: describe the product ("light wood dining chair") and search the same embedding space
-- [x] **Confidence threshold**: returns "No confident match" instead of a wrong answer
+- [x] **Confidence levels**: a photo search is labelled match, similar pieces, or "No confident match" instead of giving a wrong answer
 - [x] **Visually similar**: product pages suggest look-alike items
 - [ ] **Shop the look**: detect several items in a room photo and search each one (planned)
 - [x] **Catalog**: 500 home & living products across 7 categories
@@ -20,7 +20,7 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 
 1. **Offline:** each product's main image is converted into a vector (embedding) by a pretrained CLIP model and stored in a FAISS index.
 2. **Online:** the user's photo (or text) goes through the same model and is compared with all product vectors by cosine similarity.
-3. The top-k closest products are returned if the best score passes a confidence threshold, otherwise "No confident match".
+3. The top-k closest products are returned with a confidence level from the best score: **high** (match), **medium** (similar pieces) or **low** ("No confident match").
 
 **Why not train a classifier?** No large labeled dataset or GPU training is needed, and a new product becomes searchable by embedding its image, with no retraining. Trade-off: lower accuracy on near-identical products, controlled by the threshold.
 
@@ -45,7 +45,7 @@ Evaluation uses the **other camera angles** of each product as queries, so accur
 | Top-1 accuracy | 60.0% |
 | Top-5 accuracy | 74.7% |
 | Latency per query (CPU, mean / p95) | 99 ms / 107 ms |
-| Threshold (default) | 0.825: accepts 27.1% of catalog queries correctly, 18.3% of holdout queries by mistake |
+| Thresholds (default) | high >= 0.825, medium >= 0.70 |
 
 Measured by `backend/evaluate.py` with OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`): 999 positive queries (other camera angles of catalog products, not indexed) and 295 negative queries (every image of the 100 holdout products). Latency is one full query (decode, preprocess, embed, search) on CPU. Full numbers, including the threshold sweep, are in `backend/eval_results.json`.
 
@@ -59,7 +59,15 @@ Measured by `backend/evaluate.py` with OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`): 
 | Storage | 142 | 72.5% |
 | Textiles | 142 | 45.1% |
 
-The threshold is the one with the largest gap between correct accepts and false accepts (swept 0.50-0.95 in 0.025 steps). The gap is small: many holdout products are near-twins of catalog items (same brand and style), so a confident score does not guarantee the exact product. Override with the `VF_THRESHOLD` environment variable.
+Thresholds are swept from 0.50 to 0.95 in 0.025 steps. **High** (0.825) has the largest gap between correct accepts and false accepts. **Medium** (0.70) is the lowest threshold where at least 60% of accepted queries are the right product. Override them with the `VF_THRESHOLD` and `VF_THRESHOLD_LOW` environment variables.
+
+| Confidence | Catalog queries | Top-1 correct within level | Holdout queries |
+|---|---|---|---|
+| high (>= 0.825) | 30.7% | 88.3% | 18.3% |
+| medium (0.70-0.825) | 33.6% | 66.7% | 34.9% |
+| low (< 0.70) | 35.6% | 29.2% | 46.8% |
+
+The levels do not separate cleanly: many holdout products are near-twins of catalog items (same brand and style), so even a high score does not guarantee the exact product.
 
 ## Experiments
 
