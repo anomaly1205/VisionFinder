@@ -1,5 +1,5 @@
 import { crumbs } from "./layout.js";
-import { CATEGORIES, loadProducts, productCard, getSaved, colorFamily, COLOR_ORDER, typeLabel, icon } from "./common.js";
+import { CATEGORIES, loadProducts, productCard, getSaved, colorFamily, COLOR_ORDER, typeLabel, icon, keywordSearch, escapeHtml } from "./common.js";
 
 const PAGE = 24;
 const NEW_COUNT = 24; // New Arrivals = the last 24 items of the catalog (or of the chosen category)
@@ -17,7 +17,8 @@ let shown = PAGE;
 function filtered(params) {
   const cat = params.get("category"), color = params.get("color"), sort = params.get("sort");
   const subs = params.get("sub")?.split(",").filter(Boolean);
-  let list = products;
+  const q = params.get("q")?.trim();
+  let list = q ? keywordSearch(products, q) : products;
   if (params.has("wishlist")) { const saved = new Set(getSaved()); list = list.filter((p) => saved.has(p.id)); }
   if (cat) list = list.filter((p) => p.category === cat);
   if (subs?.length) list = list.filter((p) => subs.includes(p.product_type));
@@ -32,7 +33,9 @@ function render() {
   const params = new URLSearchParams(location.search);
   const cat = params.get("category") ?? "";
   const subs = params.get("sub")?.split(",").filter(Boolean) ?? [];
-  const title = params.has("wishlist") ? "Wishlist" : params.has("new") ? (cat ? `New in ${cat}` : "New Arrivals") : cat || "All Products";
+  const q = params.get("q")?.trim() ?? "";
+  const aiUrl = `search.html?q=${encodeURIComponent(q)}`;
+  const title = q ? `Results for “${q}”` : params.has("wishlist") ? "Wishlist" : params.has("new") ? (cat ? `New in ${cat}` : "New Arrivals") : cat || "All Products";
   document.title = `${title} · VisionFinder Home`;
   $("list-title").textContent = title;
   $("crumbs").innerHTML = crumbs([["Home", "index.html"], ...(cat && title !== cat ? [[cat, `products.html?category=${cat}`]] : []), [title]]);
@@ -44,6 +47,10 @@ function render() {
   sub.hidden = !subs.length;
   if (subs.length) sub.innerHTML = `Type: ${subs.map(typeLabel).join(", ")} <button type="button" data-clear="sub">Show all ${cat || "types"}</button>`;
 
+  const strip = $("ai-strip");
+  strip.hidden = !q;
+  if (q) strip.innerHTML = `Can't find it by name? <a href="${escapeHtml(aiUrl)}">Try AI search: describe it or use a photo →</a>`;
+
   const list = filtered(params);
   $("list-count").textContent = `${list.length} ${list.length === 1 ? "piece" : "pieces"}`;
   $("list-grid").innerHTML = list.slice(0, shown).map((p) => productCard(p)).join("");
@@ -52,7 +59,9 @@ function render() {
   const empty = $("list-empty");
   empty.hidden = list.length > 0;
   if (!list.length) {
-    empty.innerHTML = params.has("wishlist") && [...params.keys()].length === 1
+    empty.innerHTML = q
+      ? `<h1>No keyword matches</h1><p>No product name contains every word of “${escapeHtml(q)}”. AI search understands descriptions.</p><a class="btn btn-ai" href="${escapeHtml(aiUrl)}">Search with AI instead</a>`
+      : params.has("wishlist") && [...params.keys()].length === 1
       ? `<p>No saved pieces yet. Tap the heart on any product to keep it here.</p><a class="btn" href="products.html">Browse the shop</a>`
       : `<p>No pieces match these filters.</p><button class="btn" type="button" data-clear="all">Clear filters</button>`;
   }

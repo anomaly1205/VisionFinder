@@ -34,11 +34,11 @@ function renderHeader() {
     <div class="wrap header-row">
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Menu">${icon("menu")}</button>
       <a class="wordmark" href="index.html"><span class="wm-text">Vision<em>Finder</em></span><span class="wm-tag">Home</span></a>
-      <form class="header-search" action="search.html" role="search">
-        <label class="sr-only" for="site-q">Search products</label>
-        <input id="site-q" name="q" type="search" placeholder="Search or describe it: “walnut side table”" value="${escapeHtml(q)}" autocomplete="off">
+      <form class="header-search" action="products.html" role="search">
+        <label class="sr-only" for="site-q">Search products by keyword</label>
+        <input id="site-q" name="q" type="search" placeholder="Search by keyword" value="${page === "products.html" ? escapeHtml(q) : ""}" autocomplete="off">
         <button class="search-submit" type="submit" aria-label="Search">${icon("search")}</button>
-        <a class="cam-btn" href="search.html" title="Search by photo">${icon("camera")}<span>Photo</span></a>
+        <a class="cam-btn" href="search.html" title="AI search by photo">${icon("camera")}<span>Photo</span></a>
       </form>
       <div class="header-icons">
         <button class="hdr-item opt" type="button" popovertarget="pop-bell" aria-label="Notifications">${icon("bell")}</button>

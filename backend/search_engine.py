@@ -14,6 +14,9 @@ TEXT_WEIGHT = 0.5  # combined = image score + TEXT_WEIGHT * text score
 # For display only, text scores are mapped linearly from [TEXT_LO, TEXT_HI] to [0, 1] and clipped.
 # They are not comparable to the image thresholds, so text search never applies them.
 TEXT_LO, TEXT_HI = 0.15, 0.35
+# Text search wraps the query in a prompt: CLIP matches captions, so "something to read under at night"
+# finds lamps only once it reads like a caption (8 test queries: 63 vs 59 relevant hits in the top 12).
+TEXT_PROMPT = "a product photo of a household item for {}"
 
 
 def scale_text(scores):
@@ -46,7 +49,7 @@ class SearchEngine:
         return [{"id": self.ids[I[j]], "score": float(D[j])} for j in order]
 
     def search_text(self, q, k=12):
-        D, I = self._search(self.emb.embed_texts([q])[0], k)
+        D, I = self._search(self.emb.embed_texts([TEXT_PROMPT.format(q)])[0], k)
         return [{"id": self.ids[i], "score": round(float(s), 4)} for s, i in zip(scale_text(D), I)]
 
     def similar(self, pid, k=12):

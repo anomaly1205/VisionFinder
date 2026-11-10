@@ -1,14 +1,35 @@
 import { crumbs } from "./layout.js";
-import { CATEGORIES, productCard, escapeHtml, icon } from "./common.js";
+import { CATEGORIES, productCard, escapeHtml, icon, loadProducts, keywordSearch } from "./common.js";
 import { searchByImage, searchByText, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 
 const $ = (id) => document.getElementById(id);
-document.querySelector("main").insertAdjacentHTML("afterbegin", crumbs([["Home", "index.html"], ["Visual Search"]]));
+document.querySelector("main").insertAdjacentHTML("afterbegin", crumbs([["Home", "index.html"], ["AI Visual Search"]]));
 document.getElementById("dz-icon").innerHTML = icon("camera");
 
 const dz = $("dropzone"), fileInput = $("file-input"), crop = $("crop"), cropImg = $("crop-img");
 const textForm = $("text-form"), textQ = $("text-q");
 let cropper, objectUrl;
+
+// ---- tabs: photo / description ----
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function showTab(tab) {
+  for (const t of tabs) {
+    const on = t === tab;
+    t.setAttribute("aria-selected", on);
+    t.tabIndex = on ? 0 : -1;
+    $(t.getAttribute("aria-controls")).hidden = !on;
+  }
+}
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => showTab(t));
+  t.addEventListener("keydown", (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (!step) return;
+    const next = tabs[(i + step + tabs.length) % tabs.length];
+    showTab(next);
+    next.focus();
+  });
+});
 
 // ---- photo: pick, drop, paste, or handed over from another page ----
 function loadPhoto(blob) {
@@ -79,6 +100,7 @@ async function run() {
   $("results-title").textContent = "Searching…";
   $("results-meta").textContent = "";
   $("notice").hidden = true;
+  $("kw-compare").hidden = true;
   $("results-grid").classList.add("is-loading");
 
   let res;
@@ -94,6 +116,12 @@ async function run() {
   }
   if (id !== runId) return; // a newer search started
   render(res, q);
+  if (!cropper) { // description search: show what plain keyword search would have found
+    const n = keywordSearch(await loadProducts(), q).length;
+    if (id !== runId) return;
+    $("kw-compare").hidden = false;
+    $("kw-compare").innerHTML = `Keyword search found ${n} ${n === 1 ? "result" : "results"} for this query.${n ? ` <a href="products.html?q=${encodeURIComponent(q)}">See them</a>` : ""}`;
+  }
   done();
 }
 function done() {
@@ -137,8 +165,8 @@ function render({ results, ms, demo, match, confidence }, q) {
 const params = new URLSearchParams(location.search);
 const q0 = params.get("q")?.trim();
 if (params.has("camera")) { camBtn.classList.add("is-featured"); camInput.focus(); } // arrived from the QR code
-if (q0) textQ.value = q0;
+if (q0) { textQ.value = q0; showTab($("tab-text")); }
 let handed;
 try { handed = sessionStorage.getItem("vf_query_image"); sessionStorage.removeItem("vf_query_image"); } catch { /* blocked */ }
-if (handed) loadPhoto(await (await fetch(handed)).blob());
+if (handed) { showTab($("tab-photo")); loadPhoto(await (await fetch(handed)).blob()); }
 else if (q0) run();

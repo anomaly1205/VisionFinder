@@ -56,6 +56,17 @@ export async function productById(id) {
   return (await loadProducts()).find((p) => p.id === id);
 }
 
+// Plain keyword search (no AI): every query word must appear as a whole word in name, category or product type.
+const words = (s) => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+export function keywordSearch(products, q) {
+  const want = words(q);
+  if (!want.length) return [];
+  return products.filter((p) => {
+    const have = new Set(words(`${p.name} ${p.category} ${p.product_type.replace(/_/g, " ")}`));
+    return want.every((w) => have.has(w));
+  });
+}
+
 export const escapeHtml = (s) =>
   String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 export const money = (n) => `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;

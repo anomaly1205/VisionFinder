@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Visual Search · VisionFinder Home</title>
+  <title>AI Visual Search · VisionFinder Home</title>
   <meta name="description" content="Find furniture and decor with a photo or a few words.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='20' fill='%23fff' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,13 +18,16 @@
   <header class="site-header"></header>
   <main class="wrap">
     <div class="search-head">
-      <h1>Visual Search</h1>
-      <p>Show us a photo, describe the piece in a few words, or both. We rank every item in the catalog by how close it looks.</p>
+      <h1>AI Visual Search</h1>
+      <p>Our AI looks at the pictures, not the product names. Show it a photo, or describe the piece in your own words, and it ranks every item in the catalog by how close it looks.</p>
     </div>
 
+    <div class="search-tabs" role="tablist" aria-label="Search mode">
+      <button type="button" role="tab" id="tab-photo" aria-controls="panel-photo" aria-selected="true">Search by photo</button>
+      <button type="button" role="tab" id="tab-text" aria-controls="panel-text" aria-selected="false" tabindex="-1">Describe it (AI)</button>
+    </div>
     <div class="search-panels">
-      <section class="panel" aria-labelledby="photo-title">
-        <h2 id="photo-title"><span class="step">1</span> Search by photo</h2>
+      <section class="panel" id="panel-photo" role="tabpanel" aria-labelledby="tab-photo">
         <label class="dropzone" id="dropzone">
           <span id="dz-icon"></span>
           <strong>Drop a photo here</strong>
@@ -45,11 +48,10 @@
         </div>
       </section>
 
-      <section class="panel" aria-labelledby="text-title">
-        <h2 id="text-title"><span class="step">2</span> Search by description</h2>
+      <section class="panel" id="panel-text" role="tabpanel" aria-labelledby="tab-text" hidden>
         <form class="ai-text" id="text-form">
           <label class="sr-only" for="text-q">Describe what you're looking for</label>
-          <input id="text-q" name="q" type="search" placeholder="Describe it: “light wood dining chair”" autocomplete="off">
+          <input id="text-q" name="q" type="search" placeholder="e.g. something to read under at night" autocomplete="off">
           <button class="btn" type="submit">Search</button>
         </form>
         <p class="hint" id="combo-hint">With a photo added, the description narrows the photo results.</p>
@@ -64,6 +66,7 @@
       </div>
       <div class="notice" id="notice" hidden></div>
       <div class="grid-4" id="results-grid"></div>
+      <p class="kw-compare" id="kw-compare" hidden></p>
     </section>
   </main>
   <footer class="site-footer"></footer>
