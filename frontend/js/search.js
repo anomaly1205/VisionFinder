@@ -33,7 +33,7 @@ function clearPhoto() {
   fileInput.value = camInput.value = "";
 }
 const cropBlob = () => new Promise((res) =>
-  cropper.getCroppedCanvas({ maxWidth: 1024, maxHeight: 1024, fillColor: "#fff" }).toBlob(res, "image/jpeg", 0.9));
+  cropper.getCroppedCanvas({ maxWidth: 1024, maxHeight: 1024, fillColor: "#fff" }).toBlob(res, "image/jpeg", 0.92));
 
 fileInput.addEventListener("change", () => loadPhoto(fileInput.files[0]));
 // Camera: capture="environment" opens the rear camera on phones; desktop falls back to a file picker.
@@ -115,7 +115,8 @@ function render({ results, ms, demo, match }, q) {
     return;
   }
   const best = results[0].score;
-  if (!(match ?? best >= THRESHOLD)) { // backend decides when it answers; demo mode compares locally
+  const photo = !!cropper; // THRESHOLD is an image-score bar; text scores use a different scale
+  if (photo && !(match ?? best >= THRESHOLD)) { // backend decides when it answers; demo mode compares locally
     $("results-title").innerHTML = `Closest pieces to ${what}`;
     notice.hidden = false;
     notice.innerHTML = `<p><strong>No confident match.</strong> The best score is ${Math.round(best * 100)}%, below our ${Math.round(THRESHOLD * 100)}% bar. These are the nearest pieces, not the same item. A tighter crop or a clearer photo usually helps.</p>`;
@@ -124,7 +125,7 @@ function render({ results, ms, demo, match }, q) {
   }
   grid.innerHTML = results.map(({ product, score }) => {
     const pct = Math.round(score * 100);
-    return productCard(product, `<p class="match${score < THRESHOLD ? " low" : ""}"><span style="--p:${pct}%"></span>${pct}% similar</p>`);
+    return productCard(product, `<p class="match${photo && score < THRESHOLD ? " low" : ""}"><span style="--p:${pct}%"></span>${pct}% similar</p>`);
   }).join("");
 }
 
