@@ -16,6 +16,10 @@ TEXT_WEIGHT = 0.5  # combined = image score + TEXT_WEIGHT * text score
 TEXT_LO, TEXT_HI = 0.15, 0.35
 
 
+def scale_text(scores):
+    return np.clip((scores - TEXT_LO) / (TEXT_HI - TEXT_LO), 0, 1)
+
+
 class SearchEngine:
     def __init__(self, embedder=None):
         self.emb = embedder or Embedder()
@@ -36,14 +40,14 @@ class SearchEngine:
             return [{"id": self.ids[i], "score": float(d)} for d, i in zip(D, I)]
         D, I = self._search(q, RERANK_POOL)
         t = self.emb.embed_texts([text])[0]
-        text_scores = np.array([self.index.reconstruct(int(i)) @ t for i in I])
+        # Scale first: raw text cosine spans only ~0.2, too small to reorder image scores.
+        text_scores = scale_text(np.array([self.index.reconstruct(int(i)) @ t for i in I]))
         order = np.argsort(-(D + TEXT_WEIGHT * text_scores))[:k]
         return [{"id": self.ids[I[j]], "score": float(D[j])} for j in order]
 
     def search_text(self, q, k=12):
         D, I = self._search(self.emb.embed_texts([q])[0], k)
-        scaled = np.clip((D - TEXT_LO) / (TEXT_HI - TEXT_LO), 0, 1)
-        return [{"id": self.ids[i], "score": round(float(s), 4)} for s, i in zip(scaled, I)]
+        return [{"id": self.ids[i], "score": round(float(s), 4)} for s, i in zip(scale_text(D), I)]
 
     def similar(self, pid, k=12):
         """Raises KeyError for an unknown id."""

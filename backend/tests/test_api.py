@@ -44,6 +44,11 @@ def test_image_plus_text(client):
     assert r["top_score"] == r["results"][0]["score"]  # score stays the image score
 
 
+def test_text_changes_image_ranking(client):
+    ids = lambda text: [x["id"] for x in post_image(client, image_path(P["image"]), text=text).json()["results"]]
+    assert ids("round wool area rug") != ids("brass table lamp")
+
+
 def test_not_an_image(client):
     r = client.post("/api/search/image", files={"file": ("x.txt", b"hello", "text/plain")})
     assert r.status_code == 400 and "image" in r.json()["detail"]
