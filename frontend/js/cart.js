@@ -1,5 +1,5 @@
 import { crumbs } from "./layout.js";
-import { loadProducts, getCart, setCart, productCard, displayName, escapeHtml, money, icon } from "./common.js";
+import { loadProducts, getCart, setCart, productCard, displayName, escapeHtml, money, icon, thumbOf } from "./common.js";
 
 const products = await loadProducts();
 const byId = new Map(products.map((p) => [p.id, p]));
@@ -25,7 +25,7 @@ function render() {
     <ul class="cart-list">${rows.map(({ id, qty }) => {
       const p = byId.get(id), href = `product.html?id=${encodeURIComponent(id)}`, name = escapeHtml(displayName(p.name));
       return `<li class="cart-row" data-id="${escapeHtml(id)}">
-        <a class="tile" href="${href}" tabindex="-1" aria-hidden="true"><img src="${p.image}" alt=""></a>
+        <a class="tile" href="${href}" tabindex="-1" aria-hidden="true"><img src="${p.thumb ?? thumbOf(p.image)}" alt=""></a>
         <div class="cart-info">
           <a class="card-title" href="${href}">${name}</a>
           <p class="card-brand">${escapeHtml(p.brand || p.category)}</p>

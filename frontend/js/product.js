@@ -1,5 +1,5 @@
 import { crumbs, markNav } from "./layout.js";
-import { productById, productCard, displayName, escapeHtml, money, typeLabel, getSaved, addToCart, sendToSearch, toast, icon } from "./common.js";
+import { productById, productCard, displayName, escapeHtml, money, typeLabel, getSaved, addToCart, sendToSearch, toast, icon, thumbOf } from "./common.js";
 import { similar } from "./api.js";
 
 const $ = (id) => document.getElementById(id);
@@ -24,7 +24,7 @@ if (!p) {
     <div class="pdp-media">
       <div class="tile pdp-main"><img id="main-img" src="${gallery[0]}" alt="${escapeHtml(name)}"></div>
       ${gallery.length > 1 ? `<div class="thumbs" role="group" aria-label="Product photos">${gallery.map((src, i) =>
-        `<button type="button" class="tile" data-src="${src}" aria-label="Photo ${i + 1}" aria-pressed="${i === 0}"><img src="${src}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
+        `<button type="button" class="tile" data-src="${src}" aria-label="Photo ${i + 1}" aria-pressed="${i === 0}"><img src="${thumbOf(src)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
     </div>
     <div class="pdp-info">
       <p class="eyebrow">${escapeHtml(p.brand || p.category)}</p>

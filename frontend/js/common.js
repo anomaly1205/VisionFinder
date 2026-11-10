@@ -56,6 +56,9 @@ export async function productById(id) {
   return (await loadProducts()).find((p) => p.id === id);
 }
 
+// 400 px thumbnail of any catalog image (made by backend/make_thumbs.py). Full size only for the PDP main image and hero.
+export const thumbOf = (src) => src.replace("assets/products/", "assets/thumbs/").replace(/\.[a-z]+$/i, ".webp");
+
 // Plain keyword search (no AI): every query word must appear as a whole word in name, category or product type.
 const words = (s) => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
 export function keywordSearch(products, q) {
@@ -132,7 +135,7 @@ export function productCard(p, extra = "") {
   const saved = getSaved().includes(p.id);
   return `<div class="card">
     <button class="heart" type="button" data-save="${escapeHtml(p.id)}" aria-pressed="${saved}" aria-label="Save ${escapeHtml(displayName(p.name))} to wishlist">${icon("heart")}</button>
-    <a class="tile" href="product.html?id=${encodeURIComponent(p.id)}" tabindex="-1" aria-hidden="true"><img src="${p.image}" alt="" loading="lazy" width="256" height="256"></a>
+    <a class="tile" href="product.html?id=${encodeURIComponent(p.id)}" tabindex="-1" aria-hidden="true"><img src="${p.thumb ?? thumbOf(p.image)}" alt="" loading="lazy" width="256" height="256"></a>
     <a class="card-body" href="product.html?id=${encodeURIComponent(p.id)}">
       <h3 class="card-title">${escapeHtml(displayName(p.name))}</h3>
       <p class="card-brand">${escapeHtml(p.brand || p.category)}</p>

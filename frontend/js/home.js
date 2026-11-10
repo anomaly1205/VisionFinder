@@ -89,7 +89,7 @@ document.getElementById("new-arrivals").innerHTML = newArrivals.map((p) => produ
 
 document.getElementById("cat-grid").innerHTML = CATEGORIES.map((c) => `
   <a class="cat-item" href="products.html?category=${c}">
-    <span class="tile"><img src="${byCat[c][0].image}" alt="" loading="lazy"></span>
+    <span class="tile"><img src="${byCat[c][0].thumb}" alt="" loading="lazy"></span>
     <span>${c}</span>
   </a>`).join("");
 

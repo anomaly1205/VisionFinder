@@ -107,10 +107,11 @@ async function run() {
   try {
     res = cropper ? await searchByImage(await cropBlob(), q) : await searchByText(q);
   } catch (err) {
-    console.error(err);
+    if (!(err.status < 500)) console.error(err); // 4xx are expected (bad file) and shown to the user
     if (id !== runId) return;
     $("results-title").textContent = "Search failed";
-    $("results-meta").textContent = "The search service returned an error. Try again in a moment.";
+    // 4xx carry the backend's reason (too large, not an image); anything else gets a generic line.
+    $("results-meta").textContent = err.status >= 400 && err.status < 500 ? err.message : "The search service returned an error. Try again in a moment.";
     $("results-grid").innerHTML = "";
     return done();
   }

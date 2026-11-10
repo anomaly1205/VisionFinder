@@ -9,11 +9,12 @@ export let THRESHOLD = 0.6;
 export let THRESHOLD_LOW = 0.6;
 const K = 12;
 
-let backendUp; // cached per page load
+let backendUp; // true once seen up; while offline, every search checks again
 async function backendAvailable() {
-  if (backendUp !== undefined) return backendUp;
+  if (backendUp) return true;
   try {
-    const r = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(1500) });
+    // First check waits longer; re-checks in demo mode stay short so a search never stalls.
+    const r = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(backendUp === undefined ? 1500 : 600) });
     backendUp = r.ok;
     if (backendUp) {
       const h = await r.json();
@@ -23,12 +24,14 @@ async function backendAvailable() {
   } catch {
     backendUp = false;
   }
-  if (!backendUp) showDemoBadge();
+  demoBadge(!backendUp);
   return backendUp;
 }
 
-function showDemoBadge() {
-  if (document.querySelector(".demo-badge")) return;
+function demoBadge(on) {
+  const old = document.querySelector(".demo-badge");
+  if (!on) return old?.remove();
+  if (old) return;
   const b = document.createElement("p");
   b.className = "demo-badge";
   b.setAttribute("role", "status");
@@ -37,10 +40,22 @@ function showDemoBadge() {
 }
 
 // Backend returns { results: [{ id, score }], took_ms }. Attach full product records.
-async function call(path, init) {
+// fallback: the mock to run if the backend drops mid-session (network error), so the page keeps working.
+// HTTP errors throw an Error whose message is the backend's own text (e.g. "Image is larger than 10 MB.").
+async function call(path, init, fallback) {
   const t0 = performance.now();
-  const r = await fetch(`${API_BASE}${path}`, init);
-  if (!r.ok) throw new Error(`API ${path}: HTTP ${r.status}`);
+  let r;
+  try {
+    r = await fetch(`${API_BASE}${path}`, init);
+  } catch {
+    backendUp = false;
+    demoBadge(true);
+    return mock(fallback);
+  }
+  if (!r.ok) {
+    const detail = await r.json().then((d) => d.detail, () => null);
+    throw Object.assign(new Error(typeof detail === "string" ? detail : `Search service error (HTTP ${r.status}).`), { status: r.status });
+  }
   const data = await r.json();
   const results = [];
   for (const { id, score } of data.results) {
@@ -106,23 +121,24 @@ export async function searchByImage(blob, text = "") {
     const form = new FormData();
     form.append("file", blob, "query.jpg");
     if (text) form.append("text", text);
-    return call(`/search/image?k=${K}`, { method: "POST", body: form });
+    return call(`/search/image?k=${K}`, { method: "POST", body: form }, () => mockImage(text.trim()));
   }
   return mock(() => mockImage(text.trim()));
 }
 
 export async function searchByText(q) {
-  if (await backendAvailable()) return call(`/search/text?q=${encodeURIComponent(q)}&k=${K}`);
+  if (await backendAvailable()) return call(`/search/text?q=${encodeURIComponent(q)}&k=${K}`, undefined, () => mockText(q));
   return mock(() => mockText(q));
 }
 
 export async function similar(id) {
-  if (await backendAvailable()) return call(`/similar/${encodeURIComponent(id)}?k=${K}`);
-  return mock(async () => {
-    const p = await productById(id);
-    if (!p) return [];
-    const pool = shuffle((await loadProducts()).filter((x) => x.category === p.category && x.id !== id)).slice(0, K);
-    const scores = descending(pool.length, 0.88);
-    return pool.map((product, i) => ({ product, score: scores[i] }));
-  });
+  if (await backendAvailable()) return call(`/similar/${encodeURIComponent(id)}?k=${K}`, undefined, () => mockSimilar(id));
+  return mock(() => mockSimilar(id));
+}
+async function mockSimilar(id) {
+  const p = await productById(id);
+  if (!p) return [];
+  const pool = shuffle((await loadProducts()).filter((x) => x.category === p.category && x.id !== id)).slice(0, K);
+  const scores = descending(pool.length, 0.88);
+  return pool.map((product, i) => ({ product, score: scores[i] }));
 }
