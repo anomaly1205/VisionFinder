@@ -18,6 +18,8 @@ engine: SearchEngine = None
 async def lifespan(_app):
     global engine
     engine = SearchEngine()  # model + index loaded once
+    # Warm-up: torch's first forward pass is slow; pay it here instead of on the first visitor's request.
+    engine.search_image(Image.new("RGB", (224, 224), "white"), "warm up", 1)
     yield
 
 

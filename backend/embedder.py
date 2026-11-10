@@ -6,14 +6,19 @@ from PIL import Image, ImageOps
 
 from config import MODEL, PRETRAINED
 
+MAX_SIDE = 1024
+
 
 def load_image(src):
     """Open a path or file-like as RGB: EXIF-rotated, transparency on white, padded to a white square.
 
     Padding matters: CLIP's preprocess center-crops, which would cut the ends off wide or tall products.
-    Raises PIL errors if src is not an image.
+    Large photos are shrunk to MAX_SIDE first (CLIP sees 224 px anyway). For JPEG, draft() decodes at
+    1/2, 1/4 or 1/8 scale, which is most of the saving. Raises PIL errors if src is not an image.
     """
     img = Image.open(src)
+    img.draft(None, (MAX_SIDE, MAX_SIDE))  # no-op for non-JPEG; never goes below MAX_SIDE
+    img.thumbnail((MAX_SIDE, MAX_SIDE))  # square box, so it is safe before the EXIF rotation
     img.load()
     img = ImageOps.exif_transpose(img)
     if img.mode in ("RGBA", "LA", "PA") or (img.mode == "P" and "transparency" in img.info):

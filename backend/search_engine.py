@@ -1,5 +1,6 @@
 """Search logic shared by app.py and evaluate.py. Results are lists of {"id", "score"}."""
 import json
+from functools import lru_cache
 
 import faiss
 import numpy as np
@@ -30,6 +31,14 @@ class SearchEngine:
         with open(IDS_PATH, encoding="utf-8") as f:
             self.ids = json.load(f)
         self.pos = {pid: i for i, pid in enumerate(self.ids)}
+        # No lock around the model: measured with 8 parallel uploads, serialising made the slowest request
+        # 534 -> 885 ms (mean unchanged). One image does not fill every core, so overlapping calls win.
+
+    @lru_cache(maxsize=256)
+    def _embed_text(self, text):
+        v = self.emb.embed_texts([text])[0]
+        v.setflags(write=False)  # cached and shared between requests
+        return v
 
     def _search(self, vec, k):
         D, I = self.index.search(vec.reshape(1, -1), min(k, self.index.ntotal))
@@ -42,14 +51,14 @@ class SearchEngine:
             D, I = self._search(q, k)
             return [{"id": self.ids[i], "score": float(d)} for d, i in zip(D, I)]
         D, I = self._search(q, RERANK_POOL)
-        t = self.emb.embed_texts([text])[0]
+        t = self._embed_text(text)
         # Scale first: raw text cosine spans only ~0.2, too small to reorder image scores.
         text_scores = scale_text(np.array([self.index.reconstruct(int(i)) @ t for i in I]))
         order = np.argsort(-(D + TEXT_WEIGHT * text_scores))[:k]
         return [{"id": self.ids[I[j]], "score": float(D[j])} for j in order]
 
     def search_text(self, q, k=12):
-        D, I = self._search(self.emb.embed_texts([TEXT_PROMPT.format(q)])[0], k)
+        D, I = self._search(self._embed_text(TEXT_PROMPT.format(q)), k)
         return [{"id": self.ids[i], "score": round(float(s), 4)} for s, i in zip(scale_text(D), I)]
 
     def similar(self, pid, k=12):
