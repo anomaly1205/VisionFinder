@@ -18,16 +18,21 @@ Course documents for **VisionFinder**: ATI assignment, Faculty of Information Te
 
 ![How CLIP embeddings, cosine similarity and top-k work together](images/clip-similarity.png)
 
-## Changes since the report
+## Results (from the report)
 
-The report describes the original plan. The implementation has since changed in these ways:
+Measured on 999 real query photos (other camera angles of the 500 catalog products), laptop CPU, OpenCLIP ViT-B-32:
 
-| Report | Current project |
-|---|---|
-| Handicraft product examples (bamboo hat, rattan rug) | Home & living catalog: Furniture, Lighting, Rugs, Decor, Storage, Plants, Textiles |
-| Dataset collected by the team | 500 products from the Amazon Berkeley Objects (ABO) dataset, plus 100 holdout products for threshold tuning |
-| Image search only (text search as a possible extension) | Image search with crop, plus text search in the same CLIP embedding space |
-| Targets X, Y, Z, N to be decided | To be measured with real multi-view queries (other camera angles of each product) |
+| Metric | Target | Achieved |
+|---|---|---|
+| Top-1 accuracy | ≥ 55% | **60.0%** |
+| Top-5 accuracy | ≥ 70% | **74.7%** |
+| Response time per query | < 0.5 s | **99 ms** (p95: 107 ms) |
+| Catalog size | 500 products | 500 products, 7 categories |
+
+## Notes
+
+- Figure 2 uses illustrative handicraft examples (bamboo hat, rattan rug) from the original plan; the implemented catalog is home & living products from the Amazon Berkeley Objects dataset.
+- Figure 2 shows an illustrative threshold of 0.50; the tuned threshold for image search is 0.825 (see `backend/eval_results.json`).
 
 ## Team
 
