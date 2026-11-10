@@ -44,7 +44,7 @@ Evaluation uses the **other camera angles** of each product as queries, so accur
 |---|---|
 | Top-1 accuracy | 60.0% |
 | Top-5 accuracy | 74.7% |
-| Latency per query (CPU, mean / p95) | 93 ms / 105 ms |
+| Latency per query (CPU, mean / p95) | 99 ms / 107 ms |
 | Threshold (default) | 0.825: accepts 27.1% of catalog queries correctly, 18.3% of holdout queries by mistake |
 
 Measured by `backend/evaluate.py` with OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`): 999 positive queries (other camera angles of catalog products, not indexed) and 295 negative queries (every image of the 100 holdout products). Latency is one full query (decode, preprocess, embed, search) on CPU. Full numbers, including the threshold sweep, are in `backend/eval_results.json`.
@@ -60,6 +60,17 @@ Measured by `backend/evaluate.py` with OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`): 
 | Textiles | 142 | 45.1% |
 
 The threshold is the one with the largest gap between correct accepts and false accepts (swept 0.50-0.95 in 0.025 steps). The gap is small: many holdout products are near-twins of catalog items (same brand and style), so a confident score does not guarantee the exact product. Override with the `VF_THRESHOLD` environment variable.
+
+## Experiments
+
+Model comparison on the same queries (`backend/evaluate.py`, CPU, both at threshold 0.825):
+
+| Model | Top-1 | Top-5 | Latency (mean / p95) | Correct accept / false accept @ 0.825 | Index build (500 images) |
+|---|---|---|---|---|---|
+| **ViT-B-32** (`laion2b_s34b_b79k`, default) | **60.0%** | 74.7% | **99 ms / 107 ms** | 27.1% / 18.3% | 30 s |
+| ViT-B-16 (`laion2b_s34b_b88k`) | 59.6% | **75.2%** | 158 ms / 170 ms | 30.7% / 18.3% | 77 s |
+
+ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is about 1.6x slower, so ViT-B-32 stays the default. To try another model, set `VF_MODEL` and `VF_PRETRAINED` before `build_index.py`, `evaluate.py` and `uvicorn`; each model gets its own index file in `backend/data/`.
 
 ## Tech stack
 
