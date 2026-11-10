@@ -140,16 +140,6 @@ ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is abo
 
 With the API running on port 8000, reload the frontend: the "Demo mode" badge disappears and searches hit the real model. Endpoints: `GET /api/health`, `POST /api/search/image`, `GET /api/search/text?q=`, `GET /api/similar/{id}` (docs at http://127.0.0.1:8000/docs).
 
-## Roadmap
-
-- [x] Select 500 home & living products from ABO
-- [x] Frontend redesign (Scandinavian minimal) with AI search UI
-- [x] CLIP embeddings + FAISS index
-- [x] Search API + frontend integration
-- [x] Evaluation and threshold tuning
-- [ ] Deploy (GitHub Pages + Hugging Face Spaces)
-- [ ] Shop the look
-
 ## Credits
 
 Product data and images: Amazon.com, [Amazon Berkeley Objects](https://amazon-berkeley-objects.s3.amazonaws.com/index.html), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Images are unmodified. Prices shown on the site are for demo only.
