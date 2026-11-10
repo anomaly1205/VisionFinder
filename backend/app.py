@@ -41,6 +41,7 @@ def confidence(score):
 
 @app.post("/api/search/image")
 def search_image(file: UploadFile = File(...), text: str = Form(None), k: int = Query(12, ge=1, le=50)):
+    t0 = time.perf_counter()  # includes reading + decoding the upload
     data = file.file.read(MAX_UPLOAD + 1)
     if len(data) > MAX_UPLOAD:
         raise HTTPException(413, f"Image is larger than {MAX_UPLOAD // (1024 * 1024)} MB.")
@@ -48,7 +49,6 @@ def search_image(file: UploadFile = File(...), text: str = Form(None), k: int = 
         img = load_image(BytesIO(data))
     except (OSError, ValueError, Image.DecompressionBombError):
         raise HTTPException(400, "File is not a valid image (JPEG, PNG or WebP).")
-    t0 = time.perf_counter()
     results = engine.search_image(img, (text or "").strip(), k)
     top = results[0]["score"] if results else 0.0
     conf = confidence(top)
