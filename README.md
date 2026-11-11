@@ -1,12 +1,16 @@
-﻿# VisionFinder Home
-
-![VisionFinder demo: upload a photo, crop it, get matching products](docs/screenshots/demo.gif)
+# VisionFinder Home
 
 **Search home & living products by photo, not by keywords.**
 
 VisionFinder Home is a home & living e-commerce demo with AI-powered visual search. Snap or upload a photo of a chair, lamp, rug or vase, crop the item you care about, and the system finds the closest matching products in the catalog. You can also search by a short text description.
 
 > Work in progress. Items marked (planned) are not done yet. The frontend falls back to a simulated **demo mode** when the backend is offline.
+
+| Folder | What it is | How to run it |
+|---|---|---|
+| `frontend/` | Static web app: HTML, CSS, vanilla JavaScript (ES modules), Cropper.js | `python -m http.server 5501 --directory frontend` (or VS Code Live Server) |
+| `backend/` | FastAPI search API: OpenCLIP (ViT-B-32) + FAISS + Pillow | `pip install -r requirements.txt && python build_index.py && uvicorn app:app --port 8000` |
+| `docs/` | Course report, code documentation (Vietnamese), figures | — |
 
 ## Features
 
@@ -17,18 +21,6 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 - [x] **Visually similar**: product pages suggest look-alike items
 - [ ] **Shop the look**: detect several items in a room photo and search each one (planned)
 - [x] **Catalog**: 500 home & living products across 7 categories
-
-## Screenshots
-
-| Home | Search by photo |
-|---|---|
-| ![Home page](docs/screenshots/home.png) | ![Photo search results](docs/screenshots/search-photo.png) |
-| **Search by text** | **Product page** |
-| ![Text search for "brass table lamp"](docs/screenshots/search-text.png) | ![Product page with gallery and visually similar items](docs/screenshots/product.png) |
-
-**Mobile**
-
-<img src="docs/screenshots/mobile.png" alt="Visual search on mobile" width="300">
 
 ## How it works
 
@@ -96,13 +88,15 @@ ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is abo
 
 ## Tech stack
 
-| Layer | Tech |
-|---|---|
-| Frontend | HTML, CSS, vanilla JavaScript, Cropper.js |
-| Backend API | Python, FastAPI |
-| Image preprocessing | Pillow |
-| Multimodal model | CLIP (OpenCLIP ViT-B-32) |
-| Vector search | FAISS (cosine similarity) |
+| Layer | Tech | Used for |
+|---|---|---|
+| Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search); cart and saved items in `localStorage` |
+| Frontend | Cropper.js 1.6.2, qrcodejs 1.0.0 (CDN) | Cropping the product region before search; QR code on the home page to open the camera search on a phone |
+| Backend | Python, FastAPI, Uvicorn, python-multipart | Search API (`/api/search/image`, `/api/search/text`, `/api/similar/{id}`, `/api/health`), image upload |
+| AI & search | PyTorch (CPU), OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`) | Image and text embeddings in one shared space |
+| AI & search | FAISS (`faiss-cpu`), NumPy | Vector index and cosine-similarity top-k search |
+| Data | Amazon Berkeley Objects, Pillow | Catalog source (`prepare_data.py`); image loading, resizing and thumbnails (`make_thumbs.py`) |
+| Testing | pytest, httpx | API tests (`tests/test_api.py`); `evaluate.py` for Top-1 / Top-5 / latency |
 
 ## Project structure
 
@@ -121,24 +115,58 @@ ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is abo
         ├── evaluate.py             # Top-1 / Top-5 / latency / threshold sweep
         └── tests/test_api.py       # API tests (pytest)
 
-## Getting started
+## How to run locally
 
-**Frontend:** open the repo in VS Code and run Live Server (root is `frontend/`, port 5501).
+**Requirements:** Python 3.12+, Git, about 2 GB free disk space (libraries, plus the CLIP model, about 600 MB, downloaded on the first run).
 
-**Data (already included):** to rebuild, download `abo-listings.tar` and `images.csv.gz` from ABO, then run `python backend/prepare_data.py`.
+**1. Clone the repo**
 
-**Backend** (PowerShell, tested on Python 3.14; the first run downloads the CLIP model, about 600 MB):
+    git clone https://github.com/anomaly1205/VisionFinder.git
+    cd VisionFinder
+
+**2. Start the backend** (terminal 1)
+
+Windows (PowerShell):
 
     cd backend
     python -m venv .venv
     .venv\Scripts\Activate.ps1
     pip install -r requirements.txt
     python build_index.py          # ~30 s on CPU; add --limit 20 for a quick test
-    python -m pytest -q            # optional
-    python evaluate.py             # optional, rewrites eval_results.json
     uvicorn app:app --port 8000
 
-With the API running on port 8000, reload the frontend: the "Demo mode" badge disappears and searches hit the real model. Endpoints: `GET /api/health`, `POST /api/search/image`, `GET /api/search/text?q=`, `GET /api/similar/{id}` (docs at http://127.0.0.1:8000/docs).
+macOS / Linux:
+
+    cd backend
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+    python build_index.py          # ~30 s on CPU; add --limit 20 for a quick test
+    uvicorn app:app --port 8000
+
+**3. Start the frontend** (terminal 2, from the repo root)
+
+    python -m http.server 5501 --directory frontend
+
+Open http://127.0.0.1:5501. Keep port 5501 (or 5500): the backend only accepts requests from these origins (CORS, see `backend/config.py`).
+
+**4. Check it works**
+
+- http://127.0.0.1:8000/docs opens the API docs.
+- The website no longer shows the "Demo mode" badge, and searches hit the real model.
+
+**Optional** (in `backend/`, with the virtual environment active):
+
+    python -m pytest -q            # API tests
+    python evaluate.py             # rewrites eval_results.json
+
+**Data (already included):** to rebuild, download `abo-listings.tar` and `images.csv.gz` from ABO, then run `python backend/prepare_data.py`.
+
+### Troubleshooting
+
+- **"Demo mode" badge still shows:** the backend is not running, or not on port 8000. Start `uvicorn app:app --port 8000`, then hard-reload the page (Ctrl+F5).
+- **`Activate.ps1` is blocked** ("running scripts is disabled"): run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then activate again.
+- **`pip` fails on `torch`:** check your Python version with `python --version`. Use Python 3.12 or newer, 64-bit.
 
 ## Credits
 
