@@ -6,6 +6,7 @@ Course documents for **VisionFinder**: ATI assignment, Faculty of Information Te
 |---|---|
 | [ATI_Report.pdf](ATI_Report.pdf) | Project report (read online) |
 | [ATI_Report.docx](ATI_Report.docx) | Project report (editable Word file) |
+| [VisionFinder_Code_Documentation.docx](VisionFinder_Code_Documentation.docx) | Code walkthrough in Vietnamese: architecture, every backend/frontend file, AI concepts, results, presentation Q&A |
 | [images/architecture.png](images/architecture.png) | Figure 1: system architecture (offline + online pipelines) |
 | [images/clip-similarity.png](images/clip-similarity.png) | Figure 2: CLIP embeddings, cosine similarity, vector store and top-k |
 
