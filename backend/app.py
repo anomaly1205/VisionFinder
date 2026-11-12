@@ -3,10 +3,13 @@ import time
 from contextlib import asynccontextmanager
 from io import BytesIO
 
-from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import BackgroundTasks, Depends, FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from PIL import Image
+from sqlalchemy.exc import InterfaceError, OperationalError
 
+import auth
 from config import CORS_ORIGINS, MAX_UPLOAD, MODEL, PRETRAINED, THRESHOLD_HIGH, THRESHOLD_LOW
 from embedder import load_image
 from search_engine import SearchEngine
@@ -24,7 +27,15 @@ async def lifespan(_app):
 
 
 app = FastAPI(title="VisionFinder API", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=CORS_ORIGINS, allow_methods=["GET", "POST"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=CORS_ORIGINS, allow_methods=["GET", "POST", "PUT"], allow_headers=["*"])
+app.include_router(auth.router)
+
+
+# MySQL not running: account endpoints answer 503; search never touches the database on the request path.
+@app.exception_handler(OperationalError)
+@app.exception_handler(InterfaceError)
+def db_down(_request, _exc):
+    return JSONResponse({"detail": "Database unavailable"}, status_code=503)
 
 
 def ms(t0):
@@ -42,7 +53,8 @@ def confidence(score):
 
 
 @app.post("/api/search/image")
-def search_image(file: UploadFile = File(...), text: str = Form(None), k: int = Query(12, ge=1, le=50)):
+def search_image(tasks: BackgroundTasks, file: UploadFile = File(...), text: str = Form(None), k: int = Query(12, ge=1, le=50),
+                 user_id: int | None = Depends(auth.optional_user_id)):
     t0 = time.perf_counter()  # includes reading + decoding the upload
     data = file.file.read(MAX_UPLOAD + 1)
     if len(data) > MAX_UPLOAD:
@@ -54,14 +66,17 @@ def search_image(file: UploadFile = File(...), text: str = Form(None), k: int = 
     results = engine.search_image(img, (text or "").strip(), k)
     top = results[0]["score"] if results else 0.0
     conf = confidence(top)
+    tasks.add_task(auth.record_search, user_id, "photo", None, results)
     return {"results": results, "match": conf == "high", "confidence": conf, "top_score": top,
             "threshold": THRESHOLD_HIGH, "threshold_low": THRESHOLD_LOW, "took_ms": ms(t0)}
 
 
 @app.get("/api/search/text")
-def search_text(q: str = Query(..., min_length=1, max_length=200), k: int = Query(12, ge=1, le=50)):
+def search_text(tasks: BackgroundTasks, q: str = Query(..., min_length=1, max_length=200), k: int = Query(12, ge=1, le=50),
+                user_id: int | None = Depends(auth.optional_user_id)):
     t0 = time.perf_counter()
     results = engine.search_text(q.strip(), k)
+    tasks.add_task(auth.record_search, user_id, "text", q.strip(), results)
     return {"results": results, "match": bool(results), "took_ms": ms(t0)}  # text search has no threshold
 
 
