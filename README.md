@@ -90,19 +90,21 @@ ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is abo
 
 | Layer | Tech | Used for |
 |---|---|---|
-| Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search); cart and saved items in `localStorage` |
+| Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search, login, search history); cart and saved items in `localStorage`, synced to the account when logged in |
 | Frontend | Cropper.js 1.6.2, qrcodejs 1.0.0 (CDN) | Cropping the product region before search; QR code on the home page to open the camera search on a phone |
 | Backend | Python, FastAPI, Uvicorn, python-multipart | Search API (`/api/search/image`, `/api/search/text`, `/api/similar/{id}`, `/api/health`), image upload |
+| Accounts | MySQL (XAMPP), SQLAlchemy, PyMySQL, bcrypt, PyJWT, python-dotenv | Users, server-side cart and wishlist, search history (`/api/auth/*`, `/api/me/*`) |
 | AI & search | PyTorch (CPU), OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`) | Image and text embeddings in one shared space |
 | AI & search | FAISS (`faiss-cpu`), NumPy | Vector index and cosine-similarity top-k search |
 | Data | Amazon Berkeley Objects, Pillow | Catalog source (`prepare_data.py`); image loading, resizing and thumbnails (`make_thumbs.py`) |
-| Testing | pytest, httpx | API tests (`tests/test_api.py`); `evaluate.py` for Top-1 / Top-5 / latency |
+| Testing | pytest, httpx | API tests (`tests/test_api.py`), account tests on SQLite (`tests/test_auth.py`); `evaluate.py` for Top-1 / Top-5 / latency |
 
 ## Project structure
 
     VisionFinder/
     ├── frontend/
     │   ├── index.html, products.html, product.html, cart.html, search.html
+    │   ├── login.html, history.html # account pages (js/account.js talks to /api/auth, /api/me)
     │   ├── data/products.json      # catalog (shared with backend)
     │   └── assets/products/        # product images (shared with backend)
     └── backend/
@@ -112,8 +114,11 @@ ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is abo
         ├── build_index.py          # images -> CLIP vectors -> FAISS index (backend/data/)
         ├── search_engine.py        # image / text / similar search (used by app + evaluate)
         ├── app.py                  # FastAPI search API
+        ├── db.py                   # MySQL tables (SQLAlchemy); `python db.py` creates them
+        ├── auth.py                 # register / login (JWT), cart, wishlist, search history API
+        ├── .env.example            # copy to .env: DATABASE_URL, JWT_SECRET
         ├── evaluate.py             # Top-1 / Top-5 / latency / threshold sweep
-        └── tests/test_api.py       # API tests (pytest)
+        └── tests/                  # test_api.py (search), test_auth.py (accounts, SQLite)
 
 ## How to run locally
 
@@ -160,12 +165,32 @@ Open http://127.0.0.1:5501. Keep port 5501 (or 5500): the backend only accepts r
     python -m pytest -q            # API tests
     python evaluate.py             # rewrites eval_results.json
 
+### Accounts and MySQL (optional)
+
+Search works without a database. Accounts (log in, cart and wishlist on the server, search history) need MySQL.
+
+1. Install [XAMPP](https://www.apachefriends.org/), open the XAMPP Control Panel and click **Start** next to **MySQL**. The default user is `root` with no password, on port 3306.
+2. Create the settings file (in `backend/`, PowerShell):
+
+       Copy-Item .env.example .env
+       python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+   Paste the printed value after `JWT_SECRET=` in `backend/.env`. Change `DATABASE_URL` only if your MySQL user, password or port differ. `backend/.env` is gitignored.
+3. Create the database `visionfinder` and its tables (safe to run again):
+
+       python db.py
+
+4. Restart `uvicorn app:app --port 8000`. Open http://127.0.0.1:5501/login.html and create an account.
+
+If MySQL is stopped, the account endpoints answer `503 Database unavailable`, and search keeps working. `tests/test_auth.py` uses a temporary SQLite file, so `pytest` does not need MySQL.
+
 **Data (already included):** to rebuild, download `abo-listings.tar` and `images.csv.gz` from ABO, then run `python backend/prepare_data.py`.
 
 ### Troubleshooting
 
 - **"Demo mode" badge still shows:** the backend is not running, or not on port 8000. Start `uvicorn app:app --port 8000`, then hard-reload the page (Ctrl+F5).
 - **`Activate.ps1` is blocked** ("running scripts is disabled"): run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then activate again.
+- **`python db.py` says "Cannot reach the database":** MySQL is not started in XAMPP, or `DATABASE_URL` in `backend/.env` is wrong.
 - **`pip` fails on `torch`:** check your Python version with `python --version`. Use Python 3.12 or newer, 64-bit.
 
 ## Credits
