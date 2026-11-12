@@ -8,7 +8,6 @@ from datetime import datetime, timezone
 
 from dotenv import load_dotenv
 from sqlalchemy import DateTime, ForeignKey, Integer, String, create_engine, func, text
-from sqlalchemy.engine import make_url
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
@@ -76,9 +75,9 @@ def get_db():
 
 def init_db():
     """Create the database (MySQL only) and every table that does not exist yet."""
-    url = make_url(str(engine.url))
+    url = engine.url  # not str(engine.url): that masks the password as ***
     if url.get_backend_name() == "mysql" and url.database:
-        server = create_engine(url.set(database=None), connect_args={"connect_timeout": 3})
+        server = create_engine(url._replace(database=None), connect_args={"connect_timeout": 3})
         with server.connect() as c:
             c.execute(text(f"CREATE DATABASE IF NOT EXISTS `{url.database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"))
         server.dispose()
@@ -86,5 +85,9 @@ def init_db():
 
 
 if __name__ == "__main__":
-    init_db()
+    from sqlalchemy.exc import OperationalError
+    try:
+        init_db()
+    except OperationalError as e:
+        raise SystemExit(f"Cannot reach the database: {e.orig}\nIs MySQL running (XAMPP Control Panel > MySQL > Start)? Check DATABASE_URL in backend/.env.")
     print(f"Database ready: {engine.url.render_as_string(hide_password=True)}")
