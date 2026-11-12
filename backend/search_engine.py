@@ -1,5 +1,11 @@
-"""Search logic shared by app.py and evaluate.py. Results are lists of {"id", "score"}."""
+"""Search logic shared by app.py and evaluate.py. Results are lists of {"id", "score"}.
+
+The index may hold several images per product (build_index.py --views). A product's score is its best
+image's score, and each product appears once in the results.
+"""
 import json
+import threading
+from collections import Counter
 from functools import lru_cache
 
 import faiss
@@ -25,12 +31,19 @@ def scale_text(scores):
 
 
 class SearchEngine:
-    def __init__(self, embedder=None):
+    def __init__(self, embedder=None, index=None, ids=None):
+        """index/ids default to the files from build_index.py; compare_views.py passes in-memory ones."""
         self.emb = embedder or Embedder()
-        self.index = faiss.read_index(INDEX_PATH)
-        with open(IDS_PATH, encoding="utf-8") as f:
-            self.ids = json.load(f)
-        self.pos = {pid: i for i, pid in enumerate(self.ids)}
+        if index is None:
+            index = faiss.read_index(INDEX_PATH)
+            with open(IDS_PATH, encoding="utf-8") as f:
+                ids = json.load(f)
+        self.index, self.ids = index, list(ids)
+        self.pos = {}
+        for i, pid in enumerate(self.ids):
+            self.pos.setdefault(pid, i)  # first row = main image
+        self.views = max(Counter(self.ids).values())  # most images any product has in the index
+        self.lock = threading.Lock()  # FAISS add() must not run during a search
         # No lock around the model: measured with 8 parallel uploads, serialising made the slowest request
         # 534 -> 885 ms (mean unchanged). One image does not fill every core, so overlapping calls win.
 
@@ -40,9 +53,33 @@ class SearchEngine:
         v.setflags(write=False)  # cached and shared between requests
         return v
 
-    def _search(self, vec, k):
-        D, I = self.index.search(vec.reshape(1, -1), min(k, self.index.ntotal))
-        return D[0], I[0]
+    @property
+    def products(self):
+        return len(self.pos)
+
+    def _search(self, vec, k, exclude=None):
+        """Top-k products: rows sorted by score, keeping each product's best row only."""
+        with self.lock:
+            D, I = self.index.search(vec.reshape(1, -1), min(k * self.views + 1, self.index.ntotal))
+        seen, d_out, i_out = {exclude}, [], []
+        for d, i in zip(D[0], I[0]):
+            if i < 0 or self.ids[i] in seen:
+                continue
+            seen.add(self.ids[i])
+            d_out.append(d)
+            i_out.append(i)
+            if len(i_out) == k:
+                break
+        return np.array(d_out, dtype="float32"), np.array(i_out, dtype="int64")
+
+    def add(self, pid, image):
+        """Embed one image and make it searchable at once. Returns the vector."""
+        v = self.emb.embed_images([image])
+        with self.lock:
+            self.index.add(v)
+            self.ids.append(pid)
+            self.pos.setdefault(pid, len(self.ids) - 1)
+        return v[0]
 
     def search_image(self, image, text=None, k=12):
         """Score returned is always the image score, so the thresholds keep their meaning."""
@@ -64,5 +101,5 @@ class SearchEngine:
     def similar(self, pid, k=12):
         """Raises KeyError for an unknown id."""
         i = self.pos[pid]
-        D, I = self._search(self.index.reconstruct(i), k + 1)
-        return [{"id": self.ids[j], "score": float(d)} for d, j in zip(D, I) if j != i][:k]
+        D, I = self._search(self.index.reconstruct(i), k, exclude=pid)
+        return [{"id": self.ids[j], "score": float(d)} for d, j in zip(D, I)]

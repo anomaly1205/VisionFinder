@@ -26,7 +26,7 @@ def load(path):
 def main():
     products, holdout = load(PRODUCTS_JSON), load(HOLDOUT_JSON)
     eng = SearchEngine()
-    assert eng.index.ntotal == len(products), "index is partial; run build_index.py without --limit"
+    assert eng.index.ntotal == len(products), "need the default index: run build_index.py without --limit/--views"
 
     pos = [(p["id"], p["category"], q) for p in products for q in p["query_images"]]
     neg = sorted({img for p in holdout for img in [p["image"], *p["gallery"]]})
