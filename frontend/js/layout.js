@@ -1,6 +1,7 @@
 // Shared page chrome: promo bar, header, main nav + mega menu, gray subbar, footer.
 // Importing this module renders it into .site-header and .site-footer on every page.
-import { icon, CATEGORIES, loadProducts, escapeHtml, updateCounts, STORAGE_KEYS } from "./common.js";
+import { icon, CATEGORIES, loadProducts, escapeHtml, updateCounts, STORAGE_KEYS, TOKEN_KEY } from "./common.js";
+import { getUser, logout, refresh } from "./account.js";
 
 // Mega menu hover intent (ms): rest this long on a nav item before its panel opens; leave nav + panel this long before it closes.
 const MENU_OPEN_DELAY = 400;
@@ -41,6 +42,7 @@ function renderHeader() {
         <a class="cam-btn" href="search.html" title="AI search by photo">${icon("camera")}<span>Photo</span></a>
       </form>
       <div class="header-icons">
+        <span class="account-slot"></span>
         <button class="hdr-item opt" type="button" popovertarget="pop-bell" aria-label="Notifications">${icon("bell")}</button>
         <a class="hdr-item opt" href="products.html?sort=price-asc" aria-label="Deals" title="Deals"${cur(page === "products.html" && params.get("sort") === "price-asc")}>${icon("tag")}</a>
         <a class="hdr-item" href="products.html?wishlist=1" aria-label="Wishlist" title="Wishlist"${cur(page === "products.html" && params.has("wishlist"))}>${icon("heart")}<span class="badge-count saved-count" hidden>0</span></a>
@@ -59,12 +61,16 @@ function renderHeader() {
       <span>Saw it somewhere? Find it with a photo → <a href="search.html">Try Visual Search</a></span>
       <a class="browse" href="products.html">Browse all <span class="total-count">500</span> pieces</a>
     </div></div>`;
-  // Popovers sit in the top layer; anchor them under their button.
-  document.querySelectorAll("[popovertarget]").forEach((b) => b.addEventListener("click", () => {
+  // Popovers sit in the top layer; anchor them under their button. Delegated: the account button is re-rendered.
+  document.querySelector(".site-header").addEventListener("click", (e) => {
+    const b = e.target.closest("[popovertarget]");
+    if (!b) return;
     const r = b.getBoundingClientRect(), pop = document.getElementById(b.getAttribute("popovertarget"));
     pop.style.top = `${r.bottom + 6}px`;
     pop.style.right = `${Math.max(8, innerWidth - r.right)}px`;
-  }));
+  });
+  renderAccount();
+  refresh().then(renderAccount);
   loadProducts().then((ps) => document.querySelectorAll(".total-count").forEach((el) => (el.textContent = ps.length)));
   updateCounts();
   fillMegaMenus();
@@ -186,6 +192,30 @@ function initMegaMenu() {
   document.addEventListener("pointerdown", (e) => { if (openLi && !nav.contains(e.target)) close(); });
 }
 
+// "Log in" link, or the user's name with a small menu (Search history, Log out).
+function renderAccount() {
+  const slot = document.querySelector(".account-slot");
+  const page = location.pathname.split("/").pop() || "index.html";
+  const user = getUser();
+  if (!user) {
+    const next = ["login.html", "history.html"].includes(page) ? "" : `?next=${encodeURIComponent(page + location.search)}`;
+    slot.innerHTML = `<a class="hdr-item hdr-account" href="login.html${next}" aria-label="Log in"${page === "login.html" ? ' aria-current="page"' : ""}>${icon("user")}<span class="hdr-name">Log in</span></a>`;
+    return;
+  }
+  const name = escapeHtml(user.name);
+  slot.innerHTML = `<button class="hdr-item hdr-account" type="button" popovertarget="pop-user" aria-label="Account: ${name}">${icon("user")}<span class="hdr-name">${name}</span>${icon("down", "icon down")}</button>
+    <div class="hdr-pop hdr-menu" id="pop-user" popover>
+      <p class="hdr-who">${name}<span>${escapeHtml(user.email)}</span></p>
+      <a href="history.html">Search history</a>
+      <button type="button" data-logout>Log out</button>
+    </div>`;
+  slot.querySelector("[data-logout]").addEventListener("click", () => {
+    logout();
+    if (page === "history.html") location.href = "index.html";
+    else location.reload();
+  });
+}
+
 function renderFooter() {
   const shop = CATEGORIES.map((c) => `<li><a href="products.html?category=${c}">${c}</a></li>`).join("");
   document.querySelector(".site-footer").innerHTML = `<div class="wrap">
@@ -213,4 +243,7 @@ function renderFooter() {
 
 renderHeader();
 renderFooter();
-window.addEventListener("storage", (e) => STORAGE_KEYS.includes(e.key) && updateCounts());
+window.addEventListener("storage", (e) => {
+  if (STORAGE_KEYS.includes(e.key)) updateCounts();
+  if (e.key === TOKEN_KEY) renderAccount(); // logged in/out in another tab
+});

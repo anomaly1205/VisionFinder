@@ -1,6 +1,6 @@
 // Search API client. Calls the FastAPI backend; falls back to a mock "demo mode" when it is offline.
 // Every function resolves to { results: [{ product, score }], ms, demo }.
-import { loadProducts, productById } from "./common.js";
+import { loadProducts, productById, authHeader } from "./common.js";
 
 export const API_BASE = "http://127.0.0.1:8000/api";
 // Photo search confidence: best >= THRESHOLD -> match, >= THRESHOLD_LOW -> similar pieces, else no confident match.
@@ -121,13 +121,13 @@ export async function searchByImage(blob, text = "") {
     const form = new FormData();
     form.append("file", blob, "query.jpg");
     if (text) form.append("text", text);
-    return call(`/search/image?k=${K}`, { method: "POST", body: form }, () => mockImage(text.trim()));
+    return call(`/search/image?k=${K}`, { method: "POST", body: form, headers: authHeader() }, () => mockImage(text.trim()));
   }
   return mock(() => mockImage(text.trim()));
 }
 
 export async function searchByText(q) {
-  if (await backendAvailable()) return call(`/search/text?q=${encodeURIComponent(q)}&k=${K}`, undefined, () => mockText(q));
+  if (await backendAvailable()) return call(`/search/text?q=${encodeURIComponent(q)}&k=${K}`, { headers: authHeader() }, () => mockText(q));
   return mock(() => mockText(q));
 }
 
