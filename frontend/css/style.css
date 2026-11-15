@@ -400,7 +400,6 @@ kbd { font: 400 12px var(--sans); padding: 1px 6px; border: 1px solid #d4d4d4; b
 .match { margin: 8px 0 0; display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
 .match span { flex: 1; max-width: 80px; height: 3px; background: linear-gradient(currentColor, currentColor) 0 0 / var(--p) 100% no-repeat, var(--line); }
 .match.low { color: var(--muted); }
-#results-grid.is-loading { opacity: 0.35; transition: opacity 0.2s var(--ease); }
 @media (max-width: 860px) {
   .panel { padding: 20px; }
   .crop-stage { height: 280px; }
@@ -568,4 +567,30 @@ kbd { font: 400 12px var(--sans); padding: 1px 6px; border: 1px solid #d4d4d4; b
   .hdr-account .hdr-name, .hdr-account .icon.down { display: none; }
   .hist-row { grid-template-columns: 40px minmax(0, 1fr); }
   .hist-top { grid-column: 2; }
+}
+
+/* ---- Motion polish: page enter, image fade-in, skeletons, card lift, button press ---- */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  main { animation: page-in 0.45s var(--ease) both; }
+  .card { transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+  .card:hover { transform: translateY(-4px); }
+  .btn, .chips button, .chips a, .cam-btn, .heart, .qty button, .cart-remove { transition-property: background, color, border-color, transform; }
+  .btn:active, .chips button:active, .chips a:active, .cam-btn:active, .heart:active, .qty button:active:not(:disabled), .cart-remove:active { transform: scale(0.96); }
+}
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } }
+.card:hover .tile { box-shadow: 0 14px 28px -16px rgba(17, 17, 17, 0.28); }
+.band .card:hover { box-shadow: 0 16px 32px -18px rgba(17, 17, 17, 0.3); }
+.band .card:hover .tile { box-shadow: none; }
+/* Set by common.js when the image has loaded (or failed), so a photo never pops in half-drawn */
+.tile img { opacity: 0; transition: opacity 0.4s var(--ease), transform 0.6s var(--ease); }
+.tile img.is-loaded { opacity: 1; }
+/* Skeleton cards while a search runs */
+.skel .tile, .skel-line { background: linear-gradient(90deg, #f1efec 0%, #f8f7f5 40%, #f1efec 80%) 0 0 / 200% 100%; animation: shimmer 1.3s linear infinite; }
+.skel-line { height: 12px; margin-top: 10px; }
+.skel-line.short { width: 40%; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .skel .tile, .skel-line { animation: none; }
 }

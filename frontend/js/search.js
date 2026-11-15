@@ -1,5 +1,5 @@
 import { crumbs } from "./layout.js";
-import { CATEGORIES, productCard, escapeHtml, icon, loadProducts, keywordSearch } from "./common.js";
+import { CATEGORIES, productCard, escapeHtml, icon, loadProducts, keywordSearch, skeletonCards } from "./common.js";
 import { searchByImage, searchByText, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 
 const $ = (id) => document.getElementById(id);
@@ -101,7 +101,7 @@ async function run() {
   $("results-meta").textContent = "";
   $("notice").hidden = true;
   $("kw-compare").hidden = true;
-  $("results-grid").classList.add("is-loading");
+  $("results-grid").innerHTML = skeletonCards(8);
 
   let res;
   try {
@@ -127,7 +127,6 @@ async function run() {
 }
 function done() {
   $("results").removeAttribute("aria-busy");
-  $("results-grid").classList.remove("is-loading");
 }
 
 function render({ results, ms, demo, match, confidence }, q) {

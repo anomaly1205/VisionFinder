@@ -2,6 +2,7 @@
 // Importing this module renders it into .site-header and .site-footer on every page.
 import { icon, CATEGORIES, loadProducts, escapeHtml, updateCounts, STORAGE_KEYS, TOKEN_KEY } from "./common.js";
 import { getUser, logout, refresh } from "./account.js";
+import "./chatbot.js"; // shopping assistant on every page
 
 // Mega menu hover intent (ms): rest this long on a nav item before its panel opens; leave nav + panel this long before it closes.
 const MENU_OPEN_DELAY = 400;

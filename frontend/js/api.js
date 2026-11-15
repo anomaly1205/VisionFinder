@@ -90,7 +90,7 @@ export function textScore(product, words) {
 }
 const tokenize = (q) => q.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 1);
 
-async function mockText(q) {
+async function mockText(q, k = K) {
   const words = tokenize(q);
   if (!words.length) return [];
   return (await loadProducts())
@@ -98,7 +98,7 @@ async function mockText(q) {
     .filter((r) => r.s > 0)
     .map(({ product, s }) => ({ product, score: +(0.4 + s * 0.5 - Math.random() * 0.02).toFixed(3) }))
     .sort((a, b) => b.score - a.score)
-    .slice(0, K);
+    .slice(0, k);
 }
 
 async function mockImage(text, excludeId) {
@@ -126,9 +126,9 @@ export async function searchByImage(blob, text = "") {
   return mock(() => mockImage(text.trim()));
 }
 
-export async function searchByText(q) {
-  if (await backendAvailable()) return call(`/search/text?q=${encodeURIComponent(q)}&k=${K}`, { headers: authHeader() }, () => mockText(q));
-  return mock(() => mockText(q));
+export async function searchByText(q, k = K) {
+  if (await backendAvailable()) return call(`/search/text?q=${encodeURIComponent(q)}&k=${k}`, { headers: authHeader() }, () => mockText(q, k));
+  return mock(() => mockText(q, k));
 }
 
 export async function similar(id) {
