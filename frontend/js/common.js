@@ -148,6 +148,9 @@ document.addEventListener("click", (e) => {
   if (b) b.setAttribute("aria-pressed", toggleSaved(b.dataset.save));
 });
 
+// Grey placeholder cards shown while a search runs.
+export const skeletonCards = (n) => `<div class="card skel" aria-hidden="true"><span class="tile"></span><span class="skel-line"></span><span class="skel-line short"></span></div>`.repeat(n);
+
 // ---- image fit: sample the 4 corners; near-white -> contain (product shot), else cover (room shot) ----
 const probe = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
 function fitImage(img) {
@@ -162,8 +165,10 @@ function fitImage(img) {
   });
   img.classList.toggle("fit-cover", !white);
 }
-document.addEventListener("load", (e) => e.target.tagName === "IMG" && fitImage(e.target), true);
-export const fitAll = (root = document) => root.querySelectorAll(".tile img").forEach((i) => i.complete && fitImage(i));
+const loaded = (img) => { fitImage(img); img.classList.add("is-loaded"); };
+document.addEventListener("load", (e) => e.target.tagName === "IMG" && loaded(e.target), true);
+document.addEventListener("error", (e) => e.target.tagName === "IMG" && e.target.classList.add("is-loaded"), true);
+export const fitAll = (root = document) => root.querySelectorAll(".tile img").forEach((i) => i.complete && loaded(i));
 
 // Hand an image from any page to search.html: downscale, stash in sessionStorage, navigate.
 export async function sendToSearch(blob) {
