@@ -499,6 +499,47 @@ kbd { font: 400 12px var(--sans); padding: 1px 6px; border: 1px solid #d4d4d4; b
 .toast { position: fixed; left: 50%; bottom: 24px; z-index: 60; margin: 0; padding: 12px 20px; background: var(--ink); color: #fff; font-size: 14px; transform: translate(-50%, 16px); opacity: 0; pointer-events: none; transition: opacity 0.25s var(--ease), transform 0.25s var(--ease); }
 .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 
+/* Account: header item + menu */
+.account-slot { display: contents; }
+.hdr-account .hdr-name { max-width: 12ch; overflow: hidden; text-overflow: ellipsis; }
+.hdr-menu { display: none; min-width: 220px; padding: 6px 0; }
+.hdr-menu:popover-open { display: grid; }
+.hdr-menu a, .hdr-menu button { display: block; width: 100%; padding: 10px 18px; border: 0; background: none; text-align: left; text-decoration: none; cursor: pointer; font-size: 14px; }
+.hdr-menu a:hover, .hdr-menu button:hover { background: var(--soft); }
+.hdr-who { padding: 10px 18px 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line); font-weight: 500; overflow-wrap: anywhere; }
+.hdr-who span { display: block; color: var(--muted); font-weight: 300; font-size: 12px; }
+
+/* Login / register */
+.auth { max-width: 440px; margin: 16px auto 72px; }
+.auth h1 { font-size: clamp(32px, 4vw, 44px); }
+.auth-lede { margin: 10px 0 28px; color: var(--muted); }
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+.auth-tabs button { padding: 12px 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; cursor: pointer; font: 500 12px/1 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.auth-tabs [aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.auth-form { display: grid; gap: 16px; }
+.field { display: grid; gap: 6px; font-size: 13px; }
+.field input { height: 46px; padding: 0 14px; border: 1px solid #cfcfcf; border-radius: 0; background: #fff; font-size: 15px; }
+.field input:hover { border-color: var(--muted); }
+.field input:focus-visible { outline: 0; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.field-hint { margin-top: -8px; font-size: 12px; color: var(--muted); }
+.form-error { padding: 10px 14px; background: var(--accent-soft); color: var(--accent-deep); font-size: 14px; }
+.auth-form .btn { width: 100%; margin-top: 4px; }
+.auth-or { display: flex; align-items: center; gap: 14px; margin: 28px 0 20px; color: var(--muted); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
+.auth-or::before, .auth-or::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+.auth-social { display: grid; gap: 10px; }
+
+/* Search history */
+.hist-list { list-style: none; margin: 0 0 72px; padding: 0; border-top: 1px solid var(--line); }
+.hist-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) minmax(0, 320px); align-items: center; gap: 16px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.hist-kind { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--soft); }
+.hist-kind .icon { width: 20px; height: 20px; }
+.hist-what { display: grid; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
+.hist-what p:first-child { font-size: 16px; font-weight: 400; }
+.hist-what .muted { font-size: 13px; }
+.hist-top { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 14px; text-decoration: none; font-size: 14px; }
+.hist-top .muted { display: block; font-size: 12px; }
+.hist-top:hover > span:last-child { text-decoration: underline; }
+
 @media (max-width: 860px) {
   /* Hamburger nav */
   .header-row { grid-template-columns: auto 1fr auto; }
@@ -524,4 +565,7 @@ kbd { font: 400 12px var(--sans); padding: 1px 6px; border: 1px solid #d4d4d4; b
   .cart-line { grid-area: qty; justify-self: end; } /* shares the row with the stepper */
   .cart-remove { grid-area: rm; }
   .similar { margin-top: 64px; }
+  .hdr-account .hdr-name, .hdr-account .icon.down { display: none; }
+  .hist-row { grid-template-columns: 40px minmax(0, 1fr); }
+  .hist-top { grid-column: 2; }
 }

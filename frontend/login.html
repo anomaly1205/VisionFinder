@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in · VisionFinder Home</title>
+  <meta name="description" content="Log in or create a VisionFinder account.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='20' fill='%23fff' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Gilda+Display&family=Jost:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/login.js"></script>
+</head>
+<body>
+  <header class="site-header"></header>
+  <main class="wrap page">
+    <div id="crumbs"></div>
+    <section class="auth" aria-labelledby="auth-title">
+      <h1 id="auth-title">Your account</h1>
+      <p class="auth-lede">Keep your cart and wishlist on every device, and see your past searches.</p>
+      <div class="auth-tabs" role="tablist" aria-label="Log in or register">
+        <button type="button" role="tab" id="tab-login" aria-controls="panel-login" aria-selected="true">Log in</button>
+        <button type="button" role="tab" id="tab-register" aria-controls="panel-register" aria-selected="false" tabindex="-1">Register</button>
+      </div>
+
+      <form class="auth-form" id="panel-login" role="tabpanel" aria-labelledby="tab-login" novalidate>
+        <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+        <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+        <p class="form-error" role="alert" hidden></p>
+        <button class="btn" type="submit">Log in</button>
+      </form>
+
+      <form class="auth-form" id="panel-register" role="tabpanel" aria-labelledby="tab-register" novalidate hidden>
+        <label class="field"><span>Name</span><input name="name" type="text" autocomplete="name" maxlength="100" required></label>
+        <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="255" required></label>
+        <label class="field"><span>Password</span><input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required aria-describedby="pw-hint"></label>
+        <p class="field-hint" id="pw-hint">At least 8 characters.</p>
+        <p class="form-error" role="alert" hidden></p>
+        <button class="btn" type="submit">Create account</button>
+      </form>
+
+      <p class="auth-or"><span>or</span></p>
+      <div class="auth-social">
+        <button class="btn btn-outline" type="button" data-social>Continue with Google</button>
+        <button class="btn btn-outline" type="button" data-social>Continue with Facebook</button>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"></footer>
+</body>
+</html>
