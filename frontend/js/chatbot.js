@@ -110,10 +110,10 @@ place();
 requestAnimationFrame(() => root.classList.add("is-ready")); // enable the snap transition only after the first placement
 addEventListener("resize", place);
 
-// ---- drag (mouse + touch): a press that moves > 6 px drags; otherwise it is a click that opens the chat ----
+// ---- drag with the mouse: a press that moves > 6 px drags; otherwise it is a click that opens the chat ----
 let drag = null, dragged = false;
 launch.addEventListener("pointerdown", (e) => {
-  if (e.button !== 0) return;
+  if (e.pointerType !== "mouse" || e.button !== 0) return;
   drag = { dx: e.clientX - launch.offsetLeft, dy: e.clientY - launch.offsetTop, x0: e.clientX, y0: e.clientY };
   dragged = false;
   launch.setPointerCapture(e.pointerId);
@@ -130,7 +130,7 @@ const toggle = () => (panel.classList.contains("is-open") ? close() : open());
 function endDrag(e) {
   if (!drag) return;
   drag = null;
-  if (!dragged) { if (e.type === "pointerup") toggle(); return; } // a tap: touch does not always fire a click
+  if (!dragged) return; // a plain click: the click listener opens the chat
   root.classList.remove("is-dragging");
   pos = { side: launch.offsetLeft + SIZE / 2 < innerWidth / 2 ? "left" : "right", y: launch.offsetTop };
   store.set(localStorage, KEY_POS, pos);
@@ -138,7 +138,7 @@ function endDrag(e) {
 }
 launch.addEventListener("pointerup", endDrag);
 launch.addEventListener("pointercancel", endDrag);
-launch.addEventListener("click", (e) => e.detail === 0 && toggle()); // keyboard (Enter/Space) only; pointers use pointerup
+launch.addEventListener("click", () => { if (dragged) dragged = false; else toggle(); }); // mouse click or Enter / Space; a drag never opens it
 
 // ---- greeting bubble: once per session, a few seconds after the first page view ----
 function hideGreet() {

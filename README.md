@@ -102,7 +102,7 @@ Multi-view is 14.4 points worse, so it stays off. In ABO the extra angles are of
 | Layer | Tech | Used for |
 |---|---|---|
 | Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search, login, search history); cart and saved items in `localStorage`, synced to the account when logged in |
-| Frontend | Cropper.js 1.6.2, qrcodejs 1.0.0 (CDN) | Cropping the product region before search; QR code on the home page to open the camera search on a phone |
+| Frontend | Cropper.js 1.6.2 (CDN) | Cropping the product region before search |
 | Backend | Python, FastAPI, Uvicorn, python-multipart | Search API (`/api/search/image`, `/api/search/text`, `/api/similar/{id}`, `/api/health`), image upload, adding products (`POST /api/products`) |
 | Accounts | MySQL (XAMPP), SQLAlchemy, PyMySQL, bcrypt, PyJWT, python-dotenv | Users, server-side cart and wishlist, search history (`/api/auth/*`, `/api/me/*`) |
 | AI & search | PyTorch (CPU), OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`) | Image and text embeddings in one shared space |

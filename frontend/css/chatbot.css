@@ -1,7 +1,7 @@
 /* Shopping assistant (js/chatbot.js). Uses the tokens from style.css. */
 .vf-launch {
   position: fixed; z-index: 50; width: 56px; height: 56px; display: grid; place-items: center; padding: 0;
-  border: 0; border-radius: 50%; background: var(--accent); color: #fff; cursor: grab; touch-action: none;
+  border: 0; border-radius: 50%; background: var(--accent); color: #fff; cursor: grab;
   box-shadow: 0 8px 20px -6px rgba(17, 17, 17, 0.45);
 }
 .vf-launch:hover { background: var(--accent-deep); }
@@ -92,10 +92,4 @@
   .vf-panel, .vf-panel.is-open { transform: none; }
   .vf-greet, .vf-greet[data-dir="down"] { transform: none; }
   .vf-typing span { animation: none; opacity: 0.6; }
-}
-
-/* Phones: the panel fills the screen (overrides the inline placement from chatbot.js) */
-@media (max-width: 480px) {
-  .vf-panel { top: 8px !important; left: 8px !important; width: auto !important; height: auto !important; right: 8px; bottom: 8px; }
-  .vf-input { font-size: 16px; } /* 16px stops iOS zooming into the field */
 }
