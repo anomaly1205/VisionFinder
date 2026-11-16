@@ -1,27 +1,39 @@
 /* Shopping assistant (js/chatbot.js). Uses the tokens from style.css. */
 .vf-launch {
-  position: fixed; z-index: 50; width: 64px; height: 64px; display: block; padding: 0;
-  border: 3px solid #fff; border-radius: 50%; background: var(--accent-soft); cursor: grab;
-  box-shadow: 0 10px 24px -8px rgba(17, 17, 17, 0.5), 0 0 0 1px var(--line);
-  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  position: fixed; z-index: 50; width: 64px; height: 64px; display: block; padding: 0; overflow: visible;
+  border: 3px solid #fff; border-radius: 50%; background: #cfe4fb; cursor: grab; touch-action: none;
+  box-shadow: 0 10px 24px -8px rgba(23, 79, 140, 0.6), 0 0 0 2px #2a74d4;
 }
-.vf-launch:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -8px rgba(17, 17, 17, 0.5), 0 0 0 2px var(--accent); }
-.vf-mascot { display: block; width: 100%; height: 100%; border-radius: 50%; pointer-events: none; user-select: none; }
-.vf-chat.is-dragging .vf-launch { cursor: grabbing; transform: scale(1.06); box-shadow: 0 14px 28px -8px rgba(17, 17, 17, 0.5); }
+.vf-launch:hover { transform: translateY(-2px) scale(1.04); }
+.vf-face { display: block; width: 100%; height: 100%; border-radius: 50%; }
+/* Waving hand on the edge facing the page */
+.vf-hand { position: absolute; top: -10px; left: -12px; width: 24px; height: 28px; transform-origin: 50% 95%; filter: drop-shadow(0 2px 2px rgba(17, 17, 17, 0.2)); }
+.vf-chat[data-side="left"] .vf-hand { left: auto; right: -12px; transform: scaleX(-1); }
+.vf-online { position: absolute; right: 1px; bottom: 1px; width: 14px; height: 14px; border-radius: 50%; background: #3bb36b; border: 2px solid #fff; }
+.vf-chat[data-side="left"] .vf-online { right: auto; left: 1px; }
+.vf-chat.is-dragging .vf-hand { animation: none; }
+.vf-chat.is-dragging .vf-launch { cursor: grabbing; transform: scale(1.08); box-shadow: 0 14px 28px -8px rgba(17, 17, 17, 0.5); }
 .vf-chat.is-dragging .vf-greet { opacity: 0; }
 
-/* Greeting bubble */
+/* Greeting bubble: beside the launcher, tail pointing at it */
 .vf-greet {
-  position: fixed; z-index: 50; display: flex; align-items: flex-start; max-width: min(260px, calc(100vw - 32px));
-  background: #fff; border: 1px solid var(--line); box-shadow: 0 12px 28px -12px rgba(17, 17, 17, 0.35);
-  opacity: 0; transform: translateY(8px);
+  position: fixed; z-index: 50; display: flex; align-items: flex-start; max-width: min(250px, calc(100vw - 112px));
+  background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 28px -12px rgba(17, 17, 17, 0.35);
+  opacity: 0; transform: translateX(8px);
 }
-.vf-greet[data-dir="down"] { transform: translateY(-8px); }
-.vf-greet.is-on { opacity: 1; transform: none; }
-.vf-greet-open { flex: 1; padding: 12px 4px 12px 14px; border: 0; background: none; cursor: pointer; text-align: left; font-size: 14px; font-weight: 400; line-height: 1.4; }
-.vf-greet-x { display: grid; place-items: center; width: 32px; height: 32px; margin: 4px 4px 0 0; padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; }
+.vf-greet::after {
+  content: ""; position: absolute; top: 50%; right: -7px; width: 12px; height: 12px; margin-top: -6px;
+  background: #fff; border: solid var(--line); border-width: 1px 1px 0 0; transform: rotate(45deg);
+}
+.vf-chat[data-side="left"] .vf-greet { transform: translateX(-8px); }
+.vf-chat[data-side="left"] .vf-greet::after { right: auto; left: -7px; transform: rotate(-135deg); }
+.vf-chat .vf-greet.is-on { opacity: 1; transform: none; }
+.vf-greet-open { flex: 1; display: grid; gap: 2px; padding: 11px 2px 11px 14px; border: 0; background: none; cursor: pointer; text-align: left; line-height: 1.3; }
+.vf-greet-open strong { font-family: var(--serif); font-weight: 400; font-size: 17px; color: var(--ink); }
+.vf-greet-open span { font-size: 12px; color: var(--muted); }
+.vf-greet-x { display: grid; place-items: center; width: 28px; height: 28px; margin: 4px 4px 0 0; padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; }
 .vf-greet-x:hover { color: var(--ink); }
-.vf-greet-x .icon { width: 16px; height: 16px; }
+.vf-greet-x .icon { width: 14px; height: 14px; }
 
 /* Panel */
 .vf-panel {
@@ -31,11 +43,15 @@
   transition: opacity 0.25s var(--ease), transform 0.35s var(--ease), visibility 0s 0.35s;
 }
 .vf-panel.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.25s var(--ease), transform 0.35s var(--ease); }
-.vf-head { display: flex; align-items: center; gap: 12px; padding: 12px 8px 12px 14px; background: var(--ink); color: #fff; }
+.vf-head { display: flex; align-items: center; gap: 12px; padding: 12px 8px 12px 14px; background: #164f85; color: #fff; }
 .vf-head strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 17px; line-height: 1.2; }
-.vf-head small { display: block; font-size: 12px; color: #bdbdbd; }
-.vf-avatar { display: block; width: 38px; height: 38px; border-radius: 50%; border: 2px solid #fff; overflow: hidden; flex: none; }
-.vf-close { margin-left: auto; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; }
+.vf-head small { display: block; font-size: 12px; color: #cfe4fb; }
+.vf-new { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px 0 8px; border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 16px; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 13px; cursor: pointer; transition: background 0.2s var(--ease), transform 0.15s var(--ease); }
+.vf-new:hover { background: rgba(255, 255, 255, 0.24); }
+.vf-new:active { transform: scale(0.95); }
+.vf-new .icon { width: 16px; height: 16px; }
+.vf-avatar { display: block; width: 38px; height: 38px; border-radius: 50%; border: 2px solid #fff; flex: none; overflow: hidden; }
+.vf-close { margin-left: 0; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; }
 .vf-close .icon { width: 20px; height: 20px; }
 
 .vf-log { flex: 1; list-style: none; margin: 0; padding: 16px 14px; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 12px; background: var(--soft); }
@@ -87,9 +103,21 @@
   .vf-chat.is-ready .vf-launch { transition: left 0.35s var(--ease), top 0.35s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease); }
   .vf-chat.is-dragging .vf-launch { transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease); }
   .vf-greet { transition: opacity 0.35s var(--ease), transform 0.35s var(--ease); }
+  .vf-hand { animation: vf-wave 2.4s ease-in-out infinite; }
+  .vf-chat[data-side="left"] .vf-hand { animation-name: vf-wave-l; }
+  .vf-launch[aria-expanded="true"] .vf-hand { animation: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .vf-panel, .vf-panel.is-open { transform: none; }
-  .vf-greet, .vf-greet[data-dir="down"] { transform: none; }
+  .vf-greet, .vf-chat[data-side="left"] .vf-greet { transform: none; }
   .vf-typing span { animation: none; opacity: 0.6; }
 }
+
+/* Phones: the panel fills the screen (overrides the inline placement from chatbot.js) */
+@media (max-width: 480px) {
+  .vf-panel { top: 8px !important; left: 8px !important; width: auto !important; height: auto !important; right: 8px; bottom: 8px; }
+  .vf-input { font-size: 16px; } /* 16px stops iOS zooming into the field */
+}
+
+@keyframes vf-wave { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(-22deg); } 20%, 40% { transform: rotate(14deg); } 50% { transform: rotate(-8deg); } }
+@keyframes vf-wave-l { 0%, 60%, 100% { transform: scaleX(-1) rotate(0); } 10%, 30% { transform: scaleX(-1) rotate(-22deg); } 20%, 40% { transform: scaleX(-1) rotate(14deg); } 50% { transform: scaleX(-1) rotate(-8deg); } }
