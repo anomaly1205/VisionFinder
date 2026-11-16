@@ -6,11 +6,11 @@ import { searchByText, searchByImage, THRESHOLD, THRESHOLD_LOW } from "./api.js"
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
-const SIZE = 56; // launcher diameter, px (matches chatbot.css)
+const SIZE = 64; // launcher diameter, px (matches chatbot.css)
 const EDGE = 16; // gap between launcher / panel and the screen edge, px
-const GREET_DELAY = 2500;
+const GREET_DELAY = 900;
 const CHIPS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
-const KEY_CHAT = "vf_chat", KEY_GREETED = "vf_chat_greeted", KEY_POS = "vf_chat_pos";
+const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 
 // Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
 const VI = [
@@ -45,7 +45,27 @@ const store = {
   get(area, k) { try { return JSON.parse(area.getItem(k)); } catch { return null; } },
   set(area, k, v) { try { area.setItem(k, JSON.stringify(v)); } catch { /* blocked or full: state lives for this page only */ } },
 };
-const CHAT_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4V5Z"/><path d="M8 9.5h8M8 12.5h5"/></svg>';
+// Assistant avatar: a friendly shop helper drawn inline (no image file). `id` keeps the clipPath unique per copy.
+const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="true">
+  <defs><clipPath id="${id}"><circle cx="32" cy="32" r="32"/></clipPath></defs>
+  <g clip-path="url(#${id})">
+    <circle cx="32" cy="32" r="32" fill="#f3dccf"/>
+    <path d="M10 64c1-13 10-20 22-20s21 7 22 20Z" fill="#b23a2e"/>
+    <path d="M24 46l8 9 8-9" fill="#fff"/>
+    <rect x="28" y="38" width="8" height="8" rx="3" fill="#e9b28f"/>
+    <circle cx="32" cy="28" r="13" fill="#f5c6a5"/>
+    <path d="M18.5 28c-1-9 5-16 13.5-16S46.5 19 45.5 28c-2.5-4-6-6.5-10-7.5-3 2.5-8 4-13 4-1.5 1-3 2-4 3.5Z" fill="#3a2621"/>
+    <ellipse cx="27" cy="29" rx="1.6" ry="2" fill="#2b1d19"/>
+    <ellipse cx="37" cy="29" rx="1.6" ry="2" fill="#2b1d19"/>
+    <circle cx="23.5" cy="33" r="2.2" fill="#f19a8a" opacity=".7"/>
+    <circle cx="40.5" cy="33" r="2.2" fill="#f19a8a" opacity=".7"/>
+    <path d="M28 34.5q4 3.5 8 0" fill="none" stroke="#2b1d19" stroke-width="1.6" stroke-linecap="round"/>
+  </g>
+</svg>`;
+// Waving hand that sticks out from the launcher's edge.
+const HAND = `<svg class="vf-hand" viewBox="0 0 24 28" aria-hidden="true">
+  <path d="M7 27c-2-4-4-9-4-13 0-1.4 2-1.6 2.6-.3L7 17V6.5c0-1.6 2.5-1.6 2.5 0V14V4.5c0-1.6 2.5-1.6 2.5 0V14V5.5c0-1.6 2.5-1.6 2.5 0V14.5V8c0-1.6 2.5-1.6 2.5 0v9c0 4.5-1.5 7.5-3.5 10Z" fill="#f5c6a5" stroke="#c98d6c" stroke-width="1" stroke-linejoin="round"/>
+</svg>`;
 const SEND_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5 16-3.5-6.5L4 12Z"/><path d="m11.5 13.5 4-4"/></svg>';
 
 // ---- state: history + last results in sessionStorage, launcher position in localStorage ----
@@ -62,13 +82,13 @@ const root = document.createElement("div");
 root.className = "vf-chat";
 root.innerHTML = `
   <div class="vf-greet" hidden>
-    <button class="vf-greet-open" type="button">Hi! Can I help you find something?</button>
+    <button class="vf-greet-open" type="button"><strong>How can I help you?</strong><span>Find a piece by words or photo</span></button>
     <button class="vf-greet-x" type="button" aria-label="Dismiss">${icon("close")}</button>
   </div>
-  <button class="vf-launch" type="button" aria-label="Open shopping assistant" aria-expanded="false" aria-controls="vf-panel">${CHAT_ICON}</button>
+  <button class="vf-launch" type="button" aria-label="Open shopping assistant" aria-expanded="false" aria-controls="vf-panel">${avatar("vf-clip-a")}${HAND}<span class="vf-online"></span></button>
   <section class="vf-panel" id="vf-panel" role="dialog" aria-label="Shopping assistant">
     <header class="vf-head">
-      <span class="vf-avatar">${CHAT_ICON}</span>
+      <span class="vf-avatar">${avatar("vf-clip-b")}</span>
       <span><strong>Shopping assistant</strong><small>Finds pieces in our catalog</small></span>
       <button class="vf-close" type="button" aria-label="Close chat">${icon("close")}</button>
     </header>
@@ -90,6 +110,7 @@ function place() {
   pos.y = clamp(pos.y, EDGE, vh - SIZE - EDGE);
   launch.style.left = `${pos.side === "left" ? EDGE : vw - SIZE - EDGE}px`;
   launch.style.top = `${pos.y}px`;
+  root.dataset.side = pos.side;
   const above = pos.y + SIZE / 2 > vh / 2; // launcher in the lower half: open upwards
   const pw = Math.min(380, vw - 2 * EDGE), ph = Math.min(580, vh - 2 * EDGE);
   Object.assign(panel.style, {
@@ -100,10 +121,10 @@ function place() {
   });
   if (!greet.hidden) {
     const gw = greet.offsetWidth, gh = greet.offsetHeight;
-    greet.style.left = `${clamp(pos.side === "left" ? EDGE : vw - gw - EDGE, EDGE, vw - gw - EDGE)}px`;
-    greet.style.top = `${clamp(above ? pos.y - gh - 10 : pos.y + SIZE + 10, EDGE, vh - gh - EDGE)}px`;
-    greet.dataset.side = pos.side;
-    greet.dataset.dir = above ? "up" : "down";
+    const gap = 14; // room for the bubble's tail
+    const left = pos.side === "left" ? EDGE + SIZE + gap : vw - SIZE - EDGE - gap - gw;
+    greet.style.left = `${clamp(left, EDGE, vw - gw - EDGE)}px`;
+    greet.style.top = `${clamp(pos.y + SIZE / 2 - gh / 2, EDGE, vh - gh - EDGE)}px`;
   }
 }
 place();
@@ -140,22 +161,21 @@ launch.addEventListener("pointerup", endDrag);
 launch.addEventListener("pointercancel", endDrag);
 launch.addEventListener("click", (e) => e.detail === 0 && toggle()); // keyboard (Enter/Space) only; pointers use pointerup
 
-// ---- greeting bubble: once per session, a few seconds after the first page view ----
+// ---- greeting bubble: shown next to the launcher on every page while the chat is closed ----
+let greetOff = false; // the user dismissed it on this page
 function hideGreet() {
   greet.classList.remove("is-on");
   greet.hidden = true;
 }
-if (!store.get(sessionStorage, KEY_GREETED)) {
-  setTimeout(() => {
-    if (panel.classList.contains("is-open")) return;
-    store.set(sessionStorage, KEY_GREETED, 1);
-    greet.hidden = false;
-    place();
-    requestAnimationFrame(() => greet.classList.add("is-on"));
-  }, GREET_DELAY);
+function showGreet() {
+  if (greetOff || panel.classList.contains("is-open")) return;
+  greet.hidden = false;
+  place();
+  requestAnimationFrame(() => greet.classList.add("is-on"));
 }
+setTimeout(showGreet, GREET_DELAY);
 $(".vf-greet-open", root).addEventListener("click", () => open());
-$(".vf-greet-x", root).addEventListener("click", hideGreet);
+$(".vf-greet-x", root).addEventListener("click", () => { greetOff = true; hideGreet(); });
 
 // ---- open / close ----
 let byId = new Map();
@@ -165,7 +185,6 @@ const ready = loadProducts().then((ps) => {
 });
 async function open() {
   hideGreet();
-  store.set(sessionStorage, KEY_GREETED, 1);
   place();
   panel.classList.add("is-open");
   launch.setAttribute("aria-expanded", "true");
@@ -179,6 +198,7 @@ async function open() {
 function close() {
   panel.classList.remove("is-open");
   launch.setAttribute("aria-expanded", "false");
+  setTimeout(showGreet, 400);
   if (panel.contains(document.activeElement)) launch.focus({ preventScroll: true });
 }
 $(".vf-close", root).addEventListener("click", close);
