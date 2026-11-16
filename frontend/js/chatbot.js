@@ -46,38 +46,26 @@ const store = {
   get(area, k) { try { return JSON.parse(area.getItem(k)); } catch { return null; } },
   set(area, k, v) { try { area.setItem(k, JSON.stringify(v)); } catch { /* blocked or full: state lives for this page only */ } },
 };
-// Aurora, the shopping assistant: an anime-style girl in sea blue, drawn inline (no image file).
-// `id` keeps gradient / clipPath ids unique per copy.
+// Aurora, the shopping assistant: a simple girl in a blue cap and apron, drawn inline (no image file).
+// `id` keeps the clipPath id unique per copy.
 export const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="true">
-  <defs>
-    <clipPath id="${id}-c"><circle cx="32" cy="32" r="32"/></clipPath>
-    <linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3f0ff"/><stop offset="1" stop-color="#a9cdf5"/></linearGradient>
-    <linearGradient id="${id}-hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f78c8"/><stop offset="1" stop-color="#174b8c"/></linearGradient>
-    <linearGradient id="${id}-eye" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2e66"/><stop offset=".55" stop-color="#2a74d4"/><stop offset="1" stop-color="#7fd0ff"/></linearGradient>
-  </defs>
+  <defs><clipPath id="${id}-c"><circle cx="32" cy="32" r="32"/></clipPath></defs>
   <g clip-path="url(#${id}-c)">
-    <rect width="64" height="64" fill="url(#${id}-bg)"/>
-    <path d="M13 31C11 15 20 7 32 7s21 8 19 24c-.5 9 2 17 5 25H8c3-8 5.500-16 5-25Z" fill="#174b8c"/>
-    <path d="M9 66c1-12 9-18 23-18s22 6 23 18Z" fill="#1f6fb5"/>
-    <path d="M24.500 48.500 32 58l7.500-9.500Z" fill="#fff"/>
-    <path d="M32 54.500 27 51.500v6Zm0 0 5-3v6Z" fill="#7cc0ff"/><circle cx="32" cy="54.500" r="1.500" fill="#4a9be8"/>
-    <rect x="29" y="39" width="6" height="9" rx="3" fill="#f3c9ad"/>
-    <path d="M21 27c0-8 4.500-13.500 11-13.500S43 19 43 27c0 7.500-4 14.500-11 14.500S21 34.500 21 27Z" fill="#ffe6d6"/>
-    <path d="M21.500 22c-2.500 9-1 18-4.500 27 4.500-.5 8-5 9-11-.5-6-1-11-4.500-16Zm21 0c2.500 9 1 18 4.500 27-4.500-.5-8-5-9-11 .5-6 1-11 4.500-16Z" fill="url(#${id}-hair)"/>
-    <path d="M20 29C17.500 15 25 9 32 9s14.500 6 12 20c-.8-6-3.500-10-6.500-12-1.200 3.500-4.500 6-9 6.500-2.800.4-4.800 2.800-6 5.500Z" fill="url(#${id}-hair)"/>
-    <path d="M26 13.500c3-1.800 8-2 12 .8" fill="none" stroke="#7fb8f2" stroke-width="1.300" stroke-linecap="round" opacity=".8"/>
-    <path d="M23.500 21c2-1.500 4-2.200 6-2.500" fill="none" stroke="#7fb8f2" stroke-width="1" stroke-linecap="round" opacity=".6"/>
-    <path d="m45 14.500.9 2 2.100.3-1.500 1.500.4 2.100-1.900-1-1.900 1 .4-2.100-1.500-1.500 2.100-.3Z" fill="#d9f1ff" stroke="#fff" stroke-width=".6"/>
-    <ellipse cx="26.800" cy="31.800" rx="3.300" ry="4.400" fill="url(#${id}-eye)"/>
-    <ellipse cx="37.200" cy="31.800" rx="3.300" ry="4.400" fill="url(#${id}-eye)"/>
-    <ellipse cx="26.800" cy="32.200" rx="1.400" ry="2.400" fill="#06214d"/>
-    <ellipse cx="37.200" cy="32.200" rx="1.400" ry="2.400" fill="#06214d"/>
-    <circle cx="25.600" cy="30" r="1.200" fill="#fff"/><circle cx="36" cy="30" r="1.200" fill="#fff"/>
-    <circle cx="28" cy="34" r=".6" fill="#fff"/><circle cx="38.400" cy="34" r=".6" fill="#fff"/>
-    <path d="M22.800 29.500c1.500-2 6-2.600 8 .4M33.200 29.900c2-3 6.500-2.400 8-.4" fill="none" stroke="#06214d" stroke-width="1.500" stroke-linecap="round"/>
-    <ellipse cx="23" cy="36.500" rx="2.400" ry="1.400" fill="#ff9fb4" opacity=".6"/>
-    <ellipse cx="41" cy="36.500" rx="2.400" ry="1.400" fill="#ff9fb4" opacity=".6"/>
-    <path d="M29.800 38.500c1.300 1.500 3.100 1.500 4.400 0" fill="none" stroke="#c4566e" stroke-width="1.200" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="32" fill="#dbeafe"/>
+    <path d="M15.5 30c-1-10 6-18 16.5-18s17.5 8 16.5 18c-.3 8 .8 13 3 17.5h-39c2.2-4.5 3.3-9.5 3-17.5Z" fill="#3a2621"/>
+    <path d="M8 66c1-14 11-21 24-21s23 7 24 21Z" fill="#fff"/>
+    <path d="M20 66V50c4-3 8-4 12-4s8 1 12 4v16Z" fill="#1f6fb5"/>
+    <path d="M23 49l-4-4M41 49l4-4" stroke="#164f85" stroke-width="2" stroke-linecap="round"/>
+    <rect x="35" y="54" width="7" height="4" rx="1" fill="#fff"/>
+    <rect x="28" y="38" width="8" height="8" rx="3" fill="#e8ad88"/>
+    <circle cx="32" cy="29" r="12.5" fill="#f5c6a5"/>
+    <path d="M19.5 29c-.5-9 5-15.5 12.5-15.5S45 20 44.5 29c-2-4.5-5-6.8-9-7.8-3 2.2-8 3.7-12.5 3.7-1.6.8-3 2.3-3.5 4.1Z" fill="#3a2621"/>
+    <path d="M19 20c1-6 6.5-9.5 13-9.5s12 3.5 13 9.5c-4-2-8.5-3-13-3s-9 1-13 3Z" fill="#1f6fb5"/>
+    <circle cx="32" cy="10" r="1.8" fill="#164f85"/>
+    <circle cx="27" cy="30.5" r="2.1" fill="#2b1d19"/><circle cx="37" cy="30.5" r="2.1" fill="#2b1d19"/>
+    <circle cx="27.7" cy="29.7" r=".7" fill="#fff"/><circle cx="37.7" cy="29.7" r=".7" fill="#fff"/>
+    <circle cx="23" cy="34.5" r="2.3" fill="#f19a8a" opacity=".7"/><circle cx="41" cy="34.5" r="2.3" fill="#f19a8a" opacity=".7"/>
+    <path d="M28.5 35q3.5 3.5 7 0" fill="none" stroke="#2b1d19" stroke-width="1.6" stroke-linecap="round"/>
   </g>
 </svg>`;
 // Waving hand that sticks out from the launcher's edge.
