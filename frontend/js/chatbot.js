@@ -10,15 +10,12 @@ const PAGE = 4; // product cards per bot reply
 const SIZE = 64; // launcher diameter, px (matches chatbot.css)
 const EDGE = 16; // gap between launcher / panel and the screen edge, px
 const GREET_DELAY = 900;
-const CHIPS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
-const COLOR_CHIPS = ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"];
-const BUDGET_CHIPS = ["Under $25", "$25–50", "$50+", "Any budget"];
 const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 
 // Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
 const VI_PAIRS = [
   ["tôi muốn mua", ""], ["tôi muốn", ""], ["muốn mua", ""], ["cho tôi", ""], ["giúp tôi", ""], ["tìm kiếm", ""], ["tìm", ""], ["mua", ""],
-  ["rẻ hơn", "cheaper"], ["xem thêm", "show more"], ["xanh lá", "green"], ["xin chào", "hi"], ["cảm ơn", "thanks"], ["dưới", "under"],
+  ["rẻ hơn", "cheaper"], ["xem thêm", "show more"], ["xanh lá", "green"], ["xanh dương", "blue"], ["kem", "cream"], ["xin chào", "hi"], ["cảm ơn", "thanks"], ["dưới", "under"],
   ["gối", "pillow"], ["đệm", "cushion"], ["đèn", "lamp"], ["thảm", "rug"], ["ghế", "chair"], ["bàn", "table"], ["gương", "mirror"],
   ["cây", "plant"], ["chậu", "planter"], ["bình", "vase"], ["giỏ", "basket"], ["kệ", "shelf"], ["tủ", "cabinet"], ["chăn", "blanket"],
   ["rèm", "curtain"], ["xanh", "blue"], ["đỏ", "red"], ["trắng", "white"], ["đen", "black"], ["gỗ", "wood"], ["nâu", "brown"],
@@ -54,7 +51,7 @@ const MORE = /\b(?:more|next)\b/;
 // Words that only steer a follow-up; a message made only of these (plus colors) refines the last results.
 const REFINE = /^(?:show|see|more|next|me|the|ones?|in|any|some|something|options?|them|those|please|cheaper|cheap|less|expensive|lower|price|budget|under|below|than|max|up|to|colou?r|dollars?|usd|bucks|\$?\d+(?:\.\d+)?|ok|okay|and|only|just)$/;
 // "No color preference" replies, checked on the raw text because clean() drops Vietnamese it can't translate.
-const ANY = /(?:^|\s)(?:any|no preference|không|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
+const ANY = /(?:^|\s)(?:any|no preference|không|màu nào cũng được|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
 // Budget answers: "25-50" / "$25–50", "50+" / "trên 50", "under 30" / "dưới 30".
 const RANGE = /\$?\s*(\d+(?:\.\d+)?)\s*(?:-|–|—|to|đến|tới)\s*\$?\s*(\d+(?:\.\d+)?)/u;
 const OVER = /\$?\s*(\d+(?:\.\d+)?)\s*\+|(?:over|above|more than|at least|trên|hơn|từ)\s*\$?\s*(\d+(?:\.\d+)?)/u;
@@ -68,9 +65,12 @@ export function budget(raw) {
 }
 const STOP = new Set("the and for with from your you our this that into inch inches set pack piece pieces amazon brand".split(" "));
 
-// Everything Aurora says, in English and Vietnamese. Chips stay English so parse() reads them the same way.
+// Everything Aurora says, and her chips, in English and Vietnamese. A chip label is sent as the user's message, so the VI table, ANY and budget() must understand every Vietnamese label.
 const T = {
   en: {
+    cats: ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"],
+    colors: ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"],
+    budgets: ["Under $25", "$25–50", "$50+", "Any budget"],
     intro: (name) => `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. What do you need today?`,
     hello: "Hello! What can I help you find today?",
     thanks: "You're welcome! Anything else?",
@@ -96,6 +96,9 @@ const T = {
     similar: "Here are similar pieces.",
   },
   vi: {
+    cats: ["Gối", "Đèn", "Thảm", "Ghế", "Cây", "Gương"],
+    colors: ["Xanh dương", "Trắng", "Đen", "Xám", "Xanh lá", "Nâu", "Kem", "Màu nào cũng được"],
+    budgets: ["Dưới $25", "$25–50", "Trên $50", "Bất kỳ"],
     intro: (name) => `Xin chào${name ? ` ${name}` : ""}! Mình là Aurora, trợ lý mua sắm của bạn. Hôm nay bạn cần tìm gì?`,
     hello: "Xin chào! Mình có thể giúp bạn tìm gì hôm nay?",
     thanks: "Không có gì! Bạn cần gì thêm không?",
@@ -293,7 +296,7 @@ async function open() {
 // First message of every chat: Aurora introduces herself, by name if the visitor is logged in.
 function intro() {
   const name = getUser()?.name?.trim();
-  push({ from: "bot", text: t$().intro(name), chips: CHIPS });
+  push({ from: "bot", text: t$().intro(name), chips: t$().cats });
 }
 // New chat: clear the conversation and the remembered results, then start over with the introduction.
 $(".vf-new", root).addEventListener("click", () => {
@@ -431,16 +434,16 @@ async function answer(text) {
     else pending = null;
   }
   if (!t || /^good (?:morning|afternoon|evening)$/.test(t)) // only a greeting or filler ("hi", "tôi muốn mua")
-    return push({ from: "bot", text: t$().hello, chips: CHIPS });
+    return push({ from: "bot", text: t$().hello, chips: t$().cats });
   if (/^(?:thanks|thank you|thx|ty)\b/.test(t)) return push({ from: "bot", text: t$().thanks });
   const ask = parse(t);
   const followUp = !ask.rest.length && (ask.more || ask.cheaper || ask.max != null || ask.color);
   if (followUp) {
-    if (!last) return push({ from: "bot", text: t$().what, chips: CHIPS });
+    if (!last) return push({ from: "bot", text: t$().what, chips: t$().cats });
     return refine(ask);
   }
   if (!ask.rest.length || !(await knows(ask.rest)))
-    return push({ from: "bot", text: t$().huh, chips: CHIPS });
+    return push({ from: "bot", text: t$().huh, chips: t$().cats });
   const p = { q: ask.q, color: ask.color, max: ask.max, cheaper: ask.cheaper };
   if (!ask.color) return askColor(p);
   return afterColor(p);
@@ -448,11 +451,11 @@ async function answer(text) {
 // Product named without a color: ask the color, then the budget (skipped when a price was given), then search.
 function askColor(p) {
   pending = { ...p, step: "color" };
-  push({ from: "bot", text: t$().color(p.q), chips: COLOR_CHIPS });
+  push({ from: "bot", text: t$().color(p.q), chips: t$().colors });
 }
 function askBudget(p) {
   pending = { ...p, step: "budget" };
-  push({ from: "bot", text: t$().budget, chips: BUDGET_CHIPS });
+  push({ from: "bot", text: t$().budget, chips: t$().budgets });
 }
 function afterColor(p) {
   if (p.max == null) return askBudget({ ...p, asked: false });
@@ -515,7 +518,7 @@ function reply(found, none = found) {
   if (last.cheapFirst) list = [...list].sort((a, b) => byId.get(a[0]).price - byId.get(b[0]).price);
   const items = list.slice(last.offset, last.offset + PAGE);
   if (items.length) last.shown = items.map(([id]) => id);
-  push(items.length ? { from: "bot", text: found, items } : { from: "bot", text: none, chips: CHIPS });
+  push(items.length ? { from: "bot", text: found, items } : { from: "bot", text: none, chips: t$().cats });
 }
 
 // ---- photo ----
@@ -539,7 +542,7 @@ async function askPhoto(file) {
   const level = res.confidence ?? (res.match ?? best >= THRESHOLD ? "high" : best >= THRESHOLD_LOW ? "medium" : "low");
   if (!res.results.length || level === "low") {
     last = null;
-    return push({ from: "bot", text: t$().noMatch, chips: CHIPS });
+    return push({ from: "bot", text: t$().noMatch, chips: t$().cats });
   }
   last = { q: null, color: null, prefer: null, min: null, max: null, offset: 0, pool: toPool(res) };
   reply(level === "high" ? t$().foundIt : t$().similar);
