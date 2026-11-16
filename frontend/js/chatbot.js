@@ -6,7 +6,7 @@ import { searchByText, searchByImage, THRESHOLD, THRESHOLD_LOW } from "./api.js"
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
-const SIZE = 56; // launcher diameter, px (matches chatbot.css)
+const SIZE = 64; // launcher diameter, px (matches chatbot.css)
 const EDGE = 16; // gap between launcher / panel and the screen edge, px
 const GREET_DELAY = 2500;
 const CHIPS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
@@ -45,7 +45,8 @@ const store = {
   get(area, k) { try { return JSON.parse(area.getItem(k)); } catch { return null; } },
   set(area, k, v) { try { area.setItem(k, JSON.stringify(v)); } catch { /* blocked or full: state lives for this page only */ } },
 };
-const CHAT_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4V5Z"/><path d="M8 9.5h8M8 12.5h5"/></svg>';
+// Assistant character (assets/ui/mascot.svg). draggable=false keeps the browser's image drag out of the launcher drag.
+const MASCOT = '<img class="vf-mascot" src="assets/ui/mascot.svg" alt="" draggable="false">';
 const SEND_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5 16-3.5-6.5L4 12Z"/><path d="m11.5 13.5 4-4"/></svg>';
 
 // ---- state: history + last results in sessionStorage, launcher position in localStorage ----
@@ -65,10 +66,10 @@ root.innerHTML = `
     <button class="vf-greet-open" type="button">Hi! Can I help you find something?</button>
     <button class="vf-greet-x" type="button" aria-label="Dismiss">${icon("close")}</button>
   </div>
-  <button class="vf-launch" type="button" aria-label="Open shopping assistant" aria-expanded="false" aria-controls="vf-panel">${CHAT_ICON}</button>
+  <button class="vf-launch" type="button" aria-label="Open shopping assistant" aria-expanded="false" aria-controls="vf-panel">${MASCOT}</button>
   <section class="vf-panel" id="vf-panel" role="dialog" aria-label="Shopping assistant">
     <header class="vf-head">
-      <span class="vf-avatar">${CHAT_ICON}</span>
+      <span class="vf-avatar">${MASCOT}</span>
       <span><strong>Shopping assistant</strong><small>Finds pieces in our catalog</small></span>
       <button class="vf-close" type="button" aria-label="Close chat">${icon("close")}</button>
     </header>

@@ -1,11 +1,12 @@
 /* Shopping assistant (js/chatbot.js). Uses the tokens from style.css. */
 .vf-launch {
-  position: fixed; z-index: 50; width: 56px; height: 56px; display: grid; place-items: center; padding: 0;
-  border: 0; border-radius: 50%; background: var(--accent); color: #fff; cursor: grab;
-  box-shadow: 0 8px 20px -6px rgba(17, 17, 17, 0.45);
+  position: fixed; z-index: 50; width: 64px; height: 64px; display: block; padding: 0;
+  border: 3px solid #fff; border-radius: 50%; background: var(--accent-soft); cursor: grab;
+  box-shadow: 0 10px 24px -8px rgba(17, 17, 17, 0.5), 0 0 0 1px var(--line);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
-.vf-launch:hover { background: var(--accent-deep); }
-.vf-launch .icon { width: 26px; height: 26px; stroke-width: 1.5; }
+.vf-launch:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -8px rgba(17, 17, 17, 0.5), 0 0 0 2px var(--accent); }
+.vf-mascot { display: block; width: 100%; height: 100%; border-radius: 50%; pointer-events: none; user-select: none; }
 .vf-chat.is-dragging .vf-launch { cursor: grabbing; transform: scale(1.06); box-shadow: 0 14px 28px -8px rgba(17, 17, 17, 0.5); }
 .vf-chat.is-dragging .vf-greet { opacity: 0; }
 
@@ -33,8 +34,7 @@
 .vf-head { display: flex; align-items: center; gap: 12px; padding: 12px 8px 12px 14px; background: var(--ink); color: #fff; }
 .vf-head strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 17px; line-height: 1.2; }
 .vf-head small { display: block; font-size: 12px; color: #bdbdbd; }
-.vf-avatar { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); flex: none; }
-.vf-avatar .icon { width: 18px; height: 18px; }
+.vf-avatar { display: block; width: 38px; height: 38px; border-radius: 50%; border: 2px solid #fff; overflow: hidden; flex: none; }
 .vf-close { margin-left: auto; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; }
 .vf-close .icon { width: 20px; height: 20px; }
 
