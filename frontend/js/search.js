@@ -38,7 +38,7 @@ function loadPhoto(blob) {
   if (objectUrl) URL.revokeObjectURL(objectUrl);
   objectUrl = URL.createObjectURL(blob);
   cropImg.src = objectUrl;
-  dz.hidden = camBtn.hidden = true;
+  dz.hidden = true;
   crop.hidden = false;
   // Cropper.js is a deferred classic script; module scripts run after it, so window.Cropper exists.
   cropper = new window.Cropper(cropImg, {
@@ -50,17 +50,13 @@ function clearPhoto() {
   cropper?.destroy();
   cropper = undefined;
   crop.hidden = true;
-  dz.hidden = camBtn.hidden = false;
-  fileInput.value = camInput.value = "";
+  dz.hidden = false;
+  fileInput.value = "";
 }
 const cropBlob = () => new Promise((res) =>
   cropper.getCroppedCanvas({ maxWidth: 1024, maxHeight: 1024, fillColor: "#fff" }).toBlob(res, "image/jpeg", 0.92));
 
 fileInput.addEventListener("change", () => loadPhoto(fileInput.files[0]));
-// Camera: capture="environment" opens the rear camera on phones; desktop falls back to a file picker.
-const camBtn = $("camera-btn"), camInput = $("camera-input");
-$("cam-icon").innerHTML = icon("camera");
-camInput.addEventListener("change", () => loadPhoto(camInput.files[0]));
 ["dragenter", "dragover"].forEach((t) => dz.addEventListener(t, (e) => { e.preventDefault(); dz.classList.add("is-over"); }));
 ["dragleave", "drop"].forEach((t) => dz.addEventListener(t, () => dz.classList.remove("is-over")));
 dz.addEventListener("drop", (e) => { e.preventDefault(); loadPhoto(e.dataTransfer.files[0]); });
@@ -164,7 +160,6 @@ function render({ results, ms, demo, match, confidence }, q) {
 // ---- start: photo handed over from another page, or ?q= from the header ----
 const params = new URLSearchParams(location.search);
 const q0 = params.get("q")?.trim();
-if (params.has("camera")) { camBtn.classList.add("is-featured"); camInput.focus(); } // arrived from the QR code
 if (q0) { textQ.value = q0; showTab($("tab-text")); }
 let handed;
 try { handed = sessionStorage.getItem("vf_query_image"); sessionStorage.removeItem("vf_query_image"); } catch { /* blocked */ }

@@ -49,12 +49,17 @@ const store = {
 const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="true">
   <defs><clipPath id="${id}"><circle cx="32" cy="32" r="32"/></clipPath></defs>
   <g clip-path="url(#${id})">
-    <circle cx="32" cy="32" r="32" fill="#f3dccf"/>
-    <path d="M10 64c1-13 10-20 22-20s21 7 22 20Z" fill="#b23a2e"/>
+    <circle cx="32" cy="32" r="32" fill="#dbeafe"/>
+    <path d="M10 64c1-13 10-20 22-20s21 7 22 20Z" fill="#1f6fb5"/>
     <path d="M24 46l8 9 8-9" fill="#fff"/>
+    <path d="M21 64V53l4-4h14l4 4v11Z" fill="#164f85"/>
+    <path d="M25 49l-3-4M39 49l3-4" stroke="#164f85" stroke-width="2" stroke-linecap="round"/>
+    <rect x="28" y="56" width="8" height="4" rx="1" fill="#fff"/>
     <rect x="28" y="38" width="8" height="8" rx="3" fill="#e9b28f"/>
     <circle cx="32" cy="28" r="13" fill="#f5c6a5"/>
     <path d="M18.5 28c-1-9 5-16 13.5-16S46.5 19 45.5 28c-2.5-4-6-6.5-10-7.5-3 2.5-8 4-13 4-1.5 1-3 2-4 3.5Z" fill="#3a2621"/>
+    <path d="M18.5 21c1-6 6.5-10 13.5-10s12.5 4 13.5 10c-4-1.5-8.5-2.2-13.5-2.2s-9.5.7-13.5 2.2Z" fill="#1f6fb5"/>
+    <path d="M17 21.5c4.5-1.7 9.6-2.5 15-2.5s10.5.8 15 2.5" fill="none" stroke="#164f85" stroke-width="2.2" stroke-linecap="round"/>
     <ellipse cx="27" cy="29" rx="1.6" ry="2" fill="#2b1d19"/>
     <ellipse cx="37" cy="29" rx="1.6" ry="2" fill="#2b1d19"/>
     <circle cx="23.5" cy="33" r="2.2" fill="#f19a8a" opacity=".7"/>
@@ -65,6 +70,7 @@ const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="tr
 // Waving hand that sticks out from the launcher's edge.
 const HAND = `<svg class="vf-hand" viewBox="0 0 24 28" aria-hidden="true">
   <path d="M7 27c-2-4-4-9-4-13 0-1.4 2-1.6 2.6-.3L7 17V6.5c0-1.6 2.5-1.6 2.5 0V14V4.5c0-1.6 2.5-1.6 2.5 0V14V5.5c0-1.6 2.5-1.6 2.5 0V14.5V8c0-1.6 2.5-1.6 2.5 0v9c0 4.5-1.5 7.5-3.5 10Z" fill="#f5c6a5" stroke="#c98d6c" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M6 24.5h9.5L14.6 28H7.2Z" fill="#1f6fb5" stroke="#164f85" stroke-width="1" stroke-linejoin="round"/>
 </svg>`;
 const SEND_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5 16-3.5-6.5L4 12Z"/><path d="m11.5 13.5 4-4"/></svg>';
 

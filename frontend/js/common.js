@@ -23,6 +23,7 @@ const ICONS = {
   grid: '<rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/>',
   image: '<rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-9 8"/>',
   spark: '<path d="M12 3c.6 4.4 2.6 6.4 7 7-4.4.6-6.4 2.6-7 7-.6-4.4-2.6-6.4-7-7 4.4-.6 6.4-2.6 7-7Z"/><path d="M19 15v4M17 17h4"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
   phone: '<rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/>',
 };
 export const icon = (name, cls = "icon") =>
@@ -76,7 +77,11 @@ export const money = (n) => `$${n.toLocaleString("en-US", { minimumFractionDigit
 
 // ---- localStorage helpers (storage can be blocked: never throw) ----
 const read = (k) => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } };
-const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* blocked: state lives for this page only */ } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* blocked: state lives for this page only */ } };
+// Logged in: account.js pushes every cart/wishlist change to the server through this hook.
+let onChange = () => {};
+export const onStoreChange = (fn) => (onChange = fn);
+const write = (k, v) => { save(k, v); onChange(k, v); };
 
 const CART_KEY = "vf_cart";
 const SAVED_KEY = "vf_saved";
@@ -103,6 +108,14 @@ export function updateCounts() {
   set(".saved-count", getSaved().length);
 }
 export const STORAGE_KEYS = [CART_KEY, SAVED_KEY];
+// Server copy -> this browser, without echoing it back to the server.
+export function replaceLocal(cart, saved) { save(CART_KEY, cart); save(SAVED_KEY, saved); updateCounts(); }
+export { CART_KEY, SAVED_KEY };
+
+// Login token (account.js). Sent with searches so the backend can keep the user's history.
+export const TOKEN_KEY = "vf_token";
+export const getToken = () => { try { return localStorage.getItem(TOKEN_KEY); } catch { return null; } };
+export const authHeader = () => { const t = getToken(); return t ? { Authorization: `Bearer ${t}` } : {}; };
 
 // Color filter: ABO colors are free text in several languages ("grijs", "Grey", "charcoal").
 // Map each to one family by the keyword that appears first in the string.
