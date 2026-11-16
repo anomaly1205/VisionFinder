@@ -3,14 +3,15 @@
 // then sent to the CLIP text or photo search in api.js. Follow-ups ("show more", "cheaper", "blue ones") refine the last results.
 import { icon, escapeHtml, displayName, money, thumbOf, addToCart, toast, colorFamily, loadProducts } from "./common.js";
 import { searchByText, searchByImage, THRESHOLD, THRESHOLD_LOW } from "./api.js";
+import { getUser } from "./account.js";
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
 const SIZE = 64; // launcher diameter, px (matches chatbot.css)
 const EDGE = 16; // gap between launcher / panel and the screen edge, px
-const GREET_DELAY = 2500;
+const GREET_DELAY = 900;
 const CHIPS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
-const KEY_CHAT = "vf_chat", KEY_GREETED = "vf_chat_greeted", KEY_POS = "vf_chat_pos";
+const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 
 // Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
 const VI = [
@@ -45,8 +46,45 @@ const store = {
   get(area, k) { try { return JSON.parse(area.getItem(k)); } catch { return null; } },
   set(area, k, v) { try { area.setItem(k, JSON.stringify(v)); } catch { /* blocked or full: state lives for this page only */ } },
 };
-// Assistant character (assets/ui/mascot.svg). draggable=false keeps the browser's image drag out of the launcher drag.
-const MASCOT = '<img class="vf-mascot" src="assets/ui/mascot.svg" alt="" draggable="false">';
+// Aurora, the shopping assistant: an anime-style girl in sea blue, drawn inline (no image file).
+// `id` keeps gradient / clipPath ids unique per copy.
+const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="true">
+  <defs>
+    <clipPath id="${id}-c"><circle cx="32" cy="32" r="32"/></clipPath>
+    <linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3f0ff"/><stop offset="1" stop-color="#a9cdf5"/></linearGradient>
+    <linearGradient id="${id}-hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f78c8"/><stop offset="1" stop-color="#174b8c"/></linearGradient>
+    <linearGradient id="${id}-eye" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2e66"/><stop offset=".55" stop-color="#2a74d4"/><stop offset="1" stop-color="#7fd0ff"/></linearGradient>
+  </defs>
+  <g clip-path="url(#${id}-c)">
+    <rect width="64" height="64" fill="url(#${id}-bg)"/>
+    <path d="M13 31C11 15 20 7 32 7s21 8 19 24c-.5 9 2 17 5 25H8c3-8 5.500-16 5-25Z" fill="#174b8c"/>
+    <path d="M9 66c1-12 9-18 23-18s22 6 23 18Z" fill="#1f6fb5"/>
+    <path d="M24.500 48.500 32 58l7.500-9.500Z" fill="#fff"/>
+    <path d="M32 54.500 27 51.500v6Zm0 0 5-3v6Z" fill="#7cc0ff"/><circle cx="32" cy="54.500" r="1.500" fill="#4a9be8"/>
+    <rect x="29" y="39" width="6" height="9" rx="3" fill="#f3c9ad"/>
+    <path d="M21 27c0-8 4.500-13.500 11-13.500S43 19 43 27c0 7.500-4 14.500-11 14.500S21 34.500 21 27Z" fill="#ffe6d6"/>
+    <path d="M21.500 22c-2.500 9-1 18-4.500 27 4.500-.5 8-5 9-11-.5-6-1-11-4.500-16Zm21 0c2.500 9 1 18 4.500 27-4.500-.5-8-5-9-11 .5-6 1-11 4.500-16Z" fill="url(#${id}-hair)"/>
+    <path d="M20 29C17.500 15 25 9 32 9s14.500 6 12 20c-.8-6-3.500-10-6.500-12-1.200 3.500-4.500 6-9 6.500-2.800.4-4.800 2.800-6 5.500Z" fill="url(#${id}-hair)"/>
+    <path d="M26 13.500c3-1.800 8-2 12 .8" fill="none" stroke="#7fb8f2" stroke-width="1.300" stroke-linecap="round" opacity=".8"/>
+    <path d="M23.500 21c2-1.500 4-2.200 6-2.500" fill="none" stroke="#7fb8f2" stroke-width="1" stroke-linecap="round" opacity=".6"/>
+    <path d="m45 14.500.9 2 2.100.3-1.500 1.500.4 2.100-1.900-1-1.900 1 .4-2.100-1.500-1.500 2.100-.3Z" fill="#d9f1ff" stroke="#fff" stroke-width=".6"/>
+    <ellipse cx="26.800" cy="31.800" rx="3.300" ry="4.400" fill="url(#${id}-eye)"/>
+    <ellipse cx="37.200" cy="31.800" rx="3.300" ry="4.400" fill="url(#${id}-eye)"/>
+    <ellipse cx="26.800" cy="32.200" rx="1.400" ry="2.400" fill="#06214d"/>
+    <ellipse cx="37.200" cy="32.200" rx="1.400" ry="2.400" fill="#06214d"/>
+    <circle cx="25.600" cy="30" r="1.200" fill="#fff"/><circle cx="36" cy="30" r="1.200" fill="#fff"/>
+    <circle cx="28" cy="34" r=".6" fill="#fff"/><circle cx="38.400" cy="34" r=".6" fill="#fff"/>
+    <path d="M22.800 29.500c1.500-2 6-2.600 8 .4M33.200 29.900c2-3 6.500-2.400 8-.4" fill="none" stroke="#06214d" stroke-width="1.500" stroke-linecap="round"/>
+    <ellipse cx="23" cy="36.500" rx="2.400" ry="1.400" fill="#ff9fb4" opacity=".6"/>
+    <ellipse cx="41" cy="36.500" rx="2.400" ry="1.400" fill="#ff9fb4" opacity=".6"/>
+    <path d="M29.800 38.500c1.300 1.500 3.100 1.500 4.400 0" fill="none" stroke="#c4566e" stroke-width="1.200" stroke-linecap="round"/>
+  </g>
+</svg>`;
+// Waving hand that sticks out from the launcher's edge.
+const HAND = `<svg class="vf-hand" viewBox="0 0 24 28" aria-hidden="true">
+  <path d="M7 27c-2-4-4-9-4-13 0-1.4 2-1.6 2.6-.3L7 17V6.5c0-1.6 2.5-1.6 2.5 0V14V4.5c0-1.6 2.5-1.6 2.5 0V14V5.5c0-1.6 2.5-1.6 2.5 0V14.5V8c0-1.6 2.5-1.6 2.5 0v9c0 4.5-1.5 7.5-3.5 10Z" fill="#ffe6d6" stroke="#d4a283" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M5.500 24.500h10.500l.8 3.500H4.700Z" fill="#1f6fb5"/>
+</svg>`;
 const SEND_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5 16-3.5-6.5L4 12Z"/><path d="m11.5 13.5 4-4"/></svg>';
 
 // ---- state: history + last results in sessionStorage, launcher position in localStorage ----
@@ -63,14 +101,15 @@ const root = document.createElement("div");
 root.className = "vf-chat";
 root.innerHTML = `
   <div class="vf-greet" hidden>
-    <button class="vf-greet-open" type="button">Hi! Can I help you find something?</button>
+    <button class="vf-greet-open" type="button"><strong>Hi, I'm Aurora!</strong><span>What do you need today? Tap me to chat.</span></button>
     <button class="vf-greet-x" type="button" aria-label="Dismiss">${icon("close")}</button>
   </div>
-  <button class="vf-launch" type="button" aria-label="Open shopping assistant" aria-expanded="false" aria-controls="vf-panel">${MASCOT}</button>
+  <button class="vf-launch" type="button" aria-label="Open shopping assistant" aria-expanded="false" aria-controls="vf-panel">${avatar("vf-clip-a")}${HAND}<span class="vf-online"></span></button>
   <section class="vf-panel" id="vf-panel" role="dialog" aria-label="Shopping assistant">
     <header class="vf-head">
-      <span class="vf-avatar">${MASCOT}</span>
-      <span><strong>Shopping assistant</strong><small>Finds pieces in our catalog</small></span>
+      <span class="vf-avatar">${avatar("vf-clip-b")}</span>
+      <span><strong>Aurora</strong><small>Your shopping assistant</small></span>
+      <button class="vf-new" type="button" aria-label="Start a new chat">${icon("plus")}<span>New chat</span></button>
       <button class="vf-close" type="button" aria-label="Close chat">${icon("close")}</button>
     </header>
     <ol class="vf-log" aria-live="polite"></ol>
@@ -91,6 +130,7 @@ function place() {
   pos.y = clamp(pos.y, EDGE, vh - SIZE - EDGE);
   launch.style.left = `${pos.side === "left" ? EDGE : vw - SIZE - EDGE}px`;
   launch.style.top = `${pos.y}px`;
+  root.dataset.side = pos.side;
   const above = pos.y + SIZE / 2 > vh / 2; // launcher in the lower half: open upwards
   const pw = Math.min(380, vw - 2 * EDGE), ph = Math.min(580, vh - 2 * EDGE);
   Object.assign(panel.style, {
@@ -101,20 +141,20 @@ function place() {
   });
   if (!greet.hidden) {
     const gw = greet.offsetWidth, gh = greet.offsetHeight;
-    greet.style.left = `${clamp(pos.side === "left" ? EDGE : vw - gw - EDGE, EDGE, vw - gw - EDGE)}px`;
-    greet.style.top = `${clamp(above ? pos.y - gh - 10 : pos.y + SIZE + 10, EDGE, vh - gh - EDGE)}px`;
-    greet.dataset.side = pos.side;
-    greet.dataset.dir = above ? "up" : "down";
+    const gap = 14; // room for the bubble's tail
+    const left = pos.side === "left" ? EDGE + SIZE + gap : vw - SIZE - EDGE - gap - gw;
+    greet.style.left = `${clamp(left, EDGE, vw - gw - EDGE)}px`;
+    greet.style.top = `${clamp(pos.y + SIZE / 2 - gh / 2, EDGE, vh - gh - EDGE)}px`;
   }
 }
 place();
 requestAnimationFrame(() => root.classList.add("is-ready")); // enable the snap transition only after the first placement
 addEventListener("resize", place);
 
-// ---- drag with the mouse: a press that moves > 6 px drags; otherwise it is a click that opens the chat ----
+// ---- drag (mouse + touch): a press that moves > 6 px drags; otherwise it is a click that opens the chat ----
 let drag = null, dragged = false;
 launch.addEventListener("pointerdown", (e) => {
-  if (e.pointerType !== "mouse" || e.button !== 0) return;
+  if (e.button !== 0) return;
   drag = { dx: e.clientX - launch.offsetLeft, dy: e.clientY - launch.offsetTop, x0: e.clientX, y0: e.clientY };
   dragged = false;
   launch.setPointerCapture(e.pointerId);
@@ -131,7 +171,7 @@ const toggle = () => (panel.classList.contains("is-open") ? close() : open());
 function endDrag(e) {
   if (!drag) return;
   drag = null;
-  if (!dragged) return; // a plain click: the click listener opens the chat
+  if (!dragged) { if (e.type === "pointerup") toggle(); return; } // a tap: touch does not always fire a click
   root.classList.remove("is-dragging");
   pos = { side: launch.offsetLeft + SIZE / 2 < innerWidth / 2 ? "left" : "right", y: launch.offsetTop };
   store.set(localStorage, KEY_POS, pos);
@@ -139,24 +179,23 @@ function endDrag(e) {
 }
 launch.addEventListener("pointerup", endDrag);
 launch.addEventListener("pointercancel", endDrag);
-launch.addEventListener("click", () => { if (dragged) dragged = false; else toggle(); }); // mouse click or Enter / Space; a drag never opens it
+launch.addEventListener("click", (e) => e.detail === 0 && toggle()); // keyboard (Enter/Space) only; pointers use pointerup
 
-// ---- greeting bubble: once per session, a few seconds after the first page view ----
+// ---- greeting bubble: shown next to the launcher on every page while the chat is closed ----
+let greetOff = false; // the user dismissed it on this page
 function hideGreet() {
   greet.classList.remove("is-on");
   greet.hidden = true;
 }
-if (!store.get(sessionStorage, KEY_GREETED)) {
-  setTimeout(() => {
-    if (panel.classList.contains("is-open")) return;
-    store.set(sessionStorage, KEY_GREETED, 1);
-    greet.hidden = false;
-    place();
-    requestAnimationFrame(() => greet.classList.add("is-on"));
-  }, GREET_DELAY);
+function showGreet() {
+  if (greetOff || panel.classList.contains("is-open")) return;
+  greet.hidden = false;
+  place();
+  requestAnimationFrame(() => greet.classList.add("is-on"));
 }
+setTimeout(showGreet, GREET_DELAY);
 $(".vf-greet-open", root).addEventListener("click", () => open());
-$(".vf-greet-x", root).addEventListener("click", hideGreet);
+$(".vf-greet-x", root).addEventListener("click", () => { greetOff = true; hideGreet(); });
 
 // ---- open / close ----
 let byId = new Map();
@@ -166,20 +205,34 @@ const ready = loadProducts().then((ps) => {
 });
 async function open() {
   hideGreet();
-  store.set(sessionStorage, KEY_GREETED, 1);
   place();
   panel.classList.add("is-open");
   launch.setAttribute("aria-expanded", "true");
   input.focus({ preventScroll: true });
   if (log.childElementCount) return;
   await ready;
-  if (!msgs.length) push({ from: "bot", text: "Hi! Tell me what you're looking for, describe it, or send a photo.", chips: CHIPS });
+  if (!msgs.length) intro();
   else log.innerHTML = msgs.map(msgHtml).join("");
   scrollDown(false);
 }
+// First message of every chat: Aurora introduces herself, by name if the visitor is logged in.
+function intro() {
+  const name = getUser()?.name?.trim();
+  push({ from: "bot", text: `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. What do you need today?`, chips: CHIPS });
+}
+// New chat: clear the conversation and the remembered results, then start over with the introduction.
+$(".vf-new", root).addEventListener("click", () => {
+  msgs.length = 0;
+  last = null;
+  log.innerHTML = "";
+  save();
+  intro();
+  input.focus({ preventScroll: true });
+});
 function close() {
   panel.classList.remove("is-open");
   launch.setAttribute("aria-expanded", "false");
+  setTimeout(showGreet, 400);
   if (panel.contains(document.activeElement)) launch.focus({ preventScroll: true });
 }
 $(".vf-close", root).addEventListener("click", close);
