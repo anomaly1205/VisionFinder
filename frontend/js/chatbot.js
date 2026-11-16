@@ -15,6 +15,7 @@ const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 // Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
 const VI_PAIRS = [
   ["tôi muốn mua", ""], ["tôi muốn", ""], ["muốn mua", ""], ["cho tôi", ""], ["giúp tôi", ""], ["tìm kiếm", ""], ["tìm", ""], ["mua", ""],
+  ["một", ""], ["cái", ""], ["chiếc", ""], ["con", ""], ["bộ", ""],
   ["rẻ hơn", "cheaper"], ["xem thêm", "show more"], ["xanh lá", "green"], ["xanh dương", "blue"], ["kem", "cream"], ["xin chào", "hi"], ["cảm ơn", "thanks"], ["dưới", "under"],
   ["gối", "pillow"], ["đệm", "cushion"], ["đèn", "lamp"], ["thảm", "rug"], ["ghế", "chair"], ["bàn", "table"], ["gương", "mirror"],
   ["cây", "plant"], ["chậu", "planter"], ["bình", "vase"], ["giỏ", "basket"], ["kệ", "shelf"], ["tủ", "cabinet"], ["chăn", "blanket"],
@@ -22,19 +23,6 @@ const VI_PAIRS = [
   ["xám", "gray"], ["vàng", "yellow"], ["hồng", "pink"], ["rẻ", "cheap"], ["chào", "hi"],
 ];
 const VI = VI_PAIRS.map(([vi, en]) => [new RegExp(`(^|[\\s,.!?])${vi}(?=$|[\\s,.!?])`, "gu"), `$1${en}`]);
-const EN_VI = Object.fromEntries(VI_PAIRS.filter(([, en]) => en).map(([vi, en]) => [en, vi]));
-// "pillow" -> "gối" for Vietnamese replies; phrases with an unknown word stay in English.
-const viName = (q) => {
-  const ws = q.split(" ").map((w) => EN_VI[w] ?? EN_VI[w.replace(/e?s$/, "")]);
-  return ws.every(Boolean) ? ws.join(" ") : q;
-};
-const VI_MARKS = /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/iu;
-// Language of a typed message: Vietnamese if it has Vietnamese marks or words ("xanh"); unchanged if it has no letters ("50+").
-function langOf(text, prev) {
-  const s = ` ${text.normalize("NFC").toLowerCase()} `;
-  if (VI_MARKS.test(s) || VI.some(([re]) => (re.lastIndex = 0, re.test(s)))) return "vi";
-  return /[a-z]/.test(s) ? "en" : prev;
-}
 
 // Color words the user can say -> colorFamily() families in common.js.
 const COLORS = {
@@ -65,64 +53,34 @@ export function budget(raw) {
 }
 const STOP = new Set("the and for with from your you our this that into inch inches set pack piece pieces amazon brand".split(" "));
 
-// Everything Aurora says, and her chips, in English and Vietnamese. A chip label is sent as the user's message, so the VI table, ANY and budget() must understand every Vietnamese label.
+// Everything Aurora says, and her chips. Aurora always answers in English; Vietnamese input is translated by the VI table.
 const T = {
-  en: {
-    cats: ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"],
-    colors: ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"],
-    budgets: ["Under $25", "$25–50", "$50+", "Any budget"],
-    intro: (name) => `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. What do you need today?`,
-    hello: "Hello! What can I help you find today?",
-    thanks: "You're welcome! Anything else?",
-    what: "What are you looking for? Pick one or describe it.",
-    huh: "Sorry, I didn't catch that. What kind of piece are you looking for?",
-    color: (q) => `What color would you like your ${q} to be?`,
-    budget: "What's your budget?",
-    price: (min, max) => (min != null && max != null ? ` at ${money(min)}–${money(max)}` : min != null ? ` over ${money(min)}` : max != null ? ` under ${money(max)}` : ""),
-    found: (q, price) => `Here's what I found for “${q}”${price}.`,
-    notFound: (q, price) => `I couldn't find “${q}”${price}. Try one of these:`,
-    nothing: "I couldn't find anything for that. Try one of these:",
-    ones: (c) => `${c} ones`,
-    under: (max) => `options under ${money(max)}`,
-    refined: (parts) => `Here are ${parts}.`,
-    refinedNone: (parts) => `I couldn't find ${parts} in these results. Try something else?`,
-    more: "Here are more.",
-    end: "That's everything I found. Want to try something else?",
-    error: "Sorry, search isn't working right now. Please try again in a moment.",
-    notImage: "That doesn't look like an image. Try a JPEG, PNG or WebP photo.",
-    badPhoto: "I couldn't open that photo. Try another one.",
-    noMatch: "I couldn't find a close match. Try a closer photo, or pick a category:",
-    foundIt: "I found it!",
-    similar: "Here are similar pieces.",
-  },
-  vi: {
-    cats: ["Gối", "Đèn", "Thảm", "Ghế", "Cây", "Gương"],
-    colors: ["Xanh dương", "Trắng", "Đen", "Xám", "Xanh lá", "Nâu", "Kem", "Màu nào cũng được"],
-    budgets: ["Dưới $25", "$25–50", "Trên $50", "Bất kỳ"],
-    intro: (name) => `Xin chào${name ? ` ${name}` : ""}! Mình là Aurora, trợ lý mua sắm của bạn. Hôm nay bạn cần tìm gì?`,
-    hello: "Xin chào! Mình có thể giúp bạn tìm gì hôm nay?",
-    thanks: "Không có gì! Bạn cần gì thêm không?",
-    what: "Bạn đang tìm gì? Chọn một mục hoặc mô tả giúp mình nhé.",
-    huh: "Xin lỗi, mình chưa hiểu. Bạn đang tìm món đồ gì?",
-    color: (q) => `Bạn muốn ${viName(q)} màu gì?`,
-    budget: "Ngân sách của bạn khoảng bao nhiêu?",
-    price: (min, max) => (min != null && max != null ? ` từ ${money(min)} đến ${money(max)}` : min != null ? ` trên ${money(min)}` : max != null ? ` dưới ${money(max)}` : ""),
-    found: (q, price) => `Đây là những gì mình tìm được cho “${q}”${price}.`,
-    notFound: (q, price) => `Mình chưa tìm thấy “${q}”${price}. Bạn thử một trong các mục sau nhé:`,
-    nothing: "Mình chưa tìm thấy gì phù hợp. Bạn thử một trong các mục sau nhé:",
-    ones: (c) => `các món màu ${viName(c)}`,
-    under: (max) => `các món dưới ${money(max)}`,
-    refined: (parts) => `Đây là ${parts}.`,
-    refinedNone: (parts) => `Mình không thấy ${parts} trong các kết quả này. Bạn thử tìm món khác nhé?`,
-    more: "Đây là thêm vài món nữa.",
-    end: "Mình đã cho bạn xem hết rồi. Bạn muốn tìm món khác không?",
-    error: "Xin lỗi, tìm kiếm đang gặp sự cố. Bạn thử lại sau một chút nhé.",
-    notImage: "Tệp này không phải ảnh. Bạn thử ảnh JPEG, PNG hoặc WebP nhé.",
-    badPhoto: "Mình không mở được ảnh này. Bạn thử ảnh khác nhé.",
-    noMatch: "Mình chưa tìm thấy món nào giống. Bạn thử chụp gần hơn, hoặc chọn một danh mục:",
-    foundIt: "Mình tìm thấy rồi!",
-    similar: "Đây là các món tương tự.",
-  },
+  cats: ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"],
+  colors: ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"],
+  budgets: ["Under $25", "$25–50", "$50+", "Any budget"],
+  intro: (name) => `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. What do you need today?`,
+  hello: "Hello! What can I help you find today?",
+  thanks: "You're welcome! Anything else?",
+  what: "What are you looking for? Pick one or describe it.",
+  huh: "Sorry, I didn't catch that. What kind of piece are you looking for?",
+  color: (q) => `What color would you like your ${q} to be?`,
+  budget: "What's your budget?",
+  price: (min, max) => (min != null && max != null ? ` at ${money(min)}–${money(max)}` : min != null ? ` over ${money(min)}` : max != null ? ` under ${money(max)}` : ""),
+  found: (q, price) => `Here's what I found for “${q}”${price}.`,
+  notFound: (q, price) => `I couldn't find “${q}”${price}. Try one of these:`,
+  nothing: "I couldn't find anything for that. Try one of these:",
+  ones: (c) => `${c} ones`,
+  under: (max) => `options under ${money(max)}`,
+  refined: (parts) => `Here are ${parts}.`,
+  refinedNone: (parts) => `I couldn't find ${parts} in these results. Try something else?`,
+  more: "Here are more.",
+  end: "That's everything I found. Want to try something else?",
+  error: "Sorry, search isn't working right now. Please try again in a moment.",
+  notImage: "That doesn't look like an image. Try a JPEG, PNG or WebP photo.",
+  badPhoto: "I couldn't open that photo. Try another one.",
+  noMatch: "I couldn't find a close match. Try a closer photo, or pick a category:",
+  foundIt: "I found it!",
+  similar: "Here are similar pieces.",
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -166,9 +124,7 @@ const saved = store.get(sessionStorage, KEY_CHAT);
 const msgs = Array.isArray(saved?.msgs) ? saved.msgs : [];
 let last = saved?.last ?? null; // { q, color, max, prefer, offset, shown: [ids], pool: [[id, score]] }
 let pending = saved?.pending ?? null; // waiting for an answer: { step: "color" | "budget", q, color, max, cheaper, asked }
-let lang = saved?.lang === "vi" ? "vi" : "en"; // language of the last typed message
-const t$ = () => T[lang];
-const save = () => store.set(sessionStorage, KEY_CHAT, { msgs: msgs.slice(-40), last, pending, lang });
+const save = () => store.set(sessionStorage, KEY_CHAT, { msgs: msgs.slice(-40), last, pending });
 let pos = store.get(localStorage, KEY_POS);
 if (!pos || !["left", "right"].includes(pos.side) || !Number.isFinite(pos.y)) pos = { side: "right", y: innerHeight - SIZE - EDGE };
 
@@ -296,7 +252,7 @@ async function open() {
 // First message of every chat: Aurora introduces herself, by name if the visitor is logged in.
 function intro() {
   const name = getUser()?.name?.trim();
-  push({ from: "bot", text: t$().intro(name), chips: t$().cats });
+  push({ from: "bot", text: T.intro(name), chips: T.cats });
 }
 // New chat: clear the conversation and the remembered results, then start over with the introduction.
 $(".vf-new", root).addEventListener("click", () => {
@@ -360,7 +316,7 @@ async function typing(work) {
 log.addEventListener("click", (e) => {
   const add = e.target.closest("[data-add]"), chip = e.target.closest("[data-chip]");
   if (add) { addToCart(add.dataset.add); toast("Added to cart"); }
-  if (chip) send(chip.dataset.chip, true);
+  if (chip) send(chip.dataset.chip);
 });
 $(".vf-form", root).addEventListener("submit", (e) => {
   e.preventDefault();
@@ -376,12 +332,9 @@ photo.addEventListener("change", () => {
 
 // One message at a time, in order.
 let queue = Promise.resolve();
-function send(text, chip = false) {
+function send(text) {
   push({ from: "user", text });
-  queue = queue.then(() => {
-    if (!chip) lang = langOf(text, lang); // chips are English labels, so they keep the current language
-    return answer(text);
-  });
+  queue = queue.then(() => answer(text));
 }
 
 // ---- understanding ----
@@ -389,6 +342,7 @@ export function clean(text) {
   let t = ` ${text.normalize("NFC").toLowerCase()} `;
   for (const [re, en] of VI) t = t.replace(re, en);
   t = t.replace(/[“”"!?,]+/g, " ").replace(/\S*[^\x00-\x7f]\S*/g, " ").replace(/\s+/g, " ").trim(); // drop untranslated Vietnamese
+  t = t.replace(/(^| )1 (?=[a-z])/g, "$1"); // "tôi muốn 1 cái gối" -> "pillow"; prices keep their number ("under 50")
   let prev;
   do { prev = t; t = `${t} `.replace(FILLER, "").trim(); } while (t !== prev);
   return t;
@@ -434,16 +388,16 @@ async function answer(text) {
     else pending = null;
   }
   if (!t || /^good (?:morning|afternoon|evening)$/.test(t)) // only a greeting or filler ("hi", "tôi muốn mua")
-    return push({ from: "bot", text: t$().hello, chips: t$().cats });
-  if (/^(?:thanks|thank you|thx|ty)\b/.test(t)) return push({ from: "bot", text: t$().thanks });
+    return push({ from: "bot", text: T.hello, chips: T.cats });
+  if (/^(?:thanks|thank you|thx|ty)\b/.test(t)) return push({ from: "bot", text: T.thanks });
   const ask = parse(t);
   const followUp = !ask.rest.length && (ask.more || ask.cheaper || ask.max != null || ask.color);
   if (followUp) {
-    if (!last) return push({ from: "bot", text: t$().what, chips: t$().cats });
+    if (!last) return push({ from: "bot", text: T.what, chips: T.cats });
     return refine(ask);
   }
   if (!ask.rest.length || !(await knows(ask.rest)))
-    return push({ from: "bot", text: t$().huh, chips: t$().cats });
+    return push({ from: "bot", text: T.huh, chips: T.cats });
   const p = { q: ask.q, color: ask.color, max: ask.max, cheaper: ask.cheaper };
   if (!ask.color) return askColor(p);
   return afterColor(p);
@@ -451,11 +405,11 @@ async function answer(text) {
 // Product named without a color: ask the color, then the budget (skipped when a price was given), then search.
 function askColor(p) {
   pending = { ...p, step: "color" };
-  push({ from: "bot", text: t$().color(p.q), chips: t$().colors });
+  push({ from: "bot", text: T.color(p.q), chips: T.colors });
 }
 function askBudget(p) {
   pending = { ...p, step: "budget" };
-  push({ from: "bot", text: t$().budget, chips: t$().budgets });
+  push({ from: "bot", text: T.budget, chips: T.budgets });
 }
 function afterColor(p) {
   if (p.max == null) return askBudget({ ...p, asked: false });
@@ -468,7 +422,7 @@ async function run(search) {
     return await typing(search);
   } catch (err) {
     if (!(err.status < 500)) console.error(err);
-    push({ from: "bot", text: t$().error });
+    push({ from: "bot", text: T.error });
     return null;
   }
 }
@@ -478,8 +432,8 @@ async function newSearch(ask) {
   const res = await run(searchByText(ask.q, POOL));
   if (!res) return;
   last = { q: ask.q, color: null, prefer: COLORS[ask.color] ?? null, min: ask.min ?? null, max: ask.max, cheapFirst: ask.cheaper, offset: 0, pool: toPool(res) };
-  const L = t$(), price = L.price(last.min, last.max);
-  reply(L.found(ask.q, price), res.results.length ? L.notFound(ask.q, price) : L.nothing);
+  const price = T.price(last.min, last.max);
+  reply(T.found(ask.q, price), res.results.length ? T.notFound(ask.q, price) : T.nothing);
 }
 
 async function refine(ask) {
@@ -494,7 +448,7 @@ async function refine(ask) {
       last.pool = [...last.pool, ...toPool(res).filter(([id]) => !seen.has(id) && types.has(byId.get(id)?.product_type))];
     }
     last.color = fam;
-    parts.push(t$().ones(ask.color));
+    parts.push(T.ones(ask.color));
   }
   if (ask.cheaper || ask.max != null) last.min = null; // a lower price replaces the budget's floor
   if (ask.cheaper && ask.max == null) { // cheaper than the cheapest card on screen
@@ -502,10 +456,10 @@ async function refine(ask) {
     last.max = Math.min(last.max ?? Infinity, Math.floor(Math.min(...shown)));
   }
   if (ask.max != null) last.max = ask.max;
-  if ((ask.cheaper || ask.max != null) && Number.isFinite(last.max)) parts.push(t$().under(last.max));
+  if ((ask.cheaper || ask.max != null) && Number.isFinite(last.max)) parts.push(T.under(last.max));
   last.offset = ask.more && !parts.length ? last.offset + PAGE : 0;
-  if (!parts.length) return reply(t$().more, t$().end);
-  reply(t$().refined(parts.join(", ")), t$().refinedNone(parts.join(", ")));
+  if (!parts.length) return reply(T.more, T.end);
+  reply(T.refined(parts.join(", ")), T.refinedNone(parts.join(", ")));
 }
 
 // Filter + sort the pool by the current refinements and show the next PAGE cards.
@@ -518,7 +472,7 @@ function reply(found, none = found) {
   if (last.cheapFirst) list = [...list].sort((a, b) => byId.get(a[0]).price - byId.get(b[0]).price);
   const items = list.slice(last.offset, last.offset + PAGE);
   if (items.length) last.shown = items.map(([id]) => id);
-  push(items.length ? { from: "bot", text: found, items } : { from: "bot", text: none, chips: t$().cats });
+  push(items.length ? { from: "bot", text: found, items } : { from: "bot", text: none, chips: T.cats });
 }
 
 // ---- photo ----
@@ -530,9 +484,9 @@ async function thumbUrl(file) {
   return c.toDataURL("image/jpeg", 0.8);
 }
 async function askPhoto(file) {
-  if (!file.type.startsWith("image/")) return push({ from: "bot", text: t$().notImage });
+  if (!file.type.startsWith("image/")) return push({ from: "bot", text: T.notImage });
   let img;
-  try { img = await thumbUrl(file); } catch { return push({ from: "bot", text: t$().badPhoto }); }
+  try { img = await thumbUrl(file); } catch { return push({ from: "bot", text: T.badPhoto }); }
   push({ from: "user", img });
   pending = null;
   const res = await run(searchByImage(file));
@@ -542,8 +496,8 @@ async function askPhoto(file) {
   const level = res.confidence ?? (res.match ?? best >= THRESHOLD ? "high" : best >= THRESHOLD_LOW ? "medium" : "low");
   if (!res.results.length || level === "low") {
     last = null;
-    return push({ from: "bot", text: t$().noMatch, chips: t$().cats });
+    return push({ from: "bot", text: T.noMatch, chips: T.cats });
   }
   last = { q: null, color: null, prefer: null, min: null, max: null, offset: 0, pool: toPool(res) };
-  reply(level === "high" ? t$().foundIt : t$().similar);
+  reply(level === "high" ? T.foundIt : T.similar);
 }
