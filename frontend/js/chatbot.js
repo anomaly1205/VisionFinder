@@ -11,6 +11,7 @@ const SIZE = 64; // launcher diameter, px (matches chatbot.css)
 const EDGE = 16; // gap between launcher / panel and the screen edge, px
 const GREET_DELAY = 900;
 const CHIPS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
+const COLOR_CHIPS = ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"];
 const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 
 // Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
@@ -37,6 +38,8 @@ const CHEAPER = /\b(?:cheaper|cheap|less expensive|lower price|budget)\b/;
 const MORE = /\b(?:more|next)\b/;
 // Words that only steer a follow-up; a message made only of these (plus colors) refines the last results.
 const REFINE = /^(?:show|see|more|next|me|the|ones?|in|any|some|something|options?|them|those|please|cheaper|cheap|less|expensive|lower|price|budget|under|below|than|max|up|to|colou?r|dollars?|usd|bucks|\$?\d+(?:\.\d+)?|ok|okay|and|only|just)$/;
+// "No color preference" replies, checked on the raw text because clean() drops Vietnamese it can't translate.
+const ANY = /(?:^|\s)(?:any|no preference|không|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
 const STOP = new Set("the and for with from your you our this that into inch inches set pack piece pieces amazon brand".split(" "));
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -79,7 +82,8 @@ const SEND_ICON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><pat
 const saved = store.get(sessionStorage, KEY_CHAT);
 const msgs = Array.isArray(saved?.msgs) ? saved.msgs : [];
 let last = saved?.last ?? null; // { q, color, max, prefer, offset, shown: [ids], pool: [[id, score]] }
-const save = () => store.set(sessionStorage, KEY_CHAT, { msgs: msgs.slice(-40), last });
+let pending = saved?.pending ?? null; // waiting for a color: { q, max, cheaper, asked }
+const save = () => store.set(sessionStorage, KEY_CHAT, { msgs: msgs.slice(-40), last, pending });
 let pos = store.get(localStorage, KEY_POS);
 if (!pos || !["left", "right"].includes(pos.side) || !Number.isFinite(pos.y)) pos = { side: "right", y: innerHeight - SIZE - EDGE };
 
@@ -213,6 +217,7 @@ function intro() {
 $(".vf-new", root).addEventListener("click", () => {
   msgs.length = 0;
   last = null;
+  pending = null;
   log.innerHTML = "";
   save();
   intro();
@@ -228,14 +233,14 @@ $(".vf-close", root).addEventListener("click", close);
 document.addEventListener("keydown", (e) => e.key === "Escape" && panel.classList.contains("is-open") && close());
 
 // ---- messages ----
-function itemHtml([id, score]) {
+function itemHtml([id]) {
   const p = byId.get(id);
   if (!p) return "";
   const name = escapeHtml(displayName(p.name));
   return `<li class="vf-item">
     <a href="product.html?id=${encodeURIComponent(id)}"><img src="${p.thumb ?? thumbOf(p.image)}" alt="" width="56" height="56" loading="lazy">
       <span class="vf-item-text"><span class="vf-item-name">${name}</span>
-      <span class="vf-item-meta"><b>${money(p.price)}</b> · ${Math.round(score * 100)}% similar</span></span></a>
+      <span class="vf-item-meta"><b>${money(p.price)}</b></span></span></a>
     <button class="vf-add" type="button" data-add="${escapeHtml(id)}" aria-label="Add ${name} to cart">${icon("bag")}<span>Add to cart</span></button>
   </li>`;
 }
@@ -329,6 +334,14 @@ async function knows(words) {
 
 async function answer(text) {
   const t = clean(text);
+  if (pending) { // Aurora asked "What color…?": a color, "any", or a new request answers it
+    const p = pending, ask = parse(t);
+    if (!ask.color && ANY.test(text.normalize("NFC").toLowerCase())) { pending = null; return newSearch(p); }
+    if (ask.rest.length && (await knows(ask.rest))) pending = null; // a different product: handle it as a new request below
+    else if (ask.color) { pending = null; return newSearch({ ...p, q: `${ask.color} ${p.q}`, color: ask.color }); }
+    else if (!p.asked) return askColor({ ...p, asked: true }); // ask once more, then give up waiting
+    else pending = null;
+  }
   if (!t || /^good (?:morning|afternoon|evening)$/.test(t)) // only a greeting or filler ("hi", "tôi muốn mua")
     return push({ from: "bot", text: "Hello! What can I help you find today?", chips: CHIPS });
   if (/^(?:thanks|thank you|thx|ty)\b/.test(t)) return push({ from: "bot", text: "You're welcome! Anything else?" });
@@ -340,7 +353,13 @@ async function answer(text) {
   }
   if (!ask.rest.length || !(await knows(ask.rest)))
     return push({ from: "bot", text: "Sorry, I didn't catch that. What kind of piece are you looking for?", chips: CHIPS });
+  if (!ask.color) return askColor({ q: ask.q, max: ask.max, cheaper: ask.cheaper });
   return newSearch(ask);
+}
+// Product named without a color: ask first; the price (if any) is kept for the search after the answer.
+function askColor(p) {
+  pending = p;
+  push({ from: "bot", text: `What color would you like your ${p.q} to be?`, chips: COLOR_CHIPS });
 }
 
 async function run(search) {
@@ -413,6 +432,7 @@ async function askPhoto(file) {
   let img;
   try { img = await thumbUrl(file); } catch { return push({ from: "bot", text: "I couldn't open that photo. Try another one." }); }
   push({ from: "user", img });
+  pending = null;
   const res = await run(searchByImage(file));
   if (!res) return;
   const best = res.results[0]?.score ?? 0;
