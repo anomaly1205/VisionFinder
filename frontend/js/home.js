@@ -1,8 +1,10 @@
 import "./layout.js";
-import { CATEGORIES, loadProducts, productCard, sendToSearch, escapeHtml, icon, displayName } from "./common.js";
+import { CATEGORIES, loadProducts, productCard, sendToSearch, icon } from "./common.js";
+import { avatar } from "./chatbot.js";
 
 // ---- Find it with AI block ----
 document.getElementById("dz-icon").innerHTML = icon("camera");
+document.getElementById("aurora-face").innerHTML = avatar("home-aurora");
 ["camera", "crop", "search"].forEach((n, i) => (document.getElementById(`step-${i + 1}`).innerHTML = icon(n)));
 
 const dz = document.getElementById("dropzone");
@@ -21,23 +23,6 @@ document.addEventListener("paste", (e) => {
 
 const products = await loadProducts();
 const byCat = Object.fromEntries(CATEGORIES.map((c) => [c, products.filter((p) => p.category === c)]));
-
-// Samples: an alternate angle of a catalog product, so the true match is known.
-// The % on hover is illustrative only; the real score comes from search.html.
-const samples = document.getElementById("samples");
-const SAMPLE_PCT = [94, 88, 81];
-for (const [i, cat] of ["Furniture", "Lighting", "Plants"].entries()) {
-  const p = byCat[cat].find((x) => x.query_images.length);
-  if (!p) continue;
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = "sample";
-  b.title = `Sample photo: ${displayName(p.name)}`;
-  b.innerHTML = `<img src="${p.query_images[0]}" alt="Sample ${escapeHtml(cat.toLowerCase())} photo">
-    <span class="sim" aria-hidden="true"><span class="sim-bar"><span style="--p:${SAMPLE_PCT[i]}%"></span></span>${SAMPLE_PCT[i]}%</span>`;
-  b.addEventListener("click", async () => sendToSearch(await (await fetch(p.query_images[0])).blob()));
-  samples.append(b);
-}
 
 // ---- Hero carousel: one big room shot per slide ----
 // Picked by hand: catalog items whose main photo is a sharp room scene, not a white cutout.

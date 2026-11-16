@@ -48,7 +48,7 @@ const store = {
 };
 // Aurora, the shopping assistant: an anime-style girl in sea blue, drawn inline (no image file).
 // `id` keeps gradient / clipPath ids unique per copy.
-const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="true">
+export const avatar = (id) => `<svg class="vf-face" viewBox="0 0 64 64" aria-hidden="true">
   <defs>
     <clipPath id="${id}-c"><circle cx="32" cy="32" r="32"/></clipPath>
     <linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3f0ff"/><stop offset="1" stop-color="#a9cdf5"/></linearGradient>
@@ -195,6 +195,7 @@ function showGreet() {
 }
 setTimeout(showGreet, GREET_DELAY);
 $(".vf-greet-open", root).addEventListener("click", () => open());
+document.addEventListener("click", (e) => e.target.closest("[data-open-chat]") && open());
 $(".vf-greet-x", root).addEventListener("click", () => { greetOff = true; hideGreet(); });
 
 // ---- open / close ----
