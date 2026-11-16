@@ -240,22 +240,14 @@ kbd { font: 400 12px var(--sans); padding: 1px 6px; border: 1px solid #d4d4d4; b
 .band-dark .ai-text input { background: transparent; color: #f4efea; height: 50px; }
 .band-dark .ai-text input::placeholder { color: #a39b94; }
 .band-dark .ai-text .btn { min-height: 50px; }
-.ai-samples p { margin: 6px 0 10px; font-size: 13px; color: #bdb5ae; }
-.sample-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.sample { position: relative; padding: 0; border: 1px solid rgba(244, 239, 234, 0.2); background: #fff; cursor: pointer; overflow: hidden; text-align: left; transition: border-color 0.2s var(--ease); }
-.sample:hover, .sample:focus-visible { border-color: #e8846f; }
-.sample img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; padding: 8%; }
-/* Scan line sweeps the photo on hover */
-.sample::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; opacity: 0; pointer-events: none;
-  background: #e8846f; box-shadow: 0 0 14px 4px rgba(232, 132, 111, 0.55);
-}
-.sample:hover::after, .sample:focus-visible::after { animation: scan 1.4s var(--ease) infinite; }
-@keyframes scan { 0% { top: 0; opacity: 1; } 85% { opacity: 1; } 100% { top: calc(100% - 34px); opacity: 0; } }
-.sim { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #2a2623; color: #f4efea; font-size: 12px; }
-.sim-bar { flex: 1; height: 3px; background: rgba(244, 239, 234, 0.2); }
-.sim-bar span { display: block; height: 100%; width: 0; background: #e8846f; transition: width 0.9s var(--ease); }
-.sample:hover .sim-bar span, .sample:focus-visible .sim-bar span { width: var(--p); }
+/* Aurora card under the text search: opens the chat assistant */
+.ai-aurora { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: rgba(244, 239, 234, 0.06); border: 1px solid rgba(244, 239, 234, 0.2); }
+.ai-aurora-face { flex: none; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 2px solid #f4efea; }
+.ai-aurora p { flex: 1; min-width: 0; margin: 0; display: grid; gap: 3px; }
+.ai-aurora strong { font-weight: 500; font-size: 15px; color: #f4efea; }
+.ai-aurora p span { font-size: 13px; line-height: 1.45; color: #bdb5ae; }
+.btn-aurora { flex: none; min-height: 40px; padding: 0 18px; background: #1f6fb5; border-color: #1f6fb5; }
+.btn-aurora:hover { background: #164f85; border-color: #164f85; }
 
 /* Promo banners: image one side, centered copy on a deep color */
 .promo-banner { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; min-height: 460px; color: #fff; }
@@ -292,10 +284,6 @@ kbd { font: 400 12px var(--sans); padding: 1px 6px; border: 1px solid #d4d4d4; b
   .subscribe { flex-direction: column; gap: 10px; }
   .stats { grid-template-columns: 1fr; }
   .stats li + li { border-left: 0; border-top: 1px solid rgba(47, 64, 52, 0.25); padding-top: 28px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sample::after { display: none; }
-  .sim-bar span { width: var(--p); }
 }
 
 /* Shop by category */
