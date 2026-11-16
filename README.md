@@ -28,6 +28,8 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 2. **Online:** the user's photo (or text) goes through the same model and is compared with all product vectors by cosine similarity.
 3. The top-k closest products are returned with a confidence level from the best score: **high** (match), **medium** (similar pieces) or **low** ("No confident match").
 
+4. **New products** (`POST /api/products`) are embedded and added to the in-memory index at once; no rebuild.
+
 **Why not train a classifier?** No large labeled dataset or GPU training is needed, and a new product becomes searchable by embedding its image, with no retraining. Trade-off: lower accuracy on near-identical products, controlled by the threshold.
 
 ## Dataset
@@ -86,23 +88,34 @@ Model comparison on the same queries (`backend/evaluate.py`, CPU, both at thresh
 
 ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is about 1.6x slower, so ViT-B-32 stays the default. To try another model, set `VF_MODEL` and `VF_PRETRAINED` before `build_index.py`, `evaluate.py` and `uvicorn`; each model gets its own index file in `backend/data/`.
 
+**Multi-view index** (`python build_index.py --views 2`): index the main image plus the first extra angle. A product's score is its best image's score, and each product appears once in the results. Fair test with `backend/compare_views.py`: both indexes are queried with each product's second extra angle, which neither indexes (499 queries).
+
+| Index | Top-1 | Top-5 |
+|---|---|---|
+| **Main image only** (default) | **57.3%** | **71.7%** |
+| Main + angle 1 | 42.9% | 63.9% |
+
+Multi-view is 14.4 points worse, so it stays off. In ABO the extra angles are often room scenes (a sofa in a styled living room), and a query photo of one room scene matches another product's room scene. 93% of the wrong top-1 hits came from an angle-1 image. Indexing more angles should only help with clean, product-only angle photos.
+
 ## Tech stack
 
 | Layer | Tech | Used for |
 |---|---|---|
-| Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search); cart and saved items in `localStorage` |
-| Frontend | Cropper.js 1.6.2, qrcodejs 1.0.0 (CDN) | Cropping the product region before search; QR code on the home page to open the camera search on a phone |
-| Backend | Python, FastAPI, Uvicorn, python-multipart | Search API (`/api/search/image`, `/api/search/text`, `/api/similar/{id}`, `/api/health`), image upload |
+| Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search, login, search history); cart and saved items in `localStorage`, synced to the account when logged in |
+| Frontend | Cropper.js 1.6.2 (CDN) | Cropping the product region before search |
+| Backend | Python, FastAPI, Uvicorn, python-multipart | Search API (`/api/search/image`, `/api/search/text`, `/api/similar/{id}`, `/api/health`), image upload, adding products (`POST /api/products`) |
+| Accounts | MySQL (XAMPP), SQLAlchemy, PyMySQL, bcrypt, PyJWT, python-dotenv | Users, server-side cart and wishlist, search history (`/api/auth/*`, `/api/me/*`) |
 | AI & search | PyTorch (CPU), OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`) | Image and text embeddings in one shared space |
 | AI & search | FAISS (`faiss-cpu`), NumPy | Vector index and cosine-similarity top-k search |
 | Data | Amazon Berkeley Objects, Pillow | Catalog source (`prepare_data.py`); image loading, resizing and thumbnails (`make_thumbs.py`) |
-| Testing | pytest, httpx | API tests (`tests/test_api.py`); `evaluate.py` for Top-1 / Top-5 / latency |
+| Testing | pytest, httpx | API tests (`tests/test_api.py`, `tests/test_products.py`), account tests on SQLite (`tests/test_auth.py`); `evaluate.py` for Top-1 / Top-5 / latency |
 
 ## Project structure
 
     VisionFinder/
     ├── frontend/
     │   ├── index.html, products.html, product.html, cart.html, search.html
+    │   ├── login.html, history.html # account pages (js/account.js talks to /api/auth, /api/me)
     │   ├── data/products.json      # catalog (shared with backend)
     │   └── assets/products/        # product images (shared with backend)
     └── backend/
@@ -112,8 +125,12 @@ ViT-B-16 is not clearly better (Top-1 -0.4 points, Top-5 +0.5 points) and is abo
         ├── build_index.py          # images -> CLIP vectors -> FAISS index (backend/data/)
         ├── search_engine.py        # image / text / similar search (used by app + evaluate)
         ├── app.py                  # FastAPI search API
+        ├── db.py                   # MySQL tables (SQLAlchemy); `python db.py` creates them
+        ├── auth.py                 # register / login (JWT), cart, wishlist, search history API
+        ├── .env.example            # copy to .env: DATABASE_URL, JWT_SECRET
         ├── evaluate.py             # Top-1 / Top-5 / latency / threshold sweep
-        └── tests/test_api.py       # API tests (pytest)
+        ├── compare_views.py        # main-only vs multi-view index on the same queries
+        └── tests/                  # test_api.py (search), test_products.py (add product), test_auth.py (accounts, SQLite)
 
 ## How to run locally
 
@@ -160,12 +177,40 @@ Open http://127.0.0.1:5501. Keep port 5501 (or 5500): the backend only accepts r
     python -m pytest -q            # API tests
     python evaluate.py             # rewrites eval_results.json
 
+**Add a product** (admin only). Start the backend with a key, then post an image:
+
+    $env:ADMIN_KEY = "choose-a-long-secret"; uvicorn app:app --port 8000
+    curl.exe -X POST http://127.0.0.1:8000/api/products -H "X-Admin-Key: choose-a-long-secret" `
+      -F "file=@lamp.jpg" -F "name=Brass desk lamp" -F "category=Lighting" -F "price=49.90"
+
+The product is searchable at once (about 70 ms on CPU). The record goes to `backend/data/added_products.json` and the image to `backend/data/added/`; both are re-embedded at startup. Without `ADMIN_KEY` the endpoint answers 503; a wrong key gives 401. Added products are found by search, but the shop pages only show products from `frontend/data/products.json`.
+
+### Accounts and MySQL (optional)
+
+Search works without a database. Accounts (log in, cart and wishlist on the server, search history) need MySQL.
+
+1. Install [XAMPP](https://www.apachefriends.org/), open the XAMPP Control Panel and click **Start** next to **MySQL**. The default user is `root` with no password, on port 3306.
+2. Create the settings file (in `backend/`, PowerShell):
+
+       Copy-Item .env.example .env
+       python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+   Paste the printed value after `JWT_SECRET=` in `backend/.env`. Change `DATABASE_URL` only if your MySQL user, password or port differ. `backend/.env` is gitignored.
+3. Create the database `visionfinder` and its tables (safe to run again):
+
+       python db.py
+
+4. Restart `uvicorn app:app --port 8000`. Open http://127.0.0.1:5501/login.html and create an account.
+
+If MySQL is stopped, the account endpoints answer `503 Database unavailable`, and search keeps working. `tests/test_auth.py` uses a temporary SQLite file, so `pytest` does not need MySQL.
+
 **Data (already included):** to rebuild, download `abo-listings.tar` and `images.csv.gz` from ABO, then run `python backend/prepare_data.py`.
 
 ### Troubleshooting
 
 - **"Demo mode" badge still shows:** the backend is not running, or not on port 8000. Start `uvicorn app:app --port 8000`, then hard-reload the page (Ctrl+F5).
 - **`Activate.ps1` is blocked** ("running scripts is disabled"): run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then activate again.
+- **`python db.py` says "Cannot reach the database":** MySQL is not started in XAMPP, or `DATABASE_URL` in `backend/.env` is wrong.
 - **`pip` fails on `torch`:** check your Python version with `python --version`. Use Python 3.12 or newer, 64-bit.
 
 ## Credits

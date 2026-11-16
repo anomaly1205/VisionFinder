@@ -112,12 +112,3 @@ document.getElementById("stat-cats").textContent = new Set(products.map((p) => p
 document.getElementById("stat-photos").textContent = fmt(new Set(products.flatMap((p) => [p.image, ...p.gallery, ...p.query_images])).size);
 ["grid", "image", "spark"].forEach((n, i) => (document.getElementById(`stat-icon-${i + 1}`).innerHTML = icon(n, "icon stat-icon")));
 
-// ---- Phone band: real QR code to the camera search on this site ----
-document.getElementById("soon-ios").innerHTML = icon("phone");
-document.getElementById("soon-android").innerHTML = icon("phone");
-const qrUrl = `${location.origin}/search.html?camera=1`;
-const qrEl = document.getElementById("qr");
-qrEl.title = qrUrl;
-// qrcodejs is a deferred classic script, so it has run before this module.
-if (window.QRCode) new window.QRCode(qrEl, { text: qrUrl, width: 132, height: 132, colorDark: "#111111", colorLight: "#ffffff", correctLevel: window.QRCode.CorrectLevel.M });
-else qrEl.innerHTML = `<a href="search.html?camera=1">${qrUrl}</a>`;

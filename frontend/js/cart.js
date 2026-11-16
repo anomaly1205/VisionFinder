@@ -74,4 +74,5 @@ box.addEventListener("click", (e) => {
   if (step) box.querySelector(`.cart-row[data-id="${CSS.escape(row.dataset.id)}"] [data-step="${step.dataset.step}"]`)?.focus();
 });
 window.addEventListener("storage", render); // another tab changed the cart
+document.addEventListener("vf:synced", render); // logged in: server copy arrived
 render();
