@@ -116,12 +116,12 @@ async function mockImage(text, excludeId) {
 }
 
 // ---- public API ----
-export async function searchByImage(blob, text = "") {
+export async function searchByImage(blob, text = "", k = K) {
   if (await backendAvailable()) {
     const form = new FormData();
     form.append("file", blob, "query.jpg");
     if (text) form.append("text", text);
-    return call(`/search/image?k=${K}`, { method: "POST", body: form, headers: authHeader() }, () => mockImage(text.trim()));
+    return call(`/search/image?k=${k}`, { method: "POST", body: form, headers: authHeader() }, () => mockImage(text.trim()));
   }
   return mock(() => mockImage(text.trim()));
 }

@@ -3,10 +3,12 @@
 // small talk and things the shop doesn't sell are answered from chatbot-replies.js, anything else goes to the CLIP text
 // or photo search in api.js. Follow-ups ("show more", "cheaper", "in blue", "something smaller", "what about lamps")
 // refine or reuse the last results.
+// Multimodal: a photo and words can go in one message (the image search reranks by the text), and the last photo is
+// remembered, so "blue ones" or "cheaper" after a photo search sends that same photo again with the new words.
 import { icon, escapeHtml, displayName, money, thumbOf, addToCart, toast, colorFamily, loadProducts } from "./common.js";
-import { searchByText, searchByImage, THRESHOLD, THRESHOLD_LOW } from "./api.js";
+import { searchByText, searchByImage, similar, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 import { getUser } from "./account.js";
-import { norm, clean, understand, pick, CATS, UNSURE } from "./chatbot-replies.js";
+import { norm, clean, understand, pick, parse, photoAsk, aboutPhoto, smallOrLarge, COLORS, REFINE, CATS, UNSURE } from "./chatbot-replies.js";
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
@@ -17,19 +19,7 @@ const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 // shortcut: a guess at a confident CLIP text score (backend scales them to 0-1); tune it on real queries.
 const TEXT_SURE = 0.6;
 
-// Color words the user can say -> colorFamily() families in common.js.
-const COLORS = {
-  blue: "Blue", navy: "Blue", teal: "Blue", red: "Red & Pink", pink: "Red & Pink", white: "White", black: "Black",
-  gray: "Gray", grey: "Gray", green: "Green", brown: "Brown & Wood", wood: "Brown & Wood", wooden: "Brown & Wood",
-  beige: "Cream & Beige", cream: "Cream & Beige", purple: "Purple", yellow: "Yellow & Orange", orange: "Yellow & Orange",
-  gold: "Metallic", silver: "Metallic", brass: "Metallic", glass: "Clear",
-};
-const PRICE = /(?:under|below|less than|max|up to|<)\s*\$?\s*(\d+(?:\.\d+)?)(?:\s*(?:dollars?|usd|bucks))?|\$(\d+(?:\.\d+)?)/;
-const CHEAPER = /\b(?:cheaper|cheap|less expensive|lower price|budget)\b/;
-const MORE = /\b(?:more|next)\b/;
-const SIZE_WORD = /^(?:small|smaller|mini|compact|tiny|big|bigger|large|larger|huge)$/;
-// Words that only steer a follow-up; a message made only of these (plus colors and sizes) refines the last results.
-const REFINE = /^(?:show|see|more|next|me|the|ones?|in|any|some|something|options?|them|those|it|this|that|these|please|cheaper|cheap|less|expensive|lower|price|budget|under|below|than|max|up|to|colou?r|dollars?|usd|bucks|\$?\d+(?:\.\d+)?|ok|okay|and|only|just)$/;
+const KEY_PHOTO = "vf_chat_photo"; // the last photo sent, so "blue ones" can search with it again
 // "No color preference" replies, checked on the raw text because clean() drops Vietnamese it can't translate.
 const ANY = /(?:^|\s)(?:any|no preference|no|nope|whatever|không|màu nào cũng được|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
 // Budget answers: "25-50" / "$25–50", "50+" / "trên 50", "under 30" / "dưới 30".
@@ -51,7 +41,7 @@ const T = {
   cats: CATS,
   colors: ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"],
   budgets: ["Under $25", "$25–50", "$50+", "Any budget"],
-  intro: (name) => `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. What do you need today?`,
+  intro: (name) => `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. Type what you need, send a photo, or both: a photo plus a few words like “in blue”.`,
   what: "What are you looking for? Pick one or describe it.",
   color: (q) => `What color would you like your ${q} to be?`,
   budget: "What's your budget?",
@@ -68,9 +58,17 @@ const T = {
   error: "Sorry, search isn't working right now. Please try again in a moment.",
   notImage: "That doesn't look like an image. Try a JPEG, PNG or WebP photo.",
   badPhoto: "I couldn't open that photo. Try another one.",
-  noMatch: "I couldn't find a close match. Try a closer photo, or pick a category:",
+  noMatch: "I couldn't find a close match. These are the nearest pieces; a closer photo usually helps.",
   foundIt: "I found it!",
   similar: "Here are similar pieces.",
+  photoWords: (w) => `Here's what matches your photo and “${w}”.`,
+  photoNone: "Nothing in the results fits that. Try other words, or another photo.",
+  lookalike: (name) => `Pieces that look like “${name}”:`,
+  // What the search used, shown under each result so a demo can explain it.
+  byText: "Searched by text",
+  byPhoto: (w) => (w ? `Searched by photo + “${w}”` : "Searched by photo"),
+  byLook: "Searched by look (image to image)",
+  levels: { high: "Match", medium: "Similar pieces", low: "No confident match" },
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -137,7 +135,8 @@ root.innerHTML = `
     </header>
     <ol class="vf-log" aria-live="polite"></ol>
     <form class="vf-form">
-      <label class="vf-photo" title="Search with a photo">${icon("camera")}<span class="sr-only">Send a photo</span><input type="file" accept="image/*" class="sr-only"></label>
+      <label class="vf-photo" title="Search with a photo">${icon("camera")}<span class="sr-only">Attach a photo</span><input type="file" accept="image/*" class="sr-only"></label>
+      <span class="vf-attach" hidden><img alt="Attached photo"><button type="button" class="vf-attach-x" aria-label="Remove photo">${icon("close")}</button></span>
       <label class="sr-only" for="vf-input">Message</label>
       <input id="vf-input" class="vf-input" type="text" placeholder="Describe what you're looking for…" autocomplete="off" maxlength="200">
       <button class="vf-send" type="submit" aria-label="Send">${SEND_ICON}</button>
@@ -145,7 +144,7 @@ root.innerHTML = `
   </section>`;
 document.body.append(root);
 const launch = $(".vf-launch", root), panel = $(".vf-panel", root), log = $(".vf-log", root);
-const greet = $(".vf-greet", root), input = $(".vf-input", root), photo = $(".vf-photo input", root);
+const greet = $(".vf-greet", root), input = $(".vf-input", root), photo = $(".vf-photo input", root), attach = $(".vf-attach", root);
 
 // ---- placement: launcher snaps to the left or right edge; greeting + panel open next to it, inside the screen ----
 function place() {
@@ -249,6 +248,8 @@ $(".vf-new", root).addEventListener("click", () => {
   msgs.length = 0;
   last = null;
   pending = null;
+  rememberPhoto(null);
+  clearDraft();
   log.innerHTML = "";
   save();
   intro();
@@ -264,22 +265,26 @@ $(".vf-close", root).addEventListener("click", close);
 document.addEventListener("keydown", (e) => e.key === "Escape" && panel.classList.contains("is-open") && close());
 
 // ---- messages ----
-function itemHtml([id]) {
+// `pct`: show the image similarity score (photo and look-alike searches; text scores mean something else).
+function itemHtml([id, score], pct) {
   const p = byId.get(id);
   if (!p) return "";
   const name = escapeHtml(displayName(p.name));
   return `<li class="vf-item">
     <a href="product.html?id=${encodeURIComponent(id)}"><img src="${p.thumb ?? thumbOf(p.image)}" alt="" width="56" height="56" loading="lazy">
       <span class="vf-item-text"><span class="vf-item-name">${name}</span>
-      <span class="vf-item-meta"><b>${money(p.price)}</b></span></span></a>
+      <span class="vf-item-meta"><b>${money(p.price)}</b>${pct && Number.isFinite(score) ? ` · ${Math.round(score * 100)}% similar` : ""}</span></span></a>
+    <button class="vf-sim" type="button" data-similar="${escapeHtml(id)}" aria-label="Find pieces that look like ${name}">Similar</button>
     <button class="vf-add" type="button" data-add="${escapeHtml(id)}" aria-label="Add ${name} to cart">${icon("bag")}<span>Add to cart</span></button>
   </li>`;
 }
 function msgHtml(m) {
+  const via = [m.via, m.level && T.levels[m.level]].filter(Boolean).join(" · ");
   return `<li class="vf-msg vf-${m.from === "user" ? "user" : "bot"}">
     ${m.img ? `<img class="vf-sent" src="${escapeHtml(m.img)}" alt="Your photo">` : ""}
     ${m.text ? `<p>${escapeHtml(m.text)}</p>` : ""}
-    ${m.items?.length ? `<ul class="vf-items">${m.items.map(itemHtml).join("")}</ul>` : ""}
+    ${m.items?.length ? `<ul class="vf-items">${m.items.map((it) => itemHtml(it, m.pct)).join("")}</ul>` : ""}
+    ${via ? `<small class="vf-via${m.level ? ` is-${m.level}` : ""}">${escapeHtml(via)}</small>` : ""}
     ${m.chips ? `<div class="vf-chips">${m.chips.map((c) => `<button type="button" data-chip="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("")}</div>` : ""}
   </li>`;
 }
@@ -305,21 +310,40 @@ async function typing(work) {
 const say = (m) => typing().then(() => push(m));
 
 log.addEventListener("click", (e) => {
-  const add = e.target.closest("[data-add]"), chip = e.target.closest("[data-chip]");
+  const add = e.target.closest("[data-add]"), chip = e.target.closest("[data-chip]"), sim = e.target.closest("[data-similar]");
   if (add) { addToCart(add.dataset.add); toast("Added to cart"); }
   if (chip) send(chip.dataset.chip);
+  if (sim) queue = queue.then(() => lookalike(sim.dataset.similar));
 });
 $(".vf-form", root).addEventListener("submit", (e) => {
   e.preventDefault();
-  const text = input.value.trim();
+  const text = input.value.trim(), file = draft;
   input.value = "";
-  if (text) send(text);
+  if (file) { clearDraft(); queue = queue.then(() => askPhoto(file, text)); }
+  else if (text) send(text);
 });
+// A photo waits in the input as a small preview, so words can go with it ("in blue", "cheaper"); Send sends both.
+let draft = null;
+function clearDraft() {
+  draft = null;
+  URL.revokeObjectURL($("img", attach).src);
+  $("img", attach).removeAttribute("src");
+  attach.hidden = true;
+  input.placeholder = "Describe what you're looking for…";
+}
 photo.addEventListener("change", () => {
   const f = photo.files[0];
   photo.value = "";
-  if (f) queue = queue.then(() => askPhoto(f));
+  if (!f) return;
+  if (!f.type.startsWith("image/")) { queue = queue.then(() => say({ from: "bot", text: T.notImage })); return; }
+  if (draft) URL.revokeObjectURL($("img", attach).src);
+  draft = f;
+  $("img", attach).src = URL.createObjectURL(f);
+  attach.hidden = false;
+  input.placeholder = "Add words, e.g. “in blue” (optional)";
+  input.focus({ preventScroll: true });
 });
+$(".vf-attach-x", root).addEventListener("click", () => { clearDraft(); input.focus({ preventScroll: true }); });
 
 // One message at a time, in order.
 let queue = Promise.resolve();
@@ -329,20 +353,6 @@ function send(text) {
 }
 
 // ---- understanding ----
-export { clean };
-export function parse(t) {
-  const words = t.match(/[a-z0-9$.']+/g) ?? [];
-  const price = t.match(PRICE);
-  return {
-    more: MORE.test(t),
-    cheaper: CHEAPER.test(t),
-    max: price ? +(price[1] ?? price[2]) : null,
-    color: words.find((w) => COLORS[w]) ?? null,
-    size: words.find((w) => SIZE_WORD.test(w)) ?? null,
-    rest: words.filter((w) => !REFINE.test(w) && !COLORS[w] && !SIZE_WORD.test(w)),
-    q: t.replace(PRICE, " ").replace(CHEAPER, " ").replace(/\s+/g, " ").trim(),
-  };
-}
 // Words the catalog knows: product types, categories, colors, a few synonyms, and name words used by 3+ products
 // (rarer name words like "weather" in "all-weather" would make any chit-chat look like a search).
 let vocab;
@@ -376,12 +386,14 @@ async function answer(text) {
   // "pc" -> not sold here; "computer desk" still searches, because "desk" is in the catalog.
   if (u.kind === "off" && !(await knows(t.split(" ").filter((w) => w !== u.word && !REFINE.test(w)))))
     return say({ from: "bot", text: u.text, chips: u.chips });
+  // After a photo search, "blue ones" / "cheaper" / "like this but wooden" send the same photo again with the new words.
+  if (aboutPhoto(text, !!(photoUrl && last?.photo))) return photoSearch(await (await fetch(photoUrl)).blob(), photoAsk(text), true);
   const ask = parse(t);
   const followUp = !ask.rest.length && (ask.more || ask.cheaper || ask.max != null || ask.color || ask.size);
   if (followUp) {
     if (!last) return say({ from: "bot", text: T.what, chips: T.cats });
     if (ask.size && last.q) // "something smaller": search again with the size, same color and budget
-      return newSearch({ q: `${/^(?:small|smaller|mini|compact|tiny)$/.test(ask.size) ? "small" : "large"} ${last.q.replace(/^(?:small|large) /, "")}`, color: ask.color ?? last.word, min: last.min, max: ask.max ?? last.max });
+      return newSearch({ q: `${smallOrLarge(ask.size)} ${last.q.replace(/^(?:small|large) /, "")}`, color: ask.color ?? last.word, min: last.min, max: ask.max ?? last.max });
     return refine(ask);
   }
   if (!ask.rest.length || !(await knows(ask.rest))) return guess(ask.q);
@@ -431,7 +443,7 @@ const toPool = (res) => res.results.map(({ product, score }) => [product.id, sco
 
 // `word` keeps the color as typed, so "what about lamps?" can reuse it.
 function setLast(ask, res) {
-  last = { q: ask.q, word: ask.color ?? null, color: null, prefer: COLORS[ask.color] ?? null, min: ask.min ?? null, max: ask.max ?? null, cheapFirst: !!ask.cheaper, offset: 0, pool: toPool(res) };
+  last = { q: ask.q, word: ask.color ?? null, color: null, prefer: COLORS[ask.color] ?? null, min: ask.min ?? null, max: ask.max ?? null, cheapFirst: !!ask.cheaper, offset: 0, pool: toPool(res), via: T.byText };
 }
 async function newSearch(ask) {
   const res = await run(searchByText(ask.q, POOL));
@@ -457,10 +469,7 @@ async function refine(ask) {
     parts.push(T.ones(ask.color));
   } else await typing();
   if (ask.cheaper || ask.max != null) last.min = null; // a lower price replaces the budget's floor
-  if (ask.cheaper && ask.max == null) { // cheaper than the cheapest card on screen
-    const shown = (last.shown ?? []).map((id) => byId.get(id)?.price).filter(Number.isFinite);
-    last.max = Math.min(last.max ?? Infinity, Math.floor(Math.min(...shown)));
-  }
+  if (ask.cheaper && ask.max == null) last.max = Math.min(last.max ?? Infinity, cheapestShown() ?? Infinity); // cheaper than the cards on screen
   if (ask.max != null) last.max = ask.max;
   if ((ask.cheaper || ask.max != null) && Number.isFinite(last.max)) parts.push(T.under(last.max));
   last.offset = ask.more && !parts.length ? last.offset + PAGE : 0;
@@ -478,32 +487,62 @@ function reply(found, none = found) {
   if (last.cheapFirst) list = [...list].sort((a, b) => byId.get(a[0]).price - byId.get(b[0]).price);
   const items = list.slice(last.offset, last.offset + PAGE);
   if (items.length) last.shown = items.map(([id]) => id);
-  push(items.length ? { from: "bot", text: found, items } : { from: "bot", text: none, chips: T.cats });
+  push(items.length ? { from: "bot", text: found, items, via: last.via, level: last.level, pct: last.pct } : { from: "bot", text: none, chips: T.cats });
+}
+// Price of the cheapest card on screen, rounded down: "cheaper" means below it.
+function cheapestShown() {
+  const prices = (last?.shown ?? []).map((id) => byId.get(id)?.price).filter(Number.isFinite);
+  return prices.length ? Math.floor(Math.min(...prices)) : null;
 }
 
 // ---- photo ----
-async function thumbUrl(file) {
+async function thumbUrl(file, side) {
   const bmp = await createImageBitmap(file);
-  const s = 240 / Math.max(bmp.width, bmp.height);
+  const s = Math.min(1, side / Math.max(bmp.width, bmp.height));
   const c = Object.assign(document.createElement("canvas"), { width: Math.round(bmp.width * s), height: Math.round(bmp.height * s) });
   c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
-  return c.toDataURL("image/jpeg", 0.8);
+  return c.toDataURL("image/jpeg", 0.85);
 }
-async function askPhoto(file) {
-  if (!file.type.startsWith("image/")) return say({ from: "bot", text: T.notImage });
+// The last photo, as a 512 px JPEG in sessionStorage (CLIP looks at 224 px, so search quality stays the same).
+let photoUrl = store.get(sessionStorage, KEY_PHOTO);
+function rememberPhoto(url) {
+  photoUrl = url;
+  if (url) store.set(sessionStorage, KEY_PHOTO, url);
+  else try { sessionStorage.removeItem(KEY_PHOTO); } catch { /* blocked: nothing stored */ }
+}
+// Photo (+ optional words) from the input. A new photo replaces the remembered one.
+async function askPhoto(file, text = "") {
   let img;
-  try { img = await thumbUrl(file); } catch { return say({ from: "bot", text: T.badPhoto }); }
-  push({ from: "user", img });
+  try { img = await thumbUrl(file, 240); rememberPhoto(await thumbUrl(file, 512)); } catch { return say({ from: "bot", text: T.badPhoto }); }
+  push({ from: "user", img, text });
   pending = null;
-  const res = await run(searchByImage(file));
+  return photoSearch(file, photoAsk(text));
+}
+// Image search with the words that go with it: CLIP puts the photo and the text in the same vector space, and the
+// backend reranks the photo's nearest products by how well they match the words. Prices are filtered here.
+// `follow`: a follow-up on the last photo search, so "cheaper" means below the cards on screen.
+async function photoSearch(blob, ask, follow = false) {
+  const max = ask.max ?? (ask.cheaper && follow ? cheapestShown() : null);
+  const res = await run(searchByImage(blob, ask.text, max != null ? 50 : undefined)); // more candidates when prices get filtered
   if (!res) return;
-  const best = res.results[0]?.score ?? 0;
+  const best = Math.max(0, ...res.results.map((r) => r.score)); // reranked, so the best score may not come first
   // Same rule as search.js: the backend's confidence when it sends one, else compare with the thresholds.
   const level = res.confidence ?? (res.match ?? best >= THRESHOLD ? "high" : best >= THRESHOLD_LOW ? "medium" : "low");
-  if (!res.results.length || level === "low") {
-    last = null;
-    return push({ from: "bot", text: T.noMatch, chips: T.cats });
-  }
-  last = { q: null, color: null, prefer: null, min: null, max: null, offset: 0, pool: toPool(res) };
-  reply(level === "high" ? T.foundIt : T.similar);
+  last = { q: null, photo: true, word: ask.color, color: null, prefer: COLORS[ask.color] ?? null, min: null, max,
+    cheapFirst: !!ask.cheaper, offset: 0, pool: toPool(res), via: T.byPhoto(ask.text), level, pct: true };
+  const price = max != null ? T.price(null, max) : "";
+  const found = level === "low" ? T.noMatch : ask.text ? T.photoWords(ask.text) : ask.cheaper || max != null ? T.refined(`${ask.cheaper ? "cheaper pieces" : "pieces"} like your photo${price}`) : level === "high" ? T.foundIt : T.similar;
+  reply(found, T.photoNone);
+}
+// "Similar" on a card: products whose image is closest to that product's image.
+async function lookalike(id) {
+  const p = byId.get(id);
+  if (!p) return;
+  const name = displayName(p.name);
+  push({ from: "user", text: `Similar to “${name}”` });
+  pending = null;
+  const res = await run(similar(id));
+  if (!res) return;
+  last = { q: null, photo: false, word: null, color: null, prefer: null, min: null, max: null, offset: 0, pool: toPool(res), via: T.byLook, pct: true };
+  reply(T.lookalike(name), T.nothing);
 }

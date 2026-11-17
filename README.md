@@ -50,10 +50,14 @@ Aurora is a rule-based assistant in `frontend/js/chatbot.js`. It does not use an
 - **Things the shop doesn't sell** (pc, phone, tv, clothes, shoes, food, car...): Aurora says the shop only sells home & living pieces and suggests related ones as chips (pc → desk, desk lamp, chair). "computer desk" still searches, because "desk" is in the catalog.
 - **Unknown words:** tried with CLIP text search first; confident results are shown, otherwise Aurora suggests how to ask.
 - **Typing indicator:** "Aurora is typing…" dots for 400-700 ms before each reply.
-- **Photo search:** the camera button sends a photo to the image search.
+- **Photo + text (multimodal):** CLIP maps images and text into the same vector space, so Aurora can use both in one request.
+  - **Photo and words together:** attach a photo with the camera button (a small preview with × shows in the input), add words like "in blue", "wooden" or "cheaper", and send. The photo and the words go to `/api/search/image` (`file` + `text`); the backend takes the photo's nearest products and reranks them by how well they match the words. Price words ("cheaper", "under $200") are filtered in the chat.
+  - **Photo memory:** Aurora remembers the last photo (for the browser session). A follow-up like "blue ones", "something like this but wooden" or "smaller" sends the same photo again with the new words, instead of a text-only search. A new photo replaces it; **New chat** forgets it.
+  - **Similar:** each card in the chat has a **Similar** button that finds pieces that look like it (`/api/similar/{id}`, image to image).
+  - **What the AI used:** under each result a small line says how it searched: "Searched by text", "Searched by photo", "Searched by photo + “blue”", "Searched by look (image to image)". Photo results also show the confidence level from the search page (Match / Similar pieces / No confident match) and a % similar on each card.
 - **Language:** Aurora always answers in English; basic Vietnamese input is translated with a small keyword table (gối → pillow, đèn → lamp, rẻ hơn → cheaper).
 - **Logged-in users** are greeted by name. **New chat** clears the conversation. The chat history is kept for the browser session only.
-- **Test:** `node frontend/js/chatbot-replies.test.mjs` checks the intent parser.
+- **Test:** `node frontend/js/chatbot-replies.test.mjs` checks the intent parser, including photo + text (photo + "blue", photo then "cheaper", photo then New chat).
 
 ## Dataset
 

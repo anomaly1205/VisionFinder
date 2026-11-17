@@ -31,6 +31,52 @@ export function clean(text) {
   return t;
 }
 
+// Color words the user can say -> colorFamily() families in common.js.
+export const COLORS = {
+  blue: "Blue", navy: "Blue", teal: "Blue", red: "Red & Pink", pink: "Red & Pink", white: "White", black: "Black",
+  gray: "Gray", grey: "Gray", green: "Green", brown: "Brown & Wood", wood: "Brown & Wood", wooden: "Brown & Wood",
+  beige: "Cream & Beige", cream: "Cream & Beige", purple: "Purple", yellow: "Yellow & Orange", orange: "Yellow & Orange",
+  gold: "Metallic", silver: "Metallic", brass: "Metallic", glass: "Clear",
+};
+const PRICE = /(?:under|below|less than|max|up to|<)\s*\$?\s*(\d+(?:\.\d+)?)(?:\s*(?:dollars?|usd|bucks))?|\$(\d+(?:\.\d+)?)/;
+const CHEAPER = /\b(?:cheaper|cheap|less expensive|lower price|budget)\b/;
+const MORE = /\b(?:more|next)\b/;
+const SIZE_WORD = /^(?:small|smaller|mini|compact|tiny|big|bigger|large|larger|huge)$/;
+export const smallOrLarge = (w) => (/^(?:small|smaller|mini|compact|tiny)$/.test(w) ? "small" : "large");
+// Words that only steer a follow-up; a message made only of these (plus colors and sizes) refines the last results.
+export const REFINE = /^(?:show|see|more|next|me|the|ones?|in|any|some|something|options?|them|those|it|this|that|these|like|but|similar|same|kind|style|look|looks|of|with|a|an|please|cheaper|cheap|less|expensive|lower|price|budget|under|below|than|max|up|to|colou?r|dollars?|usd|bucks|\$?\d+(?:\.\d+)?|ok|okay|and|only|just)$/;
+// Splits a cleaned message into the product words (`rest`) and the follow-up parts.
+export function parse(t) {
+  const words = t.match(/[a-z0-9$.']+/g) ?? [];
+  const price = t.match(PRICE);
+  return {
+    more: MORE.test(t),
+    cheaper: CHEAPER.test(t),
+    max: price ? +(price[1] ?? price[2]) : null,
+    color: words.find((w) => COLORS[w]) ?? null,
+    size: words.find((w) => SIZE_WORD.test(w)) ?? null,
+    rest: words.filter((w) => !REFINE.test(w) && !COLORS[w] && !SIZE_WORD.test(w)),
+    q: t.replace(PRICE, " ").replace(CHEAPER, " ").replace(/\s+/g, " ").trim(),
+  };
+}
+
+// ---- photo + text ----
+// Text sent with a photo: what it looks like ("blue", "wooden", "small", "round") goes to CLIP together with the image;
+// price words ("cheaper", "under $50") filter the results in the chat instead, because a picture has no price.
+export function photoAsk(text) {
+  const ask = parse(clean(text));
+  return { ...ask, text: [ask.color, ask.size && smallOrLarge(ask.size), ...ask.rest].filter(Boolean).join(" ") };
+}
+// Does this message change the last photo search? `hasPhoto`: the cards on screen came from a photo that is still
+// remembered (New chat or another photo forgets it). "blue ones", "cheaper", "smaller", "like this but wooden": yes.
+// "show more" only pages through the same results; a new product ("lamps") is a new text search.
+export function aboutPhoto(text, hasPhoto) {
+  if (!hasPhoto) return false;
+  const ask = parse(clean(text));
+  if (/\b(?:like (?:this|that|it)|this one|that one|same|similar)\b/.test(norm(text))) return true;
+  return !ask.rest.length && !!(ask.color || ask.size || ask.cheaper || ask.max != null);
+}
+
 export const CATS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
 const DEMO = "This is a demo shop, so there are no real orders yet";
 
@@ -45,7 +91,8 @@ export const SMALLTALK = [
   { id: "greet", re: /^(?:hi+|hello|hey+|hiya|yo|greetings|good (?:morning|afternoon|evening|day))(?: there| aurora)?$/,
     replies: ["Hello! What can I help you find today?", "Hi there! Looking for something for your home?", "Hey! Tell me what you need, or pick a category."] },
   { id: "help", re: /^(?:help|help me|menu|options)$|\b(?:what can you do|what do you do|how does this work|how do i use (?:this|you))\b/,
-    replies: ["I can find home & living pieces for you. Name a piece (\"blue pillow under $30\"), send a photo with the camera button, or ask for \"cheaper\" or \"show more\" after a search.", "Tell me what you want, like \"wooden chair\" or \"lamps under $50\", or send a photo and I'll find similar pieces. Pick a category to start:"] },
+    replies: ["I find home & living pieces in three ways: type what you want (\"blue pillow under $30\"), send a photo with the camera button, or send both, a photo plus a few words like \"in blue\" or \"wooden\". After a search, try \"cheaper\", \"show more\", or tap Similar on a card.",
+      "Type a piece (\"wooden chair\"), send a photo, or combine them: attach a photo and add \"cheaper\" or \"in white\". I look at the picture and the words together. Pick a category to start:"] },
   { id: "thanks", re: /^(?:thanks?|thank you|thank u|thx|ty|cheers|tks)\b/,
     replies: ["You're welcome! Anything else?", "Happy to help! What else can I find for you?"],
     after: ["Glad I could help! Anything else for your home?", "You're welcome! Want to look at something else for your home?"] },

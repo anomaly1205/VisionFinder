@@ -1,6 +1,6 @@
 // Run: node frontend/js/chatbot-replies.test.mjs
 import assert from "node:assert/strict";
-import { understand, clean } from "./chatbot-replies.js";
+import { understand, clean, photoAsk, aboutPhoto } from "./chatbot-replies.js";
 
 const cases = [
   ["hi", "talk", "greet"],
@@ -30,4 +30,30 @@ for (const [text, kind, key] of cases) {
 // "thanks" after results gets the "Glad I could help" reply.
 assert.match(understand("thanks", { hasResults: true }).text, /Glad I could help|look at something else/);
 assert.equal(clean("tôi muốn 1 cái gối dưới 30"), "pillow under 30");
+
+// ---- photo + text ----
+const show = (label, v) => console.log(`${label.padEnd(44)} -> ${JSON.stringify(v)}`);
+// 1. Photo + "blue" in one message: "blue" goes to CLIP with the image.
+let a = photoAsk("blue");
+assert.equal(a.text, "blue"); assert.equal(a.color, "blue");
+show('photo + "blue"', { text: a.text, color: a.color });
+a = photoAsk("something like this but wooden");
+assert.equal(a.text, "wooden");
+show('photo + "something like this but wooden"', { text: a.text });
+a = photoAsk("smaller");
+assert.equal(a.text, "small");
+show('photo + "smaller"', { text: a.text });
+// 2. Photo sent, then "cheaper": same photo again; "cheaper" filters prices, it is not sent to CLIP.
+assert.equal(aboutPhoto("cheaper", true), true);
+a = photoAsk("cheaper");
+assert.equal(a.text, ""); assert.equal(a.cheaper, true);
+show('photo, then "cheaper"', { aboutPhoto: true, text: a.text, cheaper: a.cheaper });
+assert.equal(aboutPhoto("blue ones", true), true);
+assert.equal(aboutPhoto("show more", true), false); // pages through the same results
+assert.equal(aboutPhoto("what about lamps?", true), false); // a new product: text search
+assert.equal(photoAsk("under $50").max, 50);
+// 3. Photo sent, then New chat: the photo is forgotten (hasPhoto false), so "cheaper" is plain text again.
+assert.equal(aboutPhoto("cheaper", false), false);
+assert.equal(aboutPhoto("blue ones", false), false);
+show('photo, New chat, then "cheaper"', { aboutPhoto: false, understand: understand("cheaper").kind });
 console.log("all passed");
