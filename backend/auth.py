@@ -38,7 +38,11 @@ def hash_password(pw: str) -> str:
 
 
 def check_password(pw: str, hashed: str) -> bool:
-    return bcrypt.checkpw(pw.encode(), hashed.encode())
+    b = pw.encode()
+    if len(b) > 72:  # bcrypt 5 raises on > 72 bytes; register refuses such passwords, so it can never match
+        bcrypt.checkpw(b[:72], hashed.encode())  # same work as a real check, so timing stays the same
+        return False
+    return bcrypt.checkpw(b, hashed.encode())
 
 
 # Login against an unknown email still runs one bcrypt check, so response time does not reveal which emails exist.

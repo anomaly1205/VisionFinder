@@ -44,7 +44,7 @@ def test_catalog_image_finds_itself(client):
 def test_image_plus_text(client):
     r = post_image(client, image_path(P["image"]), text=P["name"]).json()
     assert r["results"][0]["id"] == P["id"]
-    assert r["top_score"] == r["results"][0]["score"]  # score stays the image score
+    assert r["top_score"] == max(x["score"] for x in r["results"])  # image score, the best one even after the text rerank
 
 
 def test_text_changes_image_ranking(client):

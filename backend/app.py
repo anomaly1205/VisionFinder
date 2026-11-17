@@ -79,7 +79,7 @@ def search_image(tasks: BackgroundTasks, file: UploadFile = File(...), text: str
     t0 = time.perf_counter()  # includes reading + decoding the upload
     _, img = read_image(file)
     results = engine.search_image(img, (text or "").strip(), k)
-    top = results[0]["score"] if results else 0.0
+    top = max((r["score"] for r in results), default=0.0)  # reranked by text, so the best image score may not come first
     conf = confidence(top)
     tasks.add_task(auth.record_search, user_id, "photo", None, results)
     return {"results": results, "match": conf == "high", "confidence": conf, "top_score": top,

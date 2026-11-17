@@ -138,7 +138,7 @@ function render({ results, ms, demo, match, confidence }, q) {
     grid.innerHTML = "";
     return;
   }
-  const best = results[0].score;
+  const best = Math.max(...results.map((r) => r.score)); // photo + text is reranked, so the best score may not come first
   const photo = !!cropper; // thresholds are image-score bars; text scores use a different scale
   // Backend decides when it answers (older backends only send match); demo mode compares locally.
   const level = confidence ?? (match ?? best >= THRESHOLD ? "high" : best >= THRESHOLD_LOW ? "medium" : "low");
