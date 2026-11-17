@@ -1,9 +1,12 @@
 // Shopping assistant: a draggable chat button on every page (imported by layout.js).
 // Rule-based, no LLM and no outside API: the message is cleaned up (Vietnamese keywords translated, filler dropped),
-// then sent to the CLIP text or photo search in api.js. Follow-ups ("show more", "cheaper", "blue ones") refine the last results.
+// small talk and things the shop doesn't sell are answered from chatbot-replies.js, anything else goes to the CLIP text
+// or photo search in api.js. Follow-ups ("show more", "cheaper", "in blue", "something smaller", "what about lamps")
+// refine or reuse the last results.
 import { icon, escapeHtml, displayName, money, thumbOf, addToCart, toast, colorFamily, loadProducts } from "./common.js";
 import { searchByText, searchByImage, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 import { getUser } from "./account.js";
+import { norm, clean, understand, pick, CATS, UNSURE } from "./chatbot-replies.js";
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
@@ -11,18 +14,8 @@ const SIZE = 64; // launcher diameter, px (matches chatbot.css)
 const EDGE = 16; // gap between launcher / panel and the screen edge, px
 const GREET_DELAY = 900;
 const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
-
-// Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
-const VI_PAIRS = [
-  ["tôi muốn mua", ""], ["tôi muốn", ""], ["muốn mua", ""], ["cho tôi", ""], ["giúp tôi", ""], ["tìm kiếm", ""], ["tìm", ""], ["mua", ""],
-  ["một", ""], ["cái", ""], ["chiếc", ""], ["con", ""], ["bộ", ""],
-  ["rẻ hơn", "cheaper"], ["xem thêm", "show more"], ["xanh lá", "green"], ["xanh dương", "blue"], ["kem", "cream"], ["xin chào", "hi"], ["cảm ơn", "thanks"], ["dưới", "under"],
-  ["gối", "pillow"], ["đệm", "cushion"], ["đèn", "lamp"], ["thảm", "rug"], ["ghế", "chair"], ["bàn", "table"], ["gương", "mirror"],
-  ["cây", "plant"], ["chậu", "planter"], ["bình", "vase"], ["giỏ", "basket"], ["kệ", "shelf"], ["tủ", "cabinet"], ["chăn", "blanket"],
-  ["rèm", "curtain"], ["xanh", "blue"], ["đỏ", "red"], ["trắng", "white"], ["đen", "black"], ["gỗ", "wood"], ["nâu", "brown"],
-  ["xám", "gray"], ["vàng", "yellow"], ["hồng", "pink"], ["rẻ", "cheap"], ["chào", "hi"],
-];
-const VI = VI_PAIRS.map(([vi, en]) => [new RegExp(`(^|[\\s,.!?])${vi}(?=$|[\\s,.!?])`, "gu"), `$1${en}`]);
+// shortcut: a guess at a confident CLIP text score (backend scales them to 0-1); tune it on real queries.
+const TEXT_SURE = 0.6;
 
 // Color words the user can say -> colorFamily() families in common.js.
 const COLORS = {
@@ -31,15 +24,14 @@ const COLORS = {
   beige: "Cream & Beige", cream: "Cream & Beige", purple: "Purple", yellow: "Yellow & Orange", orange: "Yellow & Orange",
   gold: "Metallic", silver: "Metallic", brass: "Metallic", glass: "Clear",
 };
-// Lead-in words stripped one by one from the start: "hi, I want to buy a pillow" -> "pillow".
-const FILLER = /^(?:(?:hi|hello|hey)[,!.]?|please|can you|could you|i(?: would like| 'd like|'d like| want| need| wanna| am looking for|'m looking for)|looking for|do you have|show me|find me|find|search for|search|get me|to buy|to get|to find|to see|buy|for|some|any|an?) /;
 const PRICE = /(?:under|below|less than|max|up to|<)\s*\$?\s*(\d+(?:\.\d+)?)(?:\s*(?:dollars?|usd|bucks))?|\$(\d+(?:\.\d+)?)/;
 const CHEAPER = /\b(?:cheaper|cheap|less expensive|lower price|budget)\b/;
 const MORE = /\b(?:more|next)\b/;
-// Words that only steer a follow-up; a message made only of these (plus colors) refines the last results.
-const REFINE = /^(?:show|see|more|next|me|the|ones?|in|any|some|something|options?|them|those|please|cheaper|cheap|less|expensive|lower|price|budget|under|below|than|max|up|to|colou?r|dollars?|usd|bucks|\$?\d+(?:\.\d+)?|ok|okay|and|only|just)$/;
+const SIZE_WORD = /^(?:small|smaller|mini|compact|tiny|big|bigger|large|larger|huge)$/;
+// Words that only steer a follow-up; a message made only of these (plus colors and sizes) refines the last results.
+const REFINE = /^(?:show|see|more|next|me|the|ones?|in|any|some|something|options?|them|those|it|this|that|these|please|cheaper|cheap|less|expensive|lower|price|budget|under|below|than|max|up|to|colou?r|dollars?|usd|bucks|\$?\d+(?:\.\d+)?|ok|okay|and|only|just)$/;
 // "No color preference" replies, checked on the raw text because clean() drops Vietnamese it can't translate.
-const ANY = /(?:^|\s)(?:any|no preference|không|màu nào cũng được|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
+const ANY = /(?:^|\s)(?:any|no preference|no|nope|whatever|không|màu nào cũng được|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
 // Budget answers: "25-50" / "$25–50", "50+" / "trên 50", "under 30" / "dưới 30".
 const RANGE = /\$?\s*(\d+(?:\.\d+)?)\s*(?:-|–|—|to|đến|tới)\s*\$?\s*(\d+(?:\.\d+)?)/u;
 const OVER = /\$?\s*(\d+(?:\.\d+)?)\s*\+|(?:over|above|more than|at least|trên|hơn|từ)\s*\$?\s*(\d+(?:\.\d+)?)/u;
@@ -53,16 +45,14 @@ export function budget(raw) {
 }
 const STOP = new Set("the and for with from your you our this that into inch inches set pack piece pieces amazon brand".split(" "));
 
-// Everything Aurora says, and her chips. Aurora always answers in English; Vietnamese input is translated by the VI table.
+// Search replies and chips. Small talk lives in chatbot-replies.js. Aurora always answers in English;
+// Vietnamese input is translated by the VI table there.
 const T = {
-  cats: ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"],
+  cats: CATS,
   colors: ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"],
   budgets: ["Under $25", "$25–50", "$50+", "Any budget"],
   intro: (name) => `Hello${name ? ` ${name}` : ""}! My name is Aurora and I'm your shopping assistant. What do you need today?`,
-  hello: "Hello! What can I help you find today?",
-  thanks: "You're welcome! Anything else?",
   what: "What are you looking for? Pick one or describe it.",
-  huh: "Sorry, I didn't catch that. What kind of piece are you looking for?",
   color: (q) => `What color would you like your ${q} to be?`,
   budget: "What's your budget?",
   price: (min, max) => (min != null && max != null ? ` at ${money(min)}–${money(max)}` : min != null ? ` over ${money(min)}` : max != null ? ` under ${money(max)}` : ""),
@@ -302,16 +292,17 @@ function push(m) {
 function scrollDown(smooth = true) {
   log.scrollTo({ top: log.scrollHeight, behavior: smooth && !matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "auto" });
 }
-// Typing dots while waiting; at least 500 ms so a fast backend still reads as a reply.
+// "Aurora is typing…" dots before every reply: 400-700 ms, or longer while a search runs.
 async function typing(work) {
-  log.insertAdjacentHTML("beforeend", `<li class="vf-msg vf-bot vf-typing" aria-label="Assistant is typing"><span></span><span></span><span></span></li>`);
+  log.insertAdjacentHTML("beforeend", `<li class="vf-msg vf-bot vf-typing" aria-label="Aurora is typing"><span></span><span></span><span></span></li>`);
   scrollDown();
   try {
-    return (await Promise.all([work, delay(500)]))[0];
+    return (await Promise.all([work, delay(400 + Math.random() * 300)]))[0];
   } finally {
     $(".vf-typing", log)?.remove();
   }
 }
+const say = (m) => typing().then(() => push(m));
 
 log.addEventListener("click", (e) => {
   const add = e.target.closest("[data-add]"), chip = e.target.closest("[data-chip]");
@@ -338,15 +329,7 @@ function send(text) {
 }
 
 // ---- understanding ----
-export function clean(text) {
-  let t = ` ${text.normalize("NFC").toLowerCase()} `;
-  for (const [re, en] of VI) t = t.replace(re, en);
-  t = t.replace(/[“”"!?,]+/g, " ").replace(/\S*[^\x00-\x7f]\S*/g, " ").replace(/\s+/g, " ").trim(); // drop untranslated Vietnamese
-  t = t.replace(/(^| )1 (?=[a-z])/g, "$1"); // "tôi muốn 1 cái gối" -> "pillow"; prices keep their number ("under 50")
-  let prev;
-  do { prev = t; t = `${t} `.replace(FILLER, "").trim(); } while (t !== prev);
-  return t;
-}
+export { clean };
 export function parse(t) {
   const words = t.match(/[a-z0-9$.']+/g) ?? [];
   const price = t.match(PRICE);
@@ -355,7 +338,8 @@ export function parse(t) {
     cheaper: CHEAPER.test(t),
     max: price ? +(price[1] ?? price[2]) : null,
     color: words.find((w) => COLORS[w]) ?? null,
-    rest: words.filter((w) => !REFINE.test(w) && !COLORS[w]),
+    size: words.find((w) => SIZE_WORD.test(w)) ?? null,
+    rest: words.filter((w) => !REFINE.test(w) && !COLORS[w] && !SIZE_WORD.test(w)),
     q: t.replace(PRICE, " ").replace(CHEAPER, " ").replace(/\s+/g, " ").trim(),
   };
 }
@@ -375,7 +359,8 @@ async function knows(words) {
 }
 
 async function answer(text) {
-  const t = clean(text);
+  const t = clean(text), u = understand(text, { hasResults: !!last?.shown?.length });
+  if (pending && u.kind === "talk" && !["ok", "yes", "no"].includes(u.id)) pending = null; // small talk mid-question drops the question
   if (pending) { // Aurora asked "What color…?" or "What's your budget?"
     const p = pending, ask = parse(t), raw = text.normalize("NFC").toLowerCase();
     const isBudget = p.step === "budget", b = isBudget ? budget(raw) : null;
@@ -387,29 +372,45 @@ async function answer(text) {
     else if (isBudget) { pending = null; return newSearch(p); } // still unclear: search without a price
     else pending = null;
   }
-  if (!t || /^good (?:morning|afternoon|evening)$/.test(t)) // only a greeting or filler ("hi", "tôi muốn mua")
-    return push({ from: "bot", text: T.hello, chips: T.cats });
-  if (/^(?:thanks|thank you|thx|ty)\b/.test(t)) return push({ from: "bot", text: T.thanks });
+  if (u.kind === "talk") return say({ from: "bot", text: u.text, chips: u.chips });
+  // "pc" -> not sold here; "computer desk" still searches, because "desk" is in the catalog.
+  if (u.kind === "off" && !(await knows(t.split(" ").filter((w) => w !== u.word && !REFINE.test(w)))))
+    return say({ from: "bot", text: u.text, chips: u.chips });
   const ask = parse(t);
-  const followUp = !ask.rest.length && (ask.more || ask.cheaper || ask.max != null || ask.color);
+  const followUp = !ask.rest.length && (ask.more || ask.cheaper || ask.max != null || ask.color || ask.size);
   if (followUp) {
-    if (!last) return push({ from: "bot", text: T.what, chips: T.cats });
+    if (!last) return say({ from: "bot", text: T.what, chips: T.cats });
+    if (ask.size && last.q) // "something smaller": search again with the size, same color and budget
+      return newSearch({ q: `${/^(?:small|smaller|mini|compact|tiny)$/.test(ask.size) ? "small" : "large"} ${last.q.replace(/^(?:small|large) /, "")}`, color: ask.color ?? last.word, min: last.min, max: ask.max ?? last.max });
     return refine(ask);
   }
-  if (!ask.rest.length || !(await knows(ask.rest)))
-    return push({ from: "bot", text: T.huh, chips: T.cats });
+  if (!ask.rest.length || !(await knows(ask.rest))) return guess(ask.q);
+  if (last && /^(?:what|how) about\b/.test(norm(text))) // "what about lamps?": keep the color and budget of the last search
+    return newSearch({ q: ask.q, color: ask.color ?? last.word, min: last.min, max: ask.max ?? last.max, cheaper: ask.cheaper });
   const p = { q: ask.q, color: ask.color, max: ask.max, cheaper: ask.cheaper };
   if (!ask.color) return askColor(p);
   return afterColor(p);
 }
+// Not a word the catalog knows: try CLIP anyway, and only show results it is confident about.
+async function guess(q) {
+  if (q) {
+    const res = await run(searchByText(q, POOL));
+    if (!res) return;
+    if ((res.results[0]?.score ?? 0) >= TEXT_SURE) {
+      setLast({ q }, res);
+      return reply(T.found(q, ""));
+    }
+  } else await typing();
+  push({ from: "bot", text: pick(UNSURE), chips: T.cats });
+}
 // Product named without a color: ask the color, then the budget (skipped when a price was given), then search.
 function askColor(p) {
   pending = { ...p, step: "color" };
-  push({ from: "bot", text: T.color(p.q), chips: T.colors });
+  return say({ from: "bot", text: T.color(p.q), chips: T.colors });
 }
 function askBudget(p) {
   pending = { ...p, step: "budget" };
-  push({ from: "bot", text: T.budget, chips: T.budgets });
+  return say({ from: "bot", text: T.budget, chips: T.budgets });
 }
 function afterColor(p) {
   if (p.max == null) return askBudget({ ...p, asked: false });
@@ -428,10 +429,14 @@ async function run(search) {
 }
 const toPool = (res) => res.results.map(({ product, score }) => [product.id, score]);
 
+// `word` keeps the color as typed, so "what about lamps?" can reuse it.
+function setLast(ask, res) {
+  last = { q: ask.q, word: ask.color ?? null, color: null, prefer: COLORS[ask.color] ?? null, min: ask.min ?? null, max: ask.max ?? null, cheapFirst: !!ask.cheaper, offset: 0, pool: toPool(res) };
+}
 async function newSearch(ask) {
   const res = await run(searchByText(ask.q, POOL));
   if (!res) return;
-  last = { q: ask.q, color: null, prefer: COLORS[ask.color] ?? null, min: ask.min ?? null, max: ask.max, cheapFirst: ask.cheaper, offset: 0, pool: toPool(res) };
+  setLast(ask, res);
   const price = T.price(last.min, last.max);
   reply(T.found(ask.q, price), res.results.length ? T.notFound(ask.q, price) : T.nothing);
 }
@@ -446,10 +451,11 @@ async function refine(ask) {
       const types = new Set(last.pool.slice(0, 2 * PAGE).map(([id]) => byId.get(id)?.product_type));
       const seen = new Set(last.pool.map(([id]) => id));
       last.pool = [...last.pool, ...toPool(res).filter(([id]) => !seen.has(id) && types.has(byId.get(id)?.product_type))];
-    }
+    } else await typing();
     last.color = fam;
+    last.word = ask.color;
     parts.push(T.ones(ask.color));
-  }
+  } else await typing();
   if (ask.cheaper || ask.max != null) last.min = null; // a lower price replaces the budget's floor
   if (ask.cheaper && ask.max == null) { // cheaper than the cheapest card on screen
     const shown = (last.shown ?? []).map((id) => byId.get(id)?.price).filter(Number.isFinite);
@@ -484,9 +490,9 @@ async function thumbUrl(file) {
   return c.toDataURL("image/jpeg", 0.8);
 }
 async function askPhoto(file) {
-  if (!file.type.startsWith("image/")) return push({ from: "bot", text: T.notImage });
+  if (!file.type.startsWith("image/")) return say({ from: "bot", text: T.notImage });
   let img;
-  try { img = await thumbUrl(file); } catch { return push({ from: "bot", text: T.badPhoto }); }
+  try { img = await thumbUrl(file); } catch { return say({ from: "bot", text: T.badPhoto }); }
   push({ from: "user", img });
   pending = null;
   const res = await run(searchByImage(file));

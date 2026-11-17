@@ -40,15 +40,20 @@ Course project for ATI (topic 21: *Multimodal Product Recognition System*), Facu
 
 ## Shopping assistant (Aurora)
 
-Aurora is a rule-based assistant in `frontend/js/chatbot.js`. It does not use an LLM or any outside API: it only understands shopping requests and sends them to the same CLIP search as the search page.
+Aurora is a rule-based assistant in `frontend/js/chatbot.js`. It does not use an LLM or any outside API: it understands shopping requests and simple small talk, and sends product requests to the same CLIP search as the search page. Its intent tables and replies live in `frontend/js/chatbot-replies.js`, so they are easy to edit.
 
 - **Open the chat:** a blue launcher in the bottom-right corner of every page. A greeting bubble appears once per session. The launcher can be dragged; it snaps to the left or right edge and remembers its position.
 - **Ask:** type what you want ("I want a pillow", "light wood chair") or tap a suggestion chip (Pillows, Lamps, Rugs, Chairs, Plants, Mirrors). If the request is short, Aurora asks for a color and a budget first.
 - **Results in the chat:** each card shows the image, name and price, with **Add to cart** and a link to the product page.
-- **Follow-ups:** "show more", "cheaper", "under $100", "blue ones" refine the last results without a new search.
+- **Follow-ups:** "show more", "cheaper", "under $100", "blue ones", "do you have it in blue?" refine the last results. "something smaller" and "what about lamps?" search again with the last color and budget.
+- **Small talk:** greetings, "how are you", "who are you", "help", thanks, praise, bye, ok / yes / no, rude messages, and shop questions (shipping, returns, payment, discounts: answered as a demo shop, with no made-up numbers). One reply is picked at random from a few, always with suggestion chips. "thanks" right after results gets "Glad I could help!".
+- **Things the shop doesn't sell** (pc, phone, tv, clothes, shoes, food, car...): Aurora says the shop only sells home & living pieces and suggests related ones as chips (pc → desk, desk lamp, chair). "computer desk" still searches, because "desk" is in the catalog.
+- **Unknown words:** tried with CLIP text search first; confident results are shown, otherwise Aurora suggests how to ask.
+- **Typing indicator:** "Aurora is typing…" dots for 400-700 ms before each reply.
 - **Photo search:** the camera button sends a photo to the image search.
 - **Language:** Aurora always answers in English; basic Vietnamese input is translated with a small keyword table (gối → pillow, đèn → lamp, rẻ hơn → cheaper).
 - **Logged-in users** are greeted by name. **New chat** clears the conversation. The chat history is kept for the browser session only.
+- **Test:** `node frontend/js/chatbot-replies.test.mjs` checks the intent parser.
 
 ## Dataset
 
