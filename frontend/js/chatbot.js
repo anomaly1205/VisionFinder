@@ -1,14 +1,15 @@
 // Shopping assistant: a draggable chat button on every page (imported by layout.js).
-// Rule-based, no LLM and no outside API: the message is cleaned up (Vietnamese keywords translated, filler dropped),
+// Rule-based, no LLM and no outside API: the message is cleaned up (filler dropped),
 // small talk and things the shop doesn't sell are answered from chatbot-replies.js, anything else goes to the CLIP text
 // or photo search in api.js. Follow-ups ("show more", "cheaper", "in blue", "something smaller", "what about lamps")
 // refine or reuse the last results.
 // Multimodal: a photo and words can go in one message (the image search reranks by the text), and the last photo is
 // remembered, so "blue ones" or "cheaper" after a photo search sends that same photo again with the new words.
-import { icon, escapeHtml, displayName, money, thumbOf, addToCart, toast, colorFamily, loadProducts } from "./common.js";
+import { icon, escapeHtml, displayName, money, thumbOf, addToCart, toast, colorFamily, loadProducts, productMap } from "./common.js";
 import { searchByText, searchByImage, similar, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 import { getUser } from "./account.js";
-import { norm, clean, understand, pick, parse, photoAsk, aboutPhoto, smallOrLarge, COLORS, REFINE, CATS, unsure } from "./chatbot-replies.js";
+import { norm, clean, understand, parse, photoAsk, aboutPhoto, smallOrLarge, budget, catalogVocab, knows as inVocab, ANY, COLORS, REFINE, CATS, unsure }
+  from "./chatbot-replies.js";
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
@@ -20,23 +21,7 @@ const KEY_CHAT = "vf_chat", KEY_POS = "vf_chat_pos";
 const TEXT_SURE = 0.6;
 
 const KEY_PHOTO = "vf_chat_photo"; // the last photo sent, so "blue ones" can search with it again
-// "No color preference" replies, checked on the raw text because clean() drops Vietnamese it can't translate.
-const ANY = /(?:^|\s)(?:any|no preference|no|nope|whatever|không|màu nào cũng được|gì cũng được|bất kỳ|bất kì)(?=$|[\s,.!?])/u;
-// Budget answers: "25-50" / "$25–50", "50+" / "trên 50", "under 30" / "dưới 30".
-const RANGE = /\$?\s*(\d+(?:\.\d+)?)\s*(?:-|–|—|to|đến|tới)\s*\$?\s*(\d+(?:\.\d+)?)/u;
-const OVER = /\$?\s*(\d+(?:\.\d+)?)\s*\+|(?:over|above|more than|at least|trên|hơn|từ)\s*\$?\s*(\d+(?:\.\d+)?)/u;
-const UNDER = /(?:under|below|less than|max|up to|dưới|<)\s*\$?\s*(\d+(?:\.\d+)?)/u;
-export function budget(raw) {
-  let m;
-  if ((m = raw.match(RANGE))) return { min: +m[1], max: +m[2] };
-  if ((m = raw.match(OVER))) return { min: +(m[1] ?? m[2]), max: null };
-  if ((m = raw.match(UNDER))) return { min: null, max: +m[1] };
-  return ANY.test(raw) ? { min: null, max: null } : null;
-}
-const STOP = new Set("the and for with from your you our this that into inch inches set pack piece pieces amazon brand".split(" "));
-
-// Search replies and chips. Small talk lives in chatbot-replies.js. Aurora always answers in English;
-// Vietnamese input is translated by the VI table there.
+// Search replies and chips. Small talk and the parsing of messages live in chatbot-replies.js.
 const T = {
   cats: CATS,
   colors: ["Blue", "White", "Black", "Gray", "Green", "Brown", "Cream", "Any color"],
@@ -222,10 +207,7 @@ $(".vf-greet-x", root).addEventListener("click", () => { greetOff = true; hideGr
 
 // ---- open / close ----
 let byId = new Map();
-const ready = loadProducts().then((ps) => {
-  byId = new Map(ps.map((p) => [p.id, p]));
-  return ps;
-});
+const ready = productMap().then((m) => (byId = m));
 async function open() {
   hideGreet();
   place();
@@ -353,26 +335,14 @@ function send(text) {
 }
 
 // ---- understanding ----
-// Words the catalog knows: product types, categories, colors, a few synonyms, and name words used by 3+ products
-// (rarer name words like "weather" in "all-weather" would make any chit-chat look like a search).
-let vocab;
-async function knows(words) {
-  if (!vocab) {
-    const ps = await ready, count = new Map();
-    for (const p of ps) for (const w of new Set(p.name.toLowerCase().split(/[^a-z]+/))) count.set(w, (count.get(w) ?? 0) + 1);
-    vocab = new Set([...count].filter(([, n]) => n >= 3).map(([w]) => w)
-      .concat(ps.flatMap((p) => `${p.category} ${p.product_type.replace(/_/g, " ")}`.toLowerCase().split(" ")), Object.keys(COLORS),
-        "cushion couch sofa furniture decor lighting light plant mirror curtain blanket throw".split(" "))
-      .filter((w) => w.length > 2 && !STOP.has(w)));
-  }
-  return words.some((w) => [w, w.replace(/s$/, ""), w.replace(/es$/, "")].some((x) => vocab.has(x)));
-}
+const vocab = loadProducts().then(catalogVocab);
+const knows = async (words) => inVocab(words, await vocab);
 
 async function answer(text) {
   const t = clean(text), u = understand(text, { hasResults: !!last?.shown?.length });
   if (pending && u.kind === "talk" && !["ok", "yes", "no"].includes(u.id)) pending = null; // small talk mid-question drops the question
   if (pending) { // Aurora asked "What color…?" or "What's your budget?"
-    const p = pending, ask = parse(t), raw = text.normalize("NFC").toLowerCase();
+    const p = pending, ask = parse(t), raw = text.toLowerCase();
     const isBudget = p.step === "budget", b = isBudget ? budget(raw) : null;
     if (b) { pending = null; return newSearch({ ...p, ...b }); }
     if (!isBudget && !ask.color && ANY.test(raw)) return afterColor(p);

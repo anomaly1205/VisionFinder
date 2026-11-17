@@ -2,30 +2,17 @@
 //   node frontend/js/chatbot-replies.test.mjs
 // Edit the replies here; chatbot.js picks one at random each time.
 
-// Vietnamese -> English. Checked in this order, so longer phrases ("rẻ hơn") win over their parts ("rẻ").
-const VI_PAIRS = [
-  ["tôi muốn mua", ""], ["tôi muốn", ""], ["muốn mua", ""], ["cho tôi", ""], ["giúp tôi", ""], ["tìm kiếm", ""], ["tìm", ""], ["mua", ""],
-  ["một", ""], ["cái", ""], ["chiếc", ""], ["con", ""], ["bộ", ""],
-  ["rẻ hơn", "cheaper"], ["xem thêm", "show more"], ["xanh lá", "green"], ["xanh dương", "blue"], ["kem", "cream"], ["xin chào", "hi"], ["cảm ơn", "thanks"], ["dưới", "under"],
-  ["giao hàng", "delivery"], ["vận chuyển", "shipping"], ["đổi trả", "returns"], ["thanh toán", "payment"], ["giảm giá", "discount"], ["tạm biệt", "bye"],
-  ["gối", "pillow"], ["đệm", "cushion"], ["đèn", "lamp"], ["thảm", "rug"], ["ghế", "chair"], ["bàn", "table"], ["gương", "mirror"],
-  ["cây", "plant"], ["chậu", "planter"], ["bình", "vase"], ["giỏ", "basket"], ["kệ", "shelf"], ["tủ", "cabinet"], ["chăn", "blanket"],
-  ["rèm", "curtain"], ["xanh", "blue"], ["đỏ", "red"], ["trắng", "white"], ["đen", "black"], ["gỗ", "wood"], ["nâu", "brown"],
-  ["xám", "gray"], ["vàng", "yellow"], ["hồng", "pink"], ["rẻ", "cheap"], ["chào", "hi"],
-];
-const VI = VI_PAIRS.map(([vi, en]) => [new RegExp(`(^|[\\s,.!?])${vi}(?=$|[\\s,.!?])`, "gu"), `$1${en}`]);
 // Lead-in words stripped one by one from the start: "hi, I want to buy a pillow" -> "pillow".
 const FILLER = /^(?:(?:hi|hello|hey)[,!.]?|please|can you|could you|i(?: would like| 'd like|'d like| want| need| wanna| am looking for|'m looking for)|looking for|do you have|have you got|what about|how about|and|show me|find me|find|search for|search|get me|to buy|to get|to find|to see|buy|for|some|any|an?) /;
 
-// Lowercase, Vietnamese translated, punctuation and untranslated Vietnamese dropped. Small talk is matched on this.
+// Lowercase, punctuation and non-English words dropped. Small talk is matched on this.
 export function norm(text) {
-  let t = ` ${text.normalize("NFC").toLowerCase().replace(/[‘’]/g, "'")} `; // curly "i’m" -> "i'm"
-  for (const [re, en] of VI) t = t.replace(re, en);
-  return t.replace(/[“”"!?,.]+(?=\s|$)|[“”"!?,]+/g, " ").replace(/\S*[^\x00-\x7f]\S*/g, " ").replace(/\s+/g, " ").trim();
+  return text.toLowerCase().replace(/[‘’]/g, "'") // curly "i’m" -> "i'm"
+    .replace(/[“”"!?,.]+(?=\s|$)|[“”"!?,]+/g, " ").replace(/\S*[^\x00-\x7f]\S*/g, " ").replace(/\s+/g, " ").trim();
 }
 // norm() + filler dropped: what is left is the product request.
 export function clean(text) {
-  let t = norm(text).replace(/(^| )1 (?=[a-z])/g, "$1"); // "tôi muốn 1 cái gối" -> "pillow"; prices keep their number ("under 50")
+  let t = norm(text).replace(/(^| )1 (?=[a-z])/g, "$1"); // "i want 1 pillow" -> "pillow"; prices keep their number ("under 50")
   let prev;
   do { prev = t; t = `${t} `.replace(FILLER, "").trim(); } while (t !== prev);
   return t;
@@ -38,7 +25,8 @@ export const COLORS = {
   beige: "Cream & Beige", cream: "Cream & Beige", purple: "Purple", yellow: "Yellow & Orange", orange: "Yellow & Orange",
   gold: "Metallic", silver: "Metallic", brass: "Metallic", glass: "Clear",
 };
-const PRICE = /(?:under|below|less than|max|up to|<)\s*\$?\s*(\d+(?:\.\d+)?)(?:\s*(?:dollars?|usd|bucks))?|\$(\d+(?:\.\d+)?)/;
+const UNDER = /(?:under|below|less than|max|up to|<)\s*\$?\s*(\d+(?:\.\d+)?)/;
+const PRICE = new RegExp(String.raw`${UNDER.source}(?:\s*(?:dollars?|usd|bucks))?|\$(\d+(?:\.\d+)?)`);
 const CHEAPER = /\b(?:cheaper|cheap|less expensive|lower price|budget)\b/;
 const MORE = /\b(?:more|next)\b/;
 const SIZE_WORD = /^(?:small|smaller|mini|compact|tiny|big|bigger|large|larger|huge)$/;
@@ -59,6 +47,33 @@ export function parse(t) {
     q: t.replace(PRICE, " ").replace(CHEAPER, " ").replace(/\s+/g, " ").trim(),
   };
 }
+
+// "No color preference" / "any budget" answers.
+export const ANY = /(?:^|\s)(?:any|no preference|no|nope|whatever)(?=$|[\s,.!?])/;
+// Budget answers: "25-50" / "$25–50", "50+" / "over 50", "under 30". `raw` is the lowercased message (norm() would drop "–").
+const RANGE = /\$?\s*(\d+(?:\.\d+)?)\s*(?:-|–|—|to)\s*\$?\s*(\d+(?:\.\d+)?)/;
+const OVER = /\$?\s*(\d+(?:\.\d+)?)\s*\+|(?:over|above|more than|at least)\s*\$?\s*(\d+(?:\.\d+)?)/;
+export function budget(raw) {
+  let m;
+  if ((m = raw.match(RANGE))) return { min: +m[1], max: +m[2] };
+  if ((m = raw.match(OVER))) return { min: +(m[1] ?? m[2]), max: null };
+  if ((m = raw.match(UNDER))) return { min: null, max: +m[1] };
+  return ANY.test(raw) ? { min: null, max: null } : null;
+}
+
+// Words the catalog knows: product types, categories, colors, a few synonyms, and name words used by 3+ products
+// (rarer name words like "weather" in "all-weather" would make any chit-chat look like a search).
+const STOP = new Set("the and for with from your you our this that into inch inches set pack piece pieces amazon brand".split(" "));
+export function catalogVocab(products) {
+  const count = new Map();
+  for (const p of products) for (const w of new Set(p.name.toLowerCase().split(/[^a-z]+/))) count.set(w, (count.get(w) ?? 0) + 1);
+  return new Set([...count].filter(([, n]) => n >= 3).map(([w]) => w)
+    .concat(products.flatMap((p) => `${p.category} ${p.product_type.replace(/_/g, " ")}`.toLowerCase().split(" ")), Object.keys(COLORS),
+      "cushion couch sofa furniture decor lighting light plant mirror curtain blanket throw".split(" "))
+    .filter((w) => w.length > 2 && !STOP.has(w)));
+}
+// Is any word (or its singular) in the vocab?
+export const knows = (words, vocab) => words.some((w) => [w, w.replace(/s$/, ""), w.replace(/es$/, "")].some((x) => vocab.has(x)));
 
 // ---- photo + text ----
 // Text sent with a photo: what it looks like ("blue", "wooden", "small", "round") goes to CLIP together with the image;
@@ -90,7 +105,7 @@ const JOKES = [
 ];
 
 // Small talk, checked top to bottom on norm(text). `after` (optional) replaces `replies` once results are on screen.
-export const SMALLTALK = [
+const SMALLTALK = [
   { id: "rude", re: /\b(?:stupid|dumb|idiot|useless|shut up|sucks?|hate you|fuck\w*|shit|damn|wtf|crap|bitch|bad bot)\b/,
     replies: ["Sorry this isn't going well! Let's try again: what are you looking for?", "I'm still learning, sorry about that. Tell me the piece you want and I'll do my best.", "Let's start fresh. What can I find for your home?"] },
   { id: "there", re: /\b(?:are (?:you|u) (?:still )?(?:there|here|awake|online)|(?:any ?one|anybody) (?:there|here))\b/,
@@ -139,7 +154,7 @@ export const SMALLTALK = [
 ];
 
 // Things the shop doesn't sell -> related pieces it does. The chips are those pieces.
-export const OFF_TOPIC = [
+const OFF_TOPIC = [
   { re: /\b(?:pcs?|computers?|laptops?|monitors?|keyboards?|mouse|gaming)\b/, what: "computers", chips: ["Desk", "Desk lamp", "Chair"] },
   { re: /\b(?:phones?|iphones?|smartphones?|tablets?|ipads?)\b/, what: "phones", chips: ["Organizer", "Storage box", "Desk lamp"] },
   { re: /\b(?:tvs?|television|speakers?|headphones?|cameras?)\b/, what: "electronics", chips: ["Cabinet", "Sofa", "Wall art"] },
@@ -151,16 +166,16 @@ export const OFF_TOPIC = [
   { re: /\b(?:toys?|games?)\b/, what: "toys", chips: ["Basket", "Storage box", "Rug"] },
   { re: /\b(?:jewelry|jewellery|rings?|necklaces?|earrings?|watch(?:es)?)\b/, what: "jewelry", chips: ["Jewelry storage", "Mirror"] },
 ];
-export const offTopicReply = (o) => `We only sell home & living pieces, so no ${o.what} here, sorry! These might go well with them:`;
+const offTopicReply = (o) => `We only sell home & living pieces, so no ${o.what} here, sorry! These might go well with them:`;
 
 // Fallback when nothing matches: no product, no small talk, CLIP search not confident.
-export const UNSURE = [
+const UNSURE = [
   "Hmm, I'm not sure I have that. Try a piece and a detail, like \"wooden chair\" or \"blue pillow under $30\", or pick a category:",
   "I couldn't find a good match for that. Try naming a piece, like \"lamp\" or \"rug\", or send me a photo:",
 ];
 
 // Fallback for a message that reads like chat ("what's your favorite color?") rather than a product search.
-export const CHATTY = [
+const CHATTY = [
   "Ha, I'm just a shopping assistant, so chatting isn't my strong suit! But I can find you something nice for your home:",
 ];
 const CHAT_WORD = /\b(?:you|your|yours|u|ur|i|i'm|im|me|my|we|us)\b/;
@@ -172,7 +187,7 @@ export function unsure(text, rand) {
   return pick(CHAT_WORD.test(q) || (text.includes("?") && QUESTION.test(q)) ? CHATTY : UNSURE, rand);
 }
 
-export const pick =(arr, rand = Math.random) => arr[Math.floor(rand() * arr.length)];
+const pick = (arr, rand = Math.random) => arr[Math.floor(rand() * arr.length)];
 
 // What the visitor means, before any catalog lookup:
 //   { kind: "talk", id, text, chips } | { kind: "off", what, text, chips, word } | { kind: "query", q }
@@ -182,7 +197,7 @@ export function understand(text, ctx = {}) {
   if (!n) return { kind: "query", q: "" };
   const talk = SMALLTALK.find((s) => s.re.test(n));
   if (talk) return { kind: "talk", id: talk.id, text: pick(ctx.hasResults && talk.after ? talk.after : talk.replies), chips: CATS };
-  if (!q) return { kind: "talk", id: "greet", text: pick(SMALLTALK.find((s) => s.id === "greet").replies), chips: CATS }; // only filler ("tôi muốn mua")
+  if (!q) return { kind: "talk", id: "greet", text: pick(SMALLTALK.find((s) => s.id === "greet").replies), chips: CATS }; // only filler ("i want to buy")
   const off = OFF_TOPIC.find((o) => o.re.test(q));
   if (off) return { kind: "off", what: off.what, text: offTopicReply(off), chips: off.chips, word: q.match(off.re)[0] };
   return { kind: "query", q };

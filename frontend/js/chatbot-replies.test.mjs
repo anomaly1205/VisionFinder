@@ -12,7 +12,6 @@ const cases = [
   ["thanks", "talk", "thanks"],
   ["bye", "talk", "bye"],
   ["asdfgh", "query", "asdfgh"],
-  ["tôi muốn mua đèn", "query", "lamp"],
   // extra: lead-in words don't hide the product, shop questions, out-of-scope
   ["hi, I want to buy a lamp", "query", "lamp"],
   ["do you ship?", "talk", "shipping"],
@@ -46,7 +45,7 @@ for (const [text, kind, key] of cases) {
 }
 // "thanks" after results gets the "Glad I could help" reply.
 assert.match(understand("thanks", { hasResults: true }).text, /Glad I could help|look at something else/);
-assert.equal(clean("tôi muốn 1 cái gối dưới 30"), "pillow under 30");
+assert.equal(clean("i want 1 pillow under 30"), "pillow under 30");
 // CLIP found nothing: chat-like text gets the friendly reply, a clear product search gets "not sure I have that".
 for (const [text, re] of [["what's your favorite color?", /shopping assistant/], ["do you love me", /shopping assistant/],
   ["do you have a velvet ottoman?", /not sure|couldn't find/], ["asdfgh", /not sure|couldn't find/]]) {

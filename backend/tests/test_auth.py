@@ -59,7 +59,7 @@ def test_login_right_and_wrong(client):
     assert ok.status_code == 200 and ok.json()["token"]
     # 100 chars and multi-byte accents (both over bcrypt's 72 bytes): a normal 401, never a 500
     for email, pw in [("ana@example.com", "wrong-password"), ("nobody@example.com", "correct-horse"),
-                      ("ana@example.com", "a" * 100), ("nobody@example.com", "a" * 100), ("ana@example.com", "mậtkhẩuđúng" * 5)]:
+                      ("ana@example.com", "a" * 100), ("nobody@example.com", "a" * 100), ("ana@example.com", "äöüß" * 20)]:
         r = client.post("/api/auth/login", json={"email": email, "password": pw})
         assert r.status_code == 401 and r.json()["detail"] == "Invalid email or password"
 

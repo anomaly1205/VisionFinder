@@ -53,8 +53,14 @@ export function loadProducts() {
   });
   return productsPromise;
 }
+// id -> product, built once, so lookups in loops stay fast.
+let mapPromise;
+export function productMap() {
+  mapPromise ??= loadProducts().then((ps) => new Map(ps.map((p) => [p.id, p])));
+  return mapPromise;
+}
 export async function productById(id) {
-  return (await loadProducts()).find((p) => p.id === id);
+  return (await productMap()).get(id);
 }
 
 // 400 px thumbnail of any catalog image (made by backend/make_thumbs.py). Full size only for the PDP main image and hero.
@@ -181,7 +187,6 @@ function fitImage(img) {
 const loaded = (img) => { fitImage(img); img.classList.add("is-loaded"); };
 document.addEventListener("load", (e) => e.target.tagName === "IMG" && loaded(e.target), true);
 document.addEventListener("error", (e) => e.target.tagName === "IMG" && e.target.classList.add("is-loaded"), true);
-export const fitAll = (root = document) => root.querySelectorAll(".tile img").forEach((i) => i.complete && loaded(i));
 
 // Hand an image from any page to search.html: downscale, stash in sessionStorage, navigate.
 export async function sendToSearch(blob) {

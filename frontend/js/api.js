@@ -1,6 +1,6 @@
 // Search API client. Calls the FastAPI backend; falls back to a mock "demo mode" when it is offline.
 // Every function resolves to { results: [{ product, score }], ms, demo }.
-import { loadProducts, productById, authHeader } from "./common.js";
+import { loadProducts, productById, productMap, authHeader } from "./common.js";
 
 export const API_BASE = "http://127.0.0.1:8000/api";
 // Photo search confidence: best >= THRESHOLD -> match, >= THRESHOLD_LOW -> similar pieces, else no confident match.
@@ -57,11 +57,8 @@ async function call(path, init, fallback) {
     throw Object.assign(new Error(typeof detail === "string" ? detail : `Search service error (HTTP ${r.status}).`), { status: r.status });
   }
   const data = await r.json();
-  const results = [];
-  for (const { id, score } of data.results) {
-    const product = await productById(id);
-    if (product) results.push({ product, score });
-  }
+  const byId = await productMap();
+  const results = data.results.filter(({ id }) => byId.has(id)).map(({ id, score }) => ({ product: byId.get(id), score }));
   return { results, ms: data.took_ms ?? Math.round(performance.now() - t0), demo: false, match: data.match, confidence: data.confidence };
 }
 
@@ -84,7 +81,7 @@ async function mock(fn) {
 const descending = (n, top) => Array.from({ length: n }, (_, i) => +(top - i * 0.025 - Math.random() * 0.015).toFixed(3));
 
 // Text score: share of query words found in name + category + color + product_type.
-export function textScore(product, words) {
+function textScore(product, words) {
   const hay = `${product.name} ${product.category} ${product.color} ${product.product_type.replace(/_/g, " ")}`.toLowerCase();
   return words.filter((w) => hay.includes(w)).length / words.length;
 }

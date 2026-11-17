@@ -55,7 +55,7 @@ Aurora is a rule-based assistant in `frontend/js/chatbot.js`. It does not use an
   - **Photo memory:** Aurora remembers the last photo (for the browser session). A follow-up like "blue ones", "something like this but wooden" or "smaller" sends the same photo again with the new words, instead of a text-only search. A new photo replaces it; **New chat** forgets it.
   - **Similar:** each card in the chat has a **Similar** button that finds pieces that look like it (`/api/similar/{id}`, image to image).
   - **What the AI used:** under each result a small line says how it searched: "Searched by text", "Searched by photo", "Searched by photo + “blue”", "Searched by look (image to image)". Photo results also show the confidence level from the search page (Match / Similar pieces / No confident match) and a % similar on each card.
-- **Language:** Aurora always answers in English; basic Vietnamese input is translated with a small keyword table (gối → pillow, đèn → lamp, rẻ hơn → cheaper).
+- **Language:** English only: Aurora understands and answers in English.
 - **Logged-in users** are greeted by name. **New chat** clears the conversation. The chat history is kept for the browser session only.
 - **Test:** `node frontend/js/chatbot-replies.test.mjs` checks the intent parser, including photo + text (photo + "blue", photo then "cheaper", photo then New chat).
 

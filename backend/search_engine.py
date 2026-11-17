@@ -60,7 +60,8 @@ class SearchEngine:
     def _search(self, vec, k, exclude=None):
         """Top-k products: rows sorted by score, keeping each product's best row only."""
         with self.lock:
-            D, I = self.index.search(vec.reshape(1, -1), min(k * self.views + 1, self.index.ntotal))
+            # k products need up to k * views rows; one more product's worth covers the excluded one in similar().
+            D, I = self.index.search(vec.reshape(1, -1), min((k + 1) * self.views, self.index.ntotal))
         seen, d_out, i_out = {exclude}, [], []
         for d, i in zip(D[0], I[0]):
             if i < 0 or self.ids[i] in seen:
@@ -90,7 +91,7 @@ class SearchEngine:
         D, I = self._search(q, RERANK_POOL)
         t = self._embed_text(text)
         # Scale first: raw text cosine spans only ~0.2, too small to reorder image scores.
-        text_scores = scale_text(np.array([self.index.reconstruct(int(i)) @ t for i in I]))
+        text_scores = scale_text(self.index.reconstruct_batch(I) @ t)  # pool vectors (50 x 512) times the text vector
         order = np.argsort(-(D + TEXT_WEIGHT * text_scores))[:k]
         return [{"id": self.ids[I[j]], "score": float(D[j])} for j in order]
 
