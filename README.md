@@ -2,9 +2,13 @@
 
 **Search home & living products by photo, not by keywords.**
 
-VisionFinder Home is a home & living e-commerce demo with AI-powered visual search. Snap or upload a photo of a chair, lamp, rug or vase, crop the item you care about, and the system finds the closest matching products in the catalog. You can also search by a short text description.
+VisionFinder Home is a home & living e-commerce demo with AI-powered visual search. Snap or upload a photo of a chair, lamp, rug or vase, crop the item you care about, and the system finds the closest matching products in the catalog. You can also search by a short text description, or ask **Aurora**, the shopping assistant, what you are looking for.
 
-> Work in progress. Items marked (planned) are not done yet. The frontend falls back to a simulated **demo mode** when the backend is offline.
+Course project for ATI (topic 21: *Multimodal Product Recognition System*), Faculty of Information Technology, Hanoi University.
+
+![VisionFinder Home demo](docs/screenshots/demo.gif)
+
+> When the backend is offline, the frontend falls back to a simulated **demo mode** (a "Demo mode" badge is shown).
 
 | Folder | What it is | How to run it |
 |---|---|---|
@@ -19,7 +23,9 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 - [x] **Text search**: describe the product ("light wood dining chair") and search the same embedding space
 - [x] **Confidence levels**: a photo search is labelled match, similar pieces, or "No confident match" instead of giving a wrong answer
 - [x] **Visually similar**: product pages suggest look-alike items
-- [ ] **Shop the look**: detect several items in a room photo and search each one (planned)
+- [x] **Shopping assistant (Aurora)**: a chat button on every page; type what you want to buy or send a photo, and matching products appear right in the chat
+- [x] **Accounts**: register / log in (MySQL), cart and wishlist saved to the account, search history page
+- [x] **Add products without retraining**: `POST /api/products` embeds one image and makes the product searchable at once
 - [x] **Catalog**: 500 home & living products across 7 categories
 
 ## How it works
@@ -31,6 +37,18 @@ VisionFinder Home is a home & living e-commerce demo with AI-powered visual sear
 4. **New products** (`POST /api/products`) are embedded and added to the in-memory index at once; no rebuild.
 
 **Why not train a classifier?** No large labeled dataset or GPU training is needed, and a new product becomes searchable by embedding its image, with no retraining. Trade-off: lower accuracy on near-identical products, controlled by the threshold.
+
+## Shopping assistant (Aurora)
+
+Aurora is a rule-based assistant in `frontend/js/chatbot.js`. It does not use an LLM or any outside API: it only understands shopping requests and sends them to the same CLIP search as the search page.
+
+- **Open the chat:** a blue launcher in the bottom-right corner of every page. A greeting bubble appears once per session. The launcher can be dragged; it snaps to the left or right edge and remembers its position.
+- **Ask:** type what you want ("I want a pillow", "light wood chair") or tap a suggestion chip (Pillows, Lamps, Rugs, Chairs, Plants, Mirrors). If the request is short, Aurora asks for a color and a budget first.
+- **Results in the chat:** each card shows the image, name and price, with **Add to cart** and a link to the product page.
+- **Follow-ups:** "show more", "cheaper", "under $100", "blue ones" refine the last results without a new search.
+- **Photo search:** the camera button sends a photo to the image search.
+- **Language:** Aurora always answers in English; basic Vietnamese input is translated with a small keyword table (gối → pillow, đèn → lamp, rẻ hơn → cheaper).
+- **Logged-in users** are greeted by name. **New chat** clears the conversation. The chat history is kept for the browser session only.
 
 ## Dataset
 
@@ -103,6 +121,7 @@ Multi-view is 14.4 points worse, so it stays off. In ABO the extra angles are of
 |---|---|---|
 | Frontend | HTML, CSS, vanilla JavaScript (ES modules), no framework | Shop pages (home, catalog, product, cart, search, login, search history); cart and saved items in `localStorage`, synced to the account when logged in |
 | Frontend | Cropper.js 1.6.2 (CDN) | Cropping the product region before search |
+| Frontend | Vanilla JavaScript (`chatbot.js`), inline SVG mascot | Aurora shopping assistant: rule-based intent parsing, calls the text / image search API |
 | Backend | Python, FastAPI, Uvicorn, python-multipart | Search API (`/api/search/image`, `/api/search/text`, `/api/similar/{id}`, `/api/health`), image upload, adding products (`POST /api/products`) |
 | Accounts | MySQL (XAMPP), SQLAlchemy, PyMySQL, bcrypt, PyJWT, python-dotenv | Users, server-side cart and wishlist, search history (`/api/auth/*`, `/api/me/*`) |
 | AI & search | PyTorch (CPU), OpenCLIP ViT-B-32 (`laion2b_s34b_b79k`) | Image and text embeddings in one shared space |
@@ -116,8 +135,10 @@ Multi-view is 14.4 points worse, so it stays off. In ABO the extra angles are of
     ├── frontend/
     │   ├── index.html, products.html, product.html, cart.html, search.html
     │   ├── login.html, history.html # account pages (js/account.js talks to /api/auth, /api/me)
+    │   ├── js/chatbot.js, css/chatbot.css # Aurora shopping assistant (loaded on every page by js/layout.js)
     │   ├── data/products.json      # catalog (shared with backend)
     │   └── assets/products/        # product images (shared with backend)
+    ├── docs/                       # report (PDF, Word), code documentation (Vietnamese), figures, screenshots
     └── backend/
         ├── prepare_data.py         # select products from ABO + download images
         ├── config.py               # shared paths, model name, threshold, CORS
