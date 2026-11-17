@@ -8,7 +8,7 @@
 import { icon, escapeHtml, displayName, money, thumbOf, addToCart, toast, colorFamily, loadProducts } from "./common.js";
 import { searchByText, searchByImage, similar, THRESHOLD, THRESHOLD_LOW } from "./api.js";
 import { getUser } from "./account.js";
-import { norm, clean, understand, pick, parse, photoAsk, aboutPhoto, smallOrLarge, COLORS, REFINE, CATS, UNSURE } from "./chatbot-replies.js";
+import { norm, clean, understand, pick, parse, photoAsk, aboutPhoto, smallOrLarge, COLORS, REFINE, CATS, unsure } from "./chatbot-replies.js";
 
 const POOL = 36; // results fetched per search, so "show more" and filters have enough to work with
 const PAGE = 4; // product cards per bot reply
@@ -396,7 +396,7 @@ async function answer(text) {
       return newSearch({ q: `${smallOrLarge(ask.size)} ${last.q.replace(/^(?:small|large) /, "")}`, color: ask.color ?? last.word, min: last.min, max: ask.max ?? last.max });
     return refine(ask);
   }
-  if (!ask.rest.length || !(await knows(ask.rest))) return guess(ask.q);
+  if (!ask.rest.length || !(await knows(ask.rest))) return guess(ask.q, text);
   if (last && /^(?:what|how) about\b/.test(norm(text))) // "what about lamps?": keep the color and budget of the last search
     return newSearch({ q: ask.q, color: ask.color ?? last.word, min: last.min, max: ask.max ?? last.max, cheaper: ask.cheaper });
   const p = { q: ask.q, color: ask.color, max: ask.max, cheaper: ask.cheaper };
@@ -404,7 +404,7 @@ async function answer(text) {
   return afterColor(p);
 }
 // Not a word the catalog knows: try CLIP anyway, and only show results it is confident about.
-async function guess(q) {
+async function guess(q, text) {
   if (q) {
     const res = await run(searchByText(q, POOL));
     if (!res) return;
@@ -413,7 +413,7 @@ async function guess(q) {
       return reply(T.found(q, ""));
     }
   } else await typing();
-  push({ from: "bot", text: pick(UNSURE), chips: T.cats });
+  push({ from: "bot", text: unsure(text), chips: T.cats });
 }
 // Product named without a color: ask the color, then the budget (skipped when a price was given), then search.
 function askColor(p) {

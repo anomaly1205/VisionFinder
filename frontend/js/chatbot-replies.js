@@ -19,7 +19,7 @@ const FILLER = /^(?:(?:hi|hello|hey)[,!.]?|please|can you|could you|i(?: would l
 
 // Lowercase, Vietnamese translated, punctuation and untranslated Vietnamese dropped. Small talk is matched on this.
 export function norm(text) {
-  let t = ` ${text.normalize("NFC").toLowerCase()} `;
+  let t = ` ${text.normalize("NFC").toLowerCase().replace(/[‘’]/g, "'")} `; // curly "i’m" -> "i'm"
   for (const [re, en] of VI) t = t.replace(re, en);
   return t.replace(/[“”"!?,.]+(?=\s|$)|[“”"!?,]+/g, " ").replace(/\S*[^\x00-\x7f]\S*/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -80,16 +80,40 @@ export function aboutPhoto(text, hasPhoto) {
 export const CATS = ["Pillows", "Lamps", "Rugs", "Chairs", "Plants", "Mirrors"];
 const DEMO = "This is a demo shop, so there are no real orders yet";
 
+// Words that can follow a greeting and still keep it a greeting: "hello you", "hey aurora :)".
+const GREET_TAIL = String.raw`you|u|there|aurora|everyone|everybody|all|friend|buddy|guys|folks|again|:-?\)|:-?d|;-?\)`;
+const LAUGH = String.raw`(?:a?ha)+h?|(?:he){2,}|lo+l|lmao|rofl|xd|:-?\)|:-?d|:-?p|;-?\)`;
+const JOKES = [
+  "Why did the lamp do so well in school? Because it was very bright! Want to see some lamps?",
+  "I told my rug a joke, but it didn't laugh. It just lay there! Can I find you something for your home?",
+  "Why is a chair never lonely? It always has someone's back! Looking for a chair?",
+];
+
 // Small talk, checked top to bottom on norm(text). `after` (optional) replaces `replies` once results are on screen.
 export const SMALLTALK = [
   { id: "rude", re: /\b(?:stupid|dumb|idiot|useless|shut up|sucks?|hate you|fuck\w*|shit|damn|wtf|crap|bitch|bad bot)\b/,
     replies: ["Sorry this isn't going well! Let's try again: what are you looking for?", "I'm still learning, sorry about that. Tell me the piece you want and I'll do my best.", "Let's start fresh. What can I find for your home?"] },
+  { id: "there", re: /\b(?:are (?:you|u) (?:still )?(?:there|here|awake|online)|(?:any ?one|anybody) (?:there|here))\b/,
+    replies: ["Yes, I'm here! What can I help you find?", "Still here! Tell me what you're looking for."] },
   { id: "who", re: /\b(?:who are you|what(?:'s| is) your name|your name|are you (?:a |an )?(?:bot|robot|human|real|person|ai|machine)|r u a bot)\b/,
     replies: ["I'm Aurora, the shop's shopping assistant. I'm a friendly bot, not a person, but I know the catalog well!", "My name is Aurora! I'm a bot that helps you find home & living pieces by text or photo."] },
   { id: "how", re: /\b(?:how are (?:you|u)|how'?s it going|how are things|what'?s up|sup|how do you do)\b/,
     replies: ["I'm great, thanks for asking! What can I help you find today?", "Doing well and ready to shop! What are you looking for?", "All good here! Looking for something for your home?"] },
-  { id: "greet", re: /^(?:hi+|hello|hey+|hiya|yo|greetings|good (?:morning|afternoon|evening|day))(?: there| aurora)?$/,
+  { id: "greet", re: new RegExp(`^(?:hi+|hello+|hey+|hiya|yo|greetings|good (?:morning|afternoon|evening|day))(?: (?:${GREET_TAIL}))*$`),
     replies: ["Hello! What can I help you find today?", "Hi there! Looking for something for your home?", "Hey! Tell me what you need, or pick a category."] },
+  { id: "meet", re: /\b(?:nice|glad|pleased|good) to (?:meet|see) (?:you|u)\b/,
+    replies: ["Nice to meet you too! What can I find for your home today?", "Likewise! Looking for anything in particular?"] },
+  { id: "fine", re: /^(?:(?:i'?m|i am) (?:fine|good|great|ok|okay|well|alright|doing (?:fine|good|great|well|ok|okay))|not bad|pretty good|all good)(?: (?:too|thanks?|thank you|and you|you))*$/,
+    replies: ["Glad to hear it! What can I help you find today?", "Good to hear! Looking for something for your home?"] },
+  { id: "laugh", re: new RegExp(`^(?:${LAUGH})(?: (?:${LAUGH}))*$`),
+    replies: ["Glad I made you smile! Anything I can find for you?", "Ha! Now, what are we shopping for?"] },
+  { id: "time", re: /\b(?:what time|the time|time is it|what(?:'s| is) the date|what day is it|weather|forecast)\b(?! resistant)/,
+    replies: ["I don't have a clock or a window, sorry! I only know the shop. Can I help you find something for your home?", "That's outside what I know, I'm afraid. I'm better at finding home pieces! What are you looking for?"] },
+  { id: "joke", re: /\b(?:jokes?|make me laugh|something funny)\b/, replies: JOKES },
+  { id: "bored", re: /\b(?:bored|just (?:looking|browsing)|only looking|browsing)\b(?! for)/, // "just looking for a lamp" is a search
+    replies: ["Let's fix that with a little window shopping! Pick a category to browse:", "Browsing is the best part! Here are a few places to start:"] },
+  { id: "sorry", re: /^(?:(?:i'?m |so )?sorry|my bad|oops|whoops|apologies|my mistake)$/,
+    replies: ["No worries at all! What can I find for you?", "All good! Tell me what you're looking for."] },
   { id: "help", re: /^(?:help|help me|menu|options)$|\b(?:what can you do|what do you do|how does this work|how do i use (?:this|you))\b/,
     replies: ["I find home & living pieces in three ways: type what you want (\"blue pillow under $30\"), send a photo with the camera button, or send both, a photo plus a few words like \"in blue\" or \"wooden\". After a search, try \"cheaper\", \"show more\", or tap Similar on a card.",
       "Type a piece (\"wooden chair\"), send a photo, or combine them: attach a photo and add \"cheaper\" or \"in white\". I look at the picture and the words together. Pick a category to start:"] },
@@ -135,7 +159,20 @@ export const UNSURE = [
   "I couldn't find a good match for that. Try naming a piece, like \"lamp\" or \"rug\", or send me a photo:",
 ];
 
-export const pick = (arr, rand = Math.random) => arr[Math.floor(rand() * arr.length)];
+// Fallback for a message that reads like chat ("what's your favorite color?") rather than a product search.
+export const CHATTY = [
+  "Ha, I'm just a shopping assistant, so chatting isn't my strong suit! But I can find you something nice for your home:",
+];
+const CHAT_WORD = /\b(?:you|your|yours|u|ur|i|i'm|im|me|my|we|us)\b/;
+const QUESTION = /^(?:what|why|how|where|when|who|which|are|is|can|could|do|does|will|would)\b/;
+// Reply when CLIP found nothing confident. Lead-in words are cleaned off first, so "do you have a velvet ottoman?" is a
+// clear search ("velvet ottoman") and gets UNSURE; "what's your favorite color?" still has "your" and gets CHATTY.
+export function unsure(text, rand) {
+  const q = clean(text);
+  return pick(CHAT_WORD.test(q) || (text.includes("?") && QUESTION.test(q)) ? CHATTY : UNSURE, rand);
+}
+
+export const pick =(arr, rand = Math.random) => arr[Math.floor(rand() * arr.length)];
 
 // What the visitor means, before any catalog lookup:
 //   { kind: "talk", id, text, chips } | { kind: "off", what, text, chips, word } | { kind: "query", q }

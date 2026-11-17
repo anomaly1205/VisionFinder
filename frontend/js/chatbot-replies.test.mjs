@@ -1,6 +1,6 @@
 // Run: node frontend/js/chatbot-replies.test.mjs
 import assert from "node:assert/strict";
-import { understand, clean, photoAsk, aboutPhoto } from "./chatbot-replies.js";
+import { understand, clean, photoAsk, aboutPhoto, unsure } from "./chatbot-replies.js";
 
 const cases = [
   ["hi", "talk", "greet"],
@@ -20,6 +20,23 @@ const cases = [
   ["I need a new phone", "off", "phones"],
   ["do you have it in blue?", "query", "it in blue"],
   ["what about lamps?", "query", "lamps"],
+  // looser small talk: a greeting plus a non-product word is still a greeting
+  ["hello you", "talk", "greet"],
+  ["hello there!", "talk", "greet"],
+  ["hey aurora :)", "talk", "greet"],
+  ["nice to meet you", "talk", "meet"],
+  ["i'm fine", "talk", "fine"],
+  ["haha", "talk", "laugh"],
+  ["are you there?", "talk", "there"],
+  ["tell me a joke", "talk", "joke"],
+  ["what's the weather", "talk", "time"],
+  ["what time is it?", "talk", "time"],
+  ["i'm bored", "talk", "bored"],
+  ["just looking", "talk", "bored"],
+  ["sorry", "talk", "sorry"],
+  ["hello, I want a lamp", "query", "lamp"],
+  ["hi blue pillow", "query", "blue pillow"],
+  ["i'm just looking for a rug", "query", "i'm just looking for a rug"], // a search, not "bored"
 ];
 for (const [text, kind, key] of cases) {
   const u = understand(text);
@@ -30,6 +47,13 @@ for (const [text, kind, key] of cases) {
 // "thanks" after results gets the "Glad I could help" reply.
 assert.match(understand("thanks", { hasResults: true }).text, /Glad I could help|look at something else/);
 assert.equal(clean("tôi muốn 1 cái gối dưới 30"), "pillow under 30");
+// CLIP found nothing: chat-like text gets the friendly reply, a clear product search gets "not sure I have that".
+for (const [text, re] of [["what's your favorite color?", /shopping assistant/], ["do you love me", /shopping assistant/],
+  ["do you have a velvet ottoman?", /not sure|couldn't find/], ["asdfgh", /not sure|couldn't find/]]) {
+  const r = unsure(text);
+  assert.match(r, re, text);
+  console.log(`unsure ${JSON.stringify(text).padEnd(30)} -> “${r}”`);
+}
 
 // ---- photo + text ----
 const show = (label, v) => console.log(`${label.padEnd(44)} -> ${JSON.stringify(v)}`);
